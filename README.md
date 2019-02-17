@@ -1,1 +1,1 @@
-# PryzmWare.TubeSniper
+# Pryzm.TubeSniper

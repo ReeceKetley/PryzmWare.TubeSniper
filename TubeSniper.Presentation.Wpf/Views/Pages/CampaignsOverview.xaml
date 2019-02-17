@@ -1,0 +1,20 @@
+﻿<UserControl
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:mui="http://firstfloorsoftware.com/ModernUI"
+             xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation" xmlns:Views="clr-namespace:TubeSniper.Presentation.Wpf.Views" x:Class="TubeSniper.Presentation.Wpf.Views.Pages.CampaignsOverview"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="577.817">
+    <Grid Style="{StaticResource ContentRoot}" Margin="16,10">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="30*"/>
+            <ColumnDefinition Width="70*"/>
+        </Grid.ColumnDefinitions>
+        <Border BorderThickness="1" BorderBrush="#2F2F30">
+            <Views:CampaignListView Grid.Column="0"/>
+        </Border>
+        <!-- TODO: set @SelectedSource -->
+    </Grid>
+</UserControl>

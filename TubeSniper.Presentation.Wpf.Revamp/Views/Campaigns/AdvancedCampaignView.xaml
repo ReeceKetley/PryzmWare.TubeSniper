@@ -1,0 +1,23 @@
+﻿<mah:MetroWindow x:Class="TubeSniper.Presentation.Wpf.Views.Campaigns.AdvancedCampaignView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                 xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+        mc:Ignorable="d"
+        Title="Advanced Campaign View" Height="450" Width="800" IsMaxRestoreButtonEnabled="False" ResizeMode="NoResize">
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/TubeSniper.Presentation.Wpf;component/Themes/Master.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+    <Grid>
+        <Border Margin="10" CornerRadius="4" BorderThickness="0.6" BorderBrush="Black">
+            <Grid Width="Auto">
+                <ListBox BorderThickness="1" Margin="10,10,10,0" ItemsSource="{Binding StatusLog}" mah:ScrollViewerHelper.IsHorizontalScrollWheelEnabled="True" Height="378" VerticalAlignment="Top" Grid.ColumnSpan="2"/>
+            </Grid>
+        </Border>
+    </Grid>
+</mah:MetroWindow>

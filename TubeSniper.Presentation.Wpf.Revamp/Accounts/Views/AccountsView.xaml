@@ -1,0 +1,76 @@
+﻿<UserControl x:Class="TubeSniper.Presentation.Wpf.Accounts.Views.AccountsView"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:behaviors="clr-namespace:TubeSniper.Presentation.Wpf.Behaviors"
+      xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+      xmlns:viewModels="clr-namespace:TubeSniper.Presentation.Wpf.Accounts.ViewModels"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="400"
+      Background="#f2f2f2">
+    <Grid Height="Auto" Width="Auto"  >
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0" Height="100" Background="#F9F9F9">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <StackPanel Margin="15" VerticalAlignment="Center" Grid.Column="0">
+                <TextBlock FontSize="28" FontWeight="Bold" Text="Accounts" />
+                <TextBlock FontWeight="Light" FontSize="18" Text="Manage your YouTube accounts." />
+
+            </StackPanel>
+            <Button Grid.Column="1" Background="White" FontSize="50" BorderThickness="0.6" HorizontalAlignment="Right" Margin="12" BorderBrush="Black"  Padding="0,-15,0,0" Height="50" Width="50" VerticalAlignment="Center" Content="+" Command="{Binding CreateAccount}"/>
+        </Grid>
+        <Grid Margin="0 10 0 0" Grid.Row="1">
+            <Border Margin="15,10,15,15" CornerRadius="4" Background="White">
+                <Border.Effect>
+                    <DropShadowEffect ShadowDepth="0" Opacity="0.2" BlurRadius="30" Direction="0" Color="Black"/>
+                </Border.Effect>
+                <ListView VerticalAlignment="Top" Margin="4,4,4,15" Grid.Row="1" BorderThickness="0" ItemsSource="{Binding Accounts}" behaviors:MultiSelectorBehaviours.SynchronizedSelectedItems="{Binding SelectedItems}" Height="Auto" mah:ScrollViewerHelper.IsHorizontalScrollWheelEnabled="True">
+                    <ListView.ItemTemplate>
+                        <DataTemplate DataType="{x:Type viewModels:AccountListItem}">
+                            <Grid Margin="0,2">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"  />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="{Binding Email}" />
+                                <TextBlock Grid.Column="1" Text="{Binding Password}" />
+                                <TextBlock Grid.Column="2" Text="{Binding Recovery}" />
+                                <Button Grid.Column="2" Content="Delete" Command="{Binding Path=DeleteCommand}"/>
+                            </Grid>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                    <ListView.View>
+                        <GridView>
+                            <GridViewColumn Header="Email" DisplayMemberBinding="{Binding Email}" Width="Auto"/>
+                            <GridViewColumn Header="Password" DisplayMemberBinding="{Binding Password}" Width="Auto"/>
+                            <GridViewColumn Header="Recovery Email" DisplayMemberBinding="{Binding Recovery}" Width="Auto"/>
+                            <GridViewColumn Header="Actions" Width="100">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Button  Content="Delete" Command="{Binding Path=DeleteCommand}"/>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+            </Border>
+        </Grid>
+
+        <Grid Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition></RowDefinition>
+                <RowDefinition Height="25"></RowDefinition>
+            </Grid.RowDefinitions>
+            
+        </Grid>
+    </Grid>
+</UserControl>

@@ -1,0 +1,103 @@
+﻿<UserControl x:Class="TubeSniper.Presentation.Wpf.Views.MainWindow.SideMenuView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:TubeSniper.Presentation.Wpf.Controls"
+             xmlns:common="clr-namespace:TubeSniper.Presentation.Wpf.Common"
+             mc:Ignorable="d" 
+             d:DesignHeight="400" d:DesignWidth="178" Background="#111926"
+             >
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/TubeSniper.Presentation.Wpf;component/Themes/Master.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Image Margin="25" Grid.Row="0" Source="/TubeSniper.Presentation.Wpf;component/Resources/logo.png"/>
+        <ListView Grid.Row="1" SelectedIndex="{Binding SelectedTopItem}" Style="{StaticResource SideMenuListView}">
+            <ListViewItem >
+                <StackPanel Orientation="Horizontal">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="28"/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Style="{StaticResource SideMenuIcon}" Text="{x:Static common:FontAwesome.Home}" Grid.Column="0" />
+                        <TextBlock Style="{StaticResource SideMenuText}" Text="Dashboard" Grid.Column="1"/>
+                    </Grid>
+                </StackPanel>
+            </ListViewItem>
+            <ListViewItem>
+                <StackPanel Orientation="Horizontal">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="28"/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Style="{StaticResource SideMenuIcon}" Text="{x:Static common:FontAwesome.User}" Grid.Column="0" />
+                        <TextBlock Style="{StaticResource SideMenuText}" Text="Accounts" Grid.Column="1" />
+                    </Grid>
+                </StackPanel>
+            </ListViewItem>
+            <ListViewItem>
+                <StackPanel Orientation="Horizontal">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="28"/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Style="{StaticResource SideMenuIcon}" Text="{x:Static common:FontAwesome.Chart_network}" Grid.Column="0" />
+                        <TextBlock Style="{StaticResource SideMenuText}" Text="Proxies" Grid.Column="1" />
+                        </Grid>
+                </StackPanel>
+            </ListViewItem>
+            <ListViewItem>
+                <StackPanel Orientation="Horizontal">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="28"/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Style="{StaticResource SideMenuIcon}" Text="{x:Static common:FontAwesome.Comment_alt_check}" Grid.Column="0"/>
+                    <TextBlock Style="{StaticResource SideMenuText}" Text="Success Moniter" Grid.Column="1" />
+                        </Grid>
+                </StackPanel>
+            </ListViewItem>
+        </ListView>
+        <ListView Grid.Row="2" SelectedIndex="{Binding SelectedBottomItem}" Style="{StaticResource SideMenuListView}">
+            <ListViewItem>
+                <StackPanel Orientation="Horizontal">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="28"/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Style="{StaticResource SideMenuIcon}" Text="{x:Static common:FontAwesome.Cog}" Grid.Column="0"/>
+                    <TextBlock Style="{StaticResource SideMenuText}" Text="Settings" Grid.Column="1"/>
+                        </Grid>
+                </StackPanel>
+            </ListViewItem>
+            <ListViewItem>
+                <StackPanel Orientation="Horizontal">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="28"/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Style="{StaticResource SideMenuIcon}" Text="{x:Static common:FontAwesome.Key}" Grid.Column="0"/>
+                    <TextBlock Style="{StaticResource SideMenuText}" Text="License" Grid.Column="1" />
+                        </Grid>
+                </StackPanel>
+            </ListViewItem>
+        </ListView>
+    </Grid>
+</UserControl>
+

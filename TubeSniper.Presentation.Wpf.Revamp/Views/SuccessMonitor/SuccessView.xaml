@@ -1,0 +1,49 @@
+﻿<UserControl
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:behaviors="clr-namespace:TubeSniper.Presentation.Wpf.Behaviors"
+      xmlns:viewModels1="clr-namespace:TubeSniper.Presentation.Wpf.Proxies.ViewModels"
+      xmlns:successMonitor="clr-namespace:TubeSniper.Presentation.Wpf.Views.SuccessMonitor"
+      x:Class="TubeSniper.Presentation.Wpf.Views.SuccessMonitor.SuccessView"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Background="#f2f2f2"
+    >
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/TubeSniper.Presentation.Wpf;component/Themes/Master.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid Height="Auto" Width="Auto"  >
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0" Height="100" Background="#F9F9F9">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <StackPanel Margin="15" VerticalAlignment="Center" Grid.Column="0">
+                <TextBlock FontSize="28" FontWeight="Bold" Text="Success Moniter" />
+                <TextBlock FontWeight="Light" FontSize="18" Text="A simple way to moniter successful comments." />
+            </StackPanel>
+        </Grid>
+        <ScrollViewer Grid.Row="1">
+        <StackPanel Grid.Row="1" Orientation="Vertical">
+            <ItemsControl Grid.Row="1" ItemsSource="{Binding Tiles}">
+                <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <successMonitor:SuccessViewTile Margin="1"/>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+        </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</UserControl>
+
