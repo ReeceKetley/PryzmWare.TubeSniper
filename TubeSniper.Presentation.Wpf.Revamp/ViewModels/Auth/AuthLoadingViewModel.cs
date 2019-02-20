@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
+using TubeSniper.Core.Domain;
 using TubeSniper.Core.Domain.Auth;
 
 namespace TubeSniper.Presentation.Wpf.ViewModels.Auth
@@ -60,7 +61,8 @@ namespace TubeSniper.Presentation.Wpf.ViewModels.Auth
 
 		protected virtual void OnFinished()
 		{
-			_authService.GetSelectorPaylod(_authService.GetStoredKey().Value);
+			Globals.SelectorPayload = _authService.GetSelectorPayload(_authService.GetStoredKey().Value);
+
 			CheckNewActivationCompleted?.Invoke(this, EventArgs.Empty);
 		}
 	}

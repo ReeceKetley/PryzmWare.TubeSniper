@@ -31,6 +31,7 @@ namespace TubeSniper.DependencyResolution
 			Container.Register<IProxyService, ProxyService>(Lifestyle.Singleton);
 			Container.Register<ICampaignMappper, CampaignMappper>(Lifestyle.Singleton);
 			Container.Register<IAuthService, AuthService>(Lifestyle.Singleton);
+			Container.Register<ISearchService, SearchService>(Lifestyle.Singleton);
 			//Container.Register<ISuccessfulCommentManager, SuccessfulCommentManager>(Lifestyle.Singleton);
 			Container.Register<MainWindowOpener>();
 			Container.Verify();

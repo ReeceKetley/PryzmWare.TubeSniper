@@ -1,5 +1,6 @@
-﻿using System;
-using Newtonsoft.Json.Linq;
+﻿using Newtonsoft.Json.Linq;
+using System;
+using Newtonsoft.Json;
 using TubeSniper.Core.Domain.Auth;
 using TubeSniper.Infrastructure.Common;
 using TubeSniperApi.Client;
@@ -8,26 +9,35 @@ namespace TubeSniper.Infrastructure.Services
 {
 	public class AuthService : IAuthService
 	{
-		public bool GetSelectorPaylod(string key)
+		public SelectorPayload GetSelectorPayload(string key)
 		{
 			var apiClient = new TubeSniperApiClient();
 			var response = apiClient.PostAuthPayload(new GetAuthPayloadRequest() {LicenseKey = key});
 			if (response.Response["CloudRailKey"] == null)
 			{
-				return false;
+				return null  ;
 			}
-
-			SelectorPayload.CloudRailKey = response.Response["CloudRailKey"].Value<string>();
-			SelectorPayload.CloudRailSecret = response.Response["CloudRailSecret"].Value<string>();
-			SelectorPayload.InputTypePasswordEqFocus = response.Response["InputTypePasswordEqFocus"].Value<string>();
-			SelectorPayload.ImgSrcCaptchaAttrSrc = response.Response["ImgSrcCaptchaAttrSrc"].Value<string>();
-			SelectorPayload.InputTypeTextEqFocus = response.Response["InputTypeTextEqFocus"].Value<string>();
-			SelectorPayload.ImgSrcCaptchaLength = response.Response["ImgSrcCaptchaLength"].Value<string>();
-			SelectorPayload.LoginEmailidentifierid = response.Response["LoginEmailidentifierid"].Value<string>();
-			SelectorPayload.SigninV2Identifier = response.Response["SigninV2Identifier"].Value<string>();
-			SelectorPayload.TypeofJqueryUndefinedInputTypePasswordAttrAriaInvalid = response.Response["TypeofJqueryUndefinedInputTypePasswordAttrAriaInvalid"].Value<string>();
-			SelectorPayload.SigninV2SlPwd = response.Response["SigninV2SlPwd"].Value<string>();
-			return true;
+			SelectorPayload dto;
+			try
+			{
+				dto = JsonConvert.DeserializeObject<SelectorPayload>(response.Response.ToString(), new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
+			}
+			catch (JsonException)
+			{
+				throw new Exception();
+			}
+//			var selctorPayload = new SelectorPayload();
+//			selctorPayload.CloudRailKey = response.Response["CloudRailKey"].Value<string>();
+//			selctorPayload.CloudRailSecret = response.Response["CloudRailSecret"].Value<string>();
+//			selctorPayload.InputTypePasswordEqFocus = response.Response["InputTypePasswordEqFocus"].Value<string>();
+//			selctorPayload.ImgSrcCaptchaAttrSrc = response.Response["ImgSrcCaptchaAttrSrc"].Value<string>();
+//			selctorPayload.InputTypeTextEqFocus = response.Response["InputTypeTextEqFocus"].Value<string>();
+//			selctorPayload.ImgSrcCaptchaLength = response.Response["ImgSrcCaptchaLength"].Value<string>();
+//			selctorPayload.LoginEmailidentifierid = response.Response["LoginEmailidentifierid"].Value<string>();
+//			selctorPayload.SigninV2Identifier = response.Response["SigninV2Identifier"].Value<string>();
+//			selctorPayload.TypeofJqueryUndefinedInputTypePasswordAttrAriaInvalid = response.Response["TypeofJqueryUndefinedInputTypePasswordAttrAriaInvalid"].Value<string>();
+//			selctorPayload.SigninV2SlPwd = response.Response["SigninV2SlPwd"].Value<string>();
+			return dto;
 		}
 
 		public LicenseKey GetStoredKey()

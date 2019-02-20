@@ -1,30 +1,17 @@
-﻿using Com.CloudRail.SI.Types;
+﻿using TubeSniper.Core.Domain.Youtube;
 
 namespace TubeSniper.Core.Domain.Campaigns
 {
-    public class VideoProcessedEventArgs
-    {
-        public VideoMetaData Meta { get; }
-        public string Comment { get; }
-
-        public VideoProcessedEventArgs(VideoMetaData meta, string comment)
-        {
-            Meta = meta;
-            Comment = comment;
-        }
-    }
-
-	public class   CampaignProcessedEventArgs
+	public class VideoProcessedEventArgs
 	{
-		public CampaignMeta CampaignMeta { get; }
-		public VideoMetaData Meta { get; }
-		public string Comment { get; }
-
-		public CampaignProcessedEventArgs(VideoMetaData meta, string comment, CampaignMeta campaignMeta)
+		public VideoProcessedEventArgs(YoutubeVideo video, string comment)
 		{
-			CampaignMeta = campaignMeta;
-			Meta = meta;
+			Video = video;
 			Comment = comment;
 		}
+
+		public YoutubeVideo Video { get; }
+
+		public string Comment { get; }
 	}
 }

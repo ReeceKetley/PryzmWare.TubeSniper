@@ -4,8 +4,28 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
-        Title="AuthLoadingView" Height="450" Width="800">
+        Title="AuthLoadingView" WindowStyle="None"  SizeToContent="WidthAndHeight" Background="#111926" WindowStartupLocation="CenterScreen" ShowInTaskbar="False" >
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/LoadingIndicators.WPF;component/Colors.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/LoadingIndicators.WPF;component/Styles.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/TubeSniper.Presentation.Wpf;component/Themes/Master.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/LoadingIndicators.WPF;component/Styles/LoadingWave.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/LoadingIndicators.WPF;component/Styles/LoadingThreeDots.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/LoadingIndicators.WPF;component/Styles/LoadingFlipPlane.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/LoadingIndicators.WPF;component/Styles/LoadingPulse.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/LoadingIndicators.WPF;component/Styles/LoadingDoubleBounce.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+
     <Grid>
-        
+        <StackPanel Margin="30">
+            <Image Width="250" Source="/TubeSniper.Presentation.Wpf;component/Resources/logo.png"/>
+            <StackPanel Margin="0,25,0,0">
+                <ProgressBar HorizontalAlignment="Left" Height="25" BorderThickness="0" VerticalAlignment="Top" Width="348" Background="Transparent" Foreground="#684DA0" Value="50" IsIndeterminate="True"/>
+            </StackPanel>
+        </StackPanel>
     </Grid>
 </Window>

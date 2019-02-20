@@ -11,22 +11,21 @@ namespace TubeSniper.Presentation.Wpf.ViewModels.Campaigns
 	public class CampaignAdvancedViewModel : ViewModelBase
 	{
 		private object _statusLock = new object();
-		public Campaign Campaign { get; set; }
-		public ObservableCollection<string> CredentailList { get; set; } = new ObservableCollection<string>();
-		public ObservableCollection<string> StatusLog { get; set; } = new ObservableCollection<string>();
 
 		public CampaignAdvancedViewModel()
 		{
 			Setup();
 		}
 
-		private void Campaign_StatusChanged(object sender, Core.Domain.Youtube.StatusChangedEventArgs e)
+		public Campaign Campaign { get; set; }
+		public ObservableCollection<string> CredentailList { get; set; } = new ObservableCollection<string>();
+		public ObservableCollection<string> StatusLog { get; set; } = new ObservableCollection<string>();
+
+		private void Campaign_StatusChanged(object sender, StatusChangedEventArgs e)
 		{
 			Application.Current.Dispatcher.BeginInvoke(
 				DispatcherPriority.Background,
-				new Action(() => {
-					StatusLog.Add("[" + DateTime.Now.ToShortTimeString() + "] [Status Event] - " + e.Status);
-				}));
+				new Action(() => { StatusLog.Add("[" + DateTime.Now.ToShortTimeString() + "] [Status Event] - " + e.Status); }));
 		}
 
 		public void Setup()
@@ -51,31 +50,25 @@ namespace TubeSniper.Presentation.Wpf.ViewModels.Campaigns
 			}
 		}
 
-		private void CampaignOnNetworkError(object sender, EventArgs eventArgs)
+		private void CampaignOnNetworkError(object sender, EventArgs e)
 		{
 			Application.Current.Dispatcher.BeginInvoke(
 				DispatcherPriority.Background,
-				new Action(() => {
-					StatusLog.Add("[" + DateTime.Now.ToShortTimeString() + "] [Unkown Network Error] - Retrying");
-				}));
+				new Action(() => { StatusLog.Add("[" + DateTime.Now.ToShortTimeString() + "] [Unkown Network Error] - Retrying"); }));
 		}
 
-		private void CampaignOnFatalError(object sender, FatalErrorEventArgs fatalErrorEventArgs)
+		private void CampaignOnFatalError(object sender, FatalErrorEventArgs e)
 		{
 			Application.Current.Dispatcher.BeginInvoke(
 				DispatcherPriority.Background,
-				new Action(() => {
-					StatusLog.Add("[" + DateTime.Now.ToShortTimeString() + "] [Error Event] - " + fatalErrorEventArgs.Error);
-				}));
+				new Action(() => { StatusLog.Add("[" + DateTime.Now.ToShortTimeString() + "] [Error Event] - " + e.Error); }));
 		}
 
-		private void CampaignOnVideoProcessed(object sender, VideoProcessedEventArgs videoProcessedEventArgs)
+		private void CampaignOnVideoProcessed(object sender, VideoProcessedEventArgs e)
 		{
 			Application.Current.Dispatcher.BeginInvoke(
 				DispatcherPriority.Background,
-				new Action(() => {
-					StatusLog.Add("[" + DateTime.Now.ToShortTimeString() + "] [Video Processed] - " + videoProcessedEventArgs.Meta.GetTitle() + " - " + videoProcessedEventArgs.Comment + " - https://youtube.com/watch?v=" + videoProcessedEventArgs.Meta.GetId());
-				}));
+				new Action(() => { StatusLog.Add("[" + DateTime.Now.ToShortTimeString() + "] [Video Processed] - " + e.Video.Title + " - " + e.Comment + " - " + e.Video.Url); }));
 		}
 	}
 }

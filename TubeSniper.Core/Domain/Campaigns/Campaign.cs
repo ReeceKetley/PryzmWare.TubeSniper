@@ -2,61 +2,29 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using Com.CloudRail.SI.Types;
+using TubeSniper.Core.Domain.Auth;
 using TubeSniper.Core.Domain.Models;
-using TubeSniper.Core.Domain.Proxies;
 using TubeSniper.Core.Domain.Youtube;
-using TubeSniper.Core.Services;
+using TubeSniper.Core.Interfaces;
 
 namespace TubeSniper.Core.Domain.Campaigns
 {
-	public class CampaignMeta
-	{
-		public CampaignMeta()
-		{
-		}
-
-		public CampaignMeta(CampaignMeta source)
-		{
-			Title = source.Title;
-			if (source.Accounts != null)
-			{
-				Accounts = new List<YoutubeAccount>();
-				foreach (var account in source.Accounts)
-				{
-					Accounts.Add(new YoutubeAccount(account));
-				}
-			}
-
-			if (source.VideoProccesed != null)
-			{
-				VideoProccesed = new List<string>(source.VideoProccesed);
-			}
-
-			SearchTerm = source.SearchTerm;
-		}
-
-		public string Title { get; set; }
-		public List<YoutubeAccount> Accounts { get; set; } = new List<YoutubeAccount>();
-		public ProxyRegister ProxyRegister { get; set; }
-		public List<string> VideoProccesed { get; set; } = new List<string>();
-		public string SearchTerm { get; set; }
-	}
-
 	public class Campaign
 	{
 		private readonly IAccountRegister _accountRegister;
+		private readonly ISearchService _searchService;
 		private readonly CommentRegister _commentRegister;
-		private CampaignVideoResigter _videoResigter;
+		private ThreadSafeVideoStack _videoStack;
 
 		private IEnumerable<CampaignWorker> _workers;
 
-		public Campaign(CampaignMeta campaignMeta, IAccountRegister accountRegister, string searchTerm, string baseComment, Dictionary<string, string> variables, bool asReply)
+		public Campaign(CampaignMeta campaignMeta, IAccountRegister accountRegister, string searchTerm, string baseComment, Dictionary<string, string> variables, bool asReply, ISearchService searchService)
 		{
 			Variables = variables;
 			campaignMeta.SearchTerm = searchTerm;
 			CampaignMeta = campaignMeta;
 			this._accountRegister = accountRegister;
+			_searchService = searchService;
 			BaseComment = baseComment;
 			_commentRegister = new CommentRegister(baseComment, Variables);
 		}
@@ -80,7 +48,7 @@ namespace TubeSniper.Core.Domain.Campaigns
 		public bool Editable { get; private set; }
 		public int Workers { get; set; } = 2;
 		public int MaxResults { get; set; } = 20;
-		public VideoMetaData VideoMeta { get; set; }
+		public YoutubeVideo VideoMeta { get; set; }
 		public ObservableCollection<string> StatusLog { get; private set; } = new ObservableCollection<string>();
 
 		public bool AsReply { get; set; }
@@ -94,9 +62,10 @@ namespace TubeSniper.Core.Domain.Campaigns
 
 		public void Start()
 		{
-			SharedData.OnCurrentStep(CurrentStepEventArgs.Searching);
-			var videos = SearchService.SearchVideos(CampaignMeta.SearchTerm, MaxResults);
-			_videoResigter = new CampaignVideoResigter(videos);
+			_searchService.Init();
+			//SharedData.OnCurrentStep(CurrentStepEventArgs.Searching);
+			var videos = _searchService.SearchVideos(CampaignMeta.SearchTerm, MaxResults);
+			_videoStack = new ThreadSafeVideoStack(videos);
 			_workers = CreateWorkers(Workers);
 			foreach (var campaignWorker in _workers)
 			{
@@ -124,12 +93,12 @@ namespace TubeSniper.Core.Domain.Campaigns
 
 		private void CampaignWorker_VideoProcessed(object sender, VideoProcessedEventArgs e)
 		{
-			var id = e.Meta.GetId();
+			var id = e.Video.Id;
 			CampaignMeta.VideoProccesed.Add(id);
-			VideoMeta = e.Meta;
+			VideoMeta = e.Video;
 			OnVideoProcessed(e);
 			SharedData.OnCurrentStep(CurrentStepEventArgs.CommentPosted);
-			SharedData.OnCampaignProcessed(new CampaignProcessedEventArgs(e.Meta, e.Comment, CampaignMeta));
+			SharedData.OnCampaignProcessed(new CampaignProcessedEventArgs(e.Video, e.Comment, CampaignMeta));
 		}
 
 		private void CampaignWorker_StatusChanged(object sender, StatusChangedEventArgs e)
@@ -147,7 +116,7 @@ namespace TubeSniper.Core.Domain.Campaigns
 			var workers = new List<CampaignWorker>();
 			for (int i = 0; i < workerCount; i++)
 			{
-				var worker = new CampaignWorker(_accountRegister, _videoResigter, _commentRegister, AsReply, CampaignMeta.ProxyRegister);
+				var worker = new CampaignWorker(_accountRegister, _videoStack, _commentRegister, AsReply, CampaignMeta.ProxyRegister);
 				workers.Add(worker);
 			}
 

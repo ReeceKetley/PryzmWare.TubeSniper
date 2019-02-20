@@ -18,6 +18,7 @@ namespace TubeSniper.Presentation.Wpf.ViewModels.CampaignEditor
 	{
 		private readonly IAccountsRepository _accountsRepository;
 		private readonly ICampaignService _campaignService;
+		private readonly ISearchService _searchService;
 		private readonly IProxyRepository _proxyRepository;
 		private readonly CampaignEditorViewModelValidator _validator;
 		private Guid _campaignId;
@@ -25,12 +26,13 @@ namespace TubeSniper.Presentation.Wpf.ViewModels.CampaignEditor
 		private ICommand _selectAllAccountsCommand;
 		private ICommand _selectAllProxiesCommand;
 
-		public CampaignEditorViewModel(IAccountsRepository accountsRepository, IProxyRepository proxyRepository, ICampaignService campaignService)
+		public CampaignEditorViewModel(IAccountsRepository accountsRepository, IProxyRepository proxyRepository, ICampaignService campaignService, ISearchService searchService)
 		{
 			//SelectedProxies.CollectionChanged += SelectedProxies_CollectionChanged;
 			_accountsRepository = accountsRepository;
 			_proxyRepository = proxyRepository;
 			_campaignService = campaignService;
+			_searchService = searchService;
 
 			_validator = new CampaignEditorViewModelValidator();
 
@@ -186,7 +188,8 @@ namespace TubeSniper.Presentation.Wpf.ViewModels.CampaignEditor
 			var proxyRegister = new ProxyRegister(proxies);
 			campaignMeta.ProxyRegister = proxyRegister;
 			campaignMeta.Accounts = accounts;
-			var campaign = new Campaign(campaignMeta, new StandardAccountRegister(accounts), SearchKeyword, Comment, new Dictionary<string, string>(), PostAsReply);
+			var campaign = new Campaign(campaignMeta, new StandardAccountRegister(accounts), SearchKeyword, Comment, new Dictionary<string, string>(), PostAsReply, _searchService);
+			campaign.Id = _campaignId; // Not sure if this the error TODO: Check this.
 			return campaign;
 		}
 
@@ -200,6 +203,7 @@ namespace TubeSniper.Presentation.Wpf.ViewModels.CampaignEditor
 
 		public void SetCampaign(Campaign campaign)
 		{
+			Console.WriteLine(campaign.Id);
 			_campaignId = campaign.Id;
 			Title = campaign.CampaignMeta.Title;
 			SearchKeyword = campaign.CampaignMeta.SearchTerm;

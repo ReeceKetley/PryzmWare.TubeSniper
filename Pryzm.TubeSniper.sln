@@ -9,8 +9,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TubeSniper", "TubeSniper\Tu
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TubeSniper.Infrastructure", "TubeSniper.Infrastructure\TubeSniper.Infrastructure.csproj", "{15352A2D-C3C0-4A05-9B49-E6A3C2D74266}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TubeSniper.Presentation", "TubeSniper.Presentation\TubeSniper.Presentation.csproj", "{7E894B95-AB04-4EAD-8BA3-42C8800A93BD}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TubeSniper.Presentation.Wpf", "TubeSniper.Presentation.Wpf.Revamp\TubeSniper.Presentation.Wpf.csproj", "{5A19193C-FF5B-4374-A1EB-0D59D8BAE312}"
 EndProject
 Global
@@ -45,12 +43,6 @@ Global
 		{15352A2D-C3C0-4A05-9B49-E6A3C2D74266}.Release|Any CPU.Build.0 = Release|Any CPU
 		{15352A2D-C3C0-4A05-9B49-E6A3C2D74266}.Release|x86.ActiveCfg = Release|Any CPU
 		{15352A2D-C3C0-4A05-9B49-E6A3C2D74266}.Release|x86.Build.0 = Release|Any CPU
-		{7E894B95-AB04-4EAD-8BA3-42C8800A93BD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7E894B95-AB04-4EAD-8BA3-42C8800A93BD}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{7E894B95-AB04-4EAD-8BA3-42C8800A93BD}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{7E894B95-AB04-4EAD-8BA3-42C8800A93BD}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{7E894B95-AB04-4EAD-8BA3-42C8800A93BD}.Release|Any CPU.Build.0 = Release|Any CPU
-		{7E894B95-AB04-4EAD-8BA3-42C8800A93BD}.Release|x86.ActiveCfg = Release|Any CPU
 		{5A19193C-FF5B-4374-A1EB-0D59D8BAE312}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{5A19193C-FF5B-4374-A1EB-0D59D8BAE312}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5A19193C-FF5B-4374-A1EB-0D59D8BAE312}.Debug|x86.ActiveCfg = Debug|Any CPU

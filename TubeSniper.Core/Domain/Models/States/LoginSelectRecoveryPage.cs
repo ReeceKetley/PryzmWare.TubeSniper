@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading;
 using TubeSniper.Core.Common.Extensions;
+using TubeSniper.Core.Domain.Auth;
 using TubeSniper.Core.Domain.Browser;
 using TubeSniper.Core.Domain.Youtube;
 

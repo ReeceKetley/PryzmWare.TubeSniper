@@ -6,11 +6,11 @@ using TubeSniper.Presentation.Wpf.Common;
 
 namespace TubeSniper.Presentation.Wpf.ViewModels.SuccessMonitor
 {
-	public class SuccessMoniterViewModel : ViewModelBase
+	public class SuccessMonitorViewModel : ViewModelBase
 	{
+		private static readonly object _lock = new object();
 
-		private static object _lock = new object();
-		public SuccessMoniterViewModel()
+		public SuccessMonitorViewModel()
 		{
 			Tiles = new ObservableCollection<SuccessViewTileViewModel>();
 			BindingOperations.EnableCollectionSynchronization(Tiles, _lock);
@@ -18,18 +18,13 @@ namespace TubeSniper.Presentation.Wpf.ViewModels.SuccessMonitor
 			SharedData.CampaignProcessed += SharedData_CampaignProcessed;
 		}
 
+		public ObservableCollection<SuccessViewTileViewModel> Tiles { get; set; }
+
 		private void SharedData_CampaignProcessed(object sender, CampaignProcessedEventArgs e)
 		{
 			var viewModel = ViewModelFactory.Campaigns.SuccessViewTileViewModel();
-			viewModel.CampaignTitle = e.CampaignMeta.Title.Trim();
-			viewModel.Url = "https://www.youtube.com/watch?v=" + e.Meta.GetId();
-			viewModel.Comment = e.Comment.Trim();
-			viewModel.VideoTitle = e.Meta.GetTitle().Trim();
-			viewModel.ImageSource = e.Meta.GetThumbnailUrl();
-			viewModel.SearchTerm = e.CampaignMeta.SearchTerm.Trim();
+			viewModel.SetVideo(e.Video, e.CampaignMeta, e.Comment);
 			Tiles.Add(viewModel);
 		}
-
-		public ObservableCollection<SuccessViewTileViewModel> Tiles { get; set; }
 	}
 }

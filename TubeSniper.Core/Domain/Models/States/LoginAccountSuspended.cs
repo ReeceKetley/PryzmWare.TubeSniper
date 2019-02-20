@@ -1,4 +1,5 @@
-﻿using TubeSniper.Core.Domain.Browser;
+﻿using TubeSniper.Core.Domain.Auth;
+using TubeSniper.Core.Domain.Browser;
 using TubeSniper.Core.Domain.Youtube;
 
 namespace TubeSniper.Core.Domain.Models.States

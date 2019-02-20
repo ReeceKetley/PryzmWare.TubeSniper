@@ -2,14 +2,15 @@
 using System.Threading;
 using TubeSniper.Core.Common.Extensions;
 using TubeSniper.Core.Common.Helpers;
+using TubeSniper.Core.Domain.Auth;
 using TubeSniper.Core.Domain.Browser;
 using TubeSniper.Core.Domain.Youtube;
 
-namespace TubeSniper.Core.Domain.Models.States
+namespace TubeSniper.Core.Domain.Models.States.V1
 {
-	public class LoginEmailPage : LoginState
+	class LoginEmailPageV1 : LoginState
 	{
-		public LoginEmailPage(VirtualBrowser browser) : base(browser)
+		public LoginEmailPageV1(VirtualBrowser browser) : base(browser)
 		{
 		}
 
@@ -20,19 +21,20 @@ namespace TubeSniper.Core.Domain.Models.States
 
 		public void Submit()
 		{
-			_browser.Keyboard.PressSubmit();
+			_browser.Mouse.MoveToAndClickElement("#next");
 		}
 
 		public void SubmitEmail(string email)
 		{
 			if (TimeoutHelper.Wait(
-					() => _browser.WebView.ElementExists(Globals.SelectorPayload.LoginEmailidentifierid),
-					TimeSpan.FromSeconds(30)) == WaitCode.Timeout)
+				    () => _browser.WebView.ElementExists("#Email"),
+				    TimeSpan.FromSeconds(30)) == WaitCode.Timeout)
 			{
 				return;
 			}
 
 			Thread.Sleep(100);
+			_browser.Mouse.MoveToAndClickElement("#Email");
 			_browser.Keyboard.SelectAllBackspace();
 			SetEmail(email);
 			Thread.Sleep(200);
@@ -41,12 +43,12 @@ namespace TubeSniper.Core.Domain.Models.States
 
 		public static bool Detect(YoutubeBrowser browser)
 		{
-			if (!browser.Browser.WebView.Url.Contains(Globals.SelectorPayload.SigninV2Identifier))
+			if (browser.Browser.WebView.ElementExists("#identifier-shown") && browser.Browser.WebView.Url.Contains("accounts.google.com/ServiceLogin?sacu=1#identifier"))
 			{
-				return false;
+				return true;
 			}
 
-			return true;
+			return false;
 		}
 	}
 }

@@ -133,7 +133,7 @@ namespace TubeSniper.Presentation.Wpf.Openers
 			view.ShowDialog();
 			//_app.Run(view);
 			var result = viewModel.CheckActivationResult;
-			System.Windows.Forms.MessageBox.Show("Code: " + result.ToString(), "TubeSniper");
+			//System.Windows.Forms.MessageBox.Show("Code: " + result.ToString(), "TubeSniper");
 			switch (result)
 			{
 				case MyIsGenuineResult.Genuine:
@@ -160,7 +160,7 @@ namespace TubeSniper.Presentation.Wpf.Openers
 			var view = new AuthLoadingView(viewModel, true);
 			view.ShowDialog();
 			var result = viewModel.CheckNewActivationResult;
-			System.Windows.Forms.MessageBox.Show("Code: " + result.ToString(), "TubeSniper");
+			//System.Windows.Forms.MessageBox.Show("Code: " + result.ToString(), "TubeSniper");
 			switch (result)
 			{
 				case CheckNewActivationCode.InvalidProductKeyException:

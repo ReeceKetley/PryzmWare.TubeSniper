@@ -37,29 +37,17 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="CloudrailSI, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\YouTube.Api.1.0.7\lib\CloudrailSI.dll</HintPath>
-    </Reference>
     <Reference Include="CSharpFunctionalExtensions, Version=1.16.1.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\CSharpFunctionalExtensions.1.16.1\lib\net45\CSharpFunctionalExtensions.dll</HintPath>
     </Reference>
-    <Reference Include="EO.Base, Version=18.3.46.0, Culture=neutral, PublicKeyToken=e92353a6bf73fffc, processorArchitecture=MSIL">
-      <HintPath>..\packages\EO.WebBrowser.18.3.46\lib\EO.Base.dll</HintPath>
+    <Reference Include="EO.Base, Version=19.0.56.0, Culture=neutral, PublicKeyToken=e92353a6bf73fffc, processorArchitecture=MSIL">
+      <HintPath>..\packages\EO.WebBrowser.19.0.56\lib\EO.Base.dll</HintPath>
     </Reference>
-    <Reference Include="EO.WebBrowser, Version=18.3.46.0, Culture=neutral, PublicKeyToken=e92353a6bf73fffc, processorArchitecture=MSIL">
-      <HintPath>..\packages\EO.WebBrowser.18.3.46\lib\EO.WebBrowser.dll</HintPath>
+    <Reference Include="EO.WebBrowser, Version=19.0.56.0, Culture=neutral, PublicKeyToken=e92353a6bf73fffc, processorArchitecture=MSIL">
+      <HintPath>..\packages\EO.WebBrowser.19.0.56\lib\EO.WebBrowser.dll</HintPath>
     </Reference>
-    <Reference Include="EO.WebBrowser.Wpf, Version=18.3.46.0, Culture=neutral, PublicKeyToken=e92353a6bf73fffc, processorArchitecture=MSIL">
-      <HintPath>..\packages\EO.WebBrowser.Wpf.18.3.46\lib\EO.WebBrowser.Wpf.dll</HintPath>
-    </Reference>
-    <Reference Include="EO.WebEngine, Version=18.3.46.0, Culture=neutral, PublicKeyToken=e92353a6bf73fffc, processorArchitecture=MSIL">
-      <HintPath>..\packages\EO.WebBrowser.18.3.46\lib\EO.WebEngine.dll</HintPath>
-    </Reference>
-    <Reference Include="HtmlAgilityPack, Version=1.8.4.0, Culture=neutral, PublicKeyToken=bd319b19eaf3b43a, processorArchitecture=MSIL">
-      <HintPath>..\packages\HtmlAgilityPack.1.8.4\lib\Net45\HtmlAgilityPack.dll</HintPath>
-    </Reference>
-    <Reference Include="NDesk.Options, Version=0.2.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\NDesk.Options.0.2.1\lib\NDesk.Options.dll</HintPath>
+    <Reference Include="EO.WebEngine, Version=19.0.56.0, Culture=neutral, PublicKeyToken=e92353a6bf73fffc, processorArchitecture=MSIL">
+      <HintPath>..\packages\EO.WebBrowser.19.0.56\lib\EO.WebEngine.dll</HintPath>
     </Reference>
     <Reference Include="netstandard, Version=2.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51" />
     <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
@@ -71,10 +59,6 @@
     </Reference>
     <Reference Include="Pyrzm.AntiCaptchaClient">
       <HintPath>C:\Users\Reece\source\repos\Pyrzm.AntiCaptureClient\Pyrzm.AntiCaptureClient\bin\Release\Pyrzm.AntiCaptchaClient.dll</HintPath>
-    </Reference>
-    <Reference Include="RestSharp, Version=106.3.0.0, Culture=neutral, PublicKeyToken=598062e77f915f75, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>C:\Users\Reece\source\repos\Pyrzm.AntiCaptureClient\Pyrzm.AntiCaptureClient\bin\Release\RestSharp.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
@@ -134,17 +118,25 @@
     <Compile Include="Domain\Browser\DebugView.Designer.cs">
       <DependentUpon>DebugView.cs</DependentUpon>
     </Compile>
+    <Compile Include="Domain\Campaigns\CampaignMeta.cs" />
+    <Compile Include="Domain\Campaigns\CampaignProcessedEventArgs.cs" />
     <Compile Include="Domain\Campaigns\CampaignService.cs" />
-    <Compile Include="Domain\Campaigns\CampaignVideoResigter.cs" />
+    <Compile Include="Domain\Campaigns\ThreadSafeVideoStack.cs" />
     <Compile Include="Domain\Campaigns\IJob.cs" />
     <Compile Include="Domain\Campaigns\Job.cs" />
     <Compile Include="Domain\Campaigns\VideoProcessedEventArgs.cs" />
+    <Compile Include="Domain\Globals.cs" />
     <Compile Include="Domain\Models\States\LoginAccountNotFound.cs" />
     <Compile Include="Domain\Models\States\LoginAccountSuspended.cs" />
     <Compile Include="Domain\Models\States\LoginPhoneVerifaction.cs" />
     <Compile Include="Domain\Models\States\LoginProxyError.cs" />
+    <Compile Include="Domain\Models\States\V1\LoginCaptchaPageV1.cs" />
+    <Compile Include="Domain\Models\States\V1\LoginEmailPageV1.cs" />
+    <Compile Include="Domain\Models\States\V1\LoginPasswordPageV1.cs" />
+    <Compile Include="Domain\Models\States\V1\LoginSelectRecoveryPageV1.cs" />
+    <Compile Include="Domain\Models\States\V1\LoginSubmitRecoveryPageV1.cs" />
+    <Compile Include="Domain\Models\States\V1\LoginUpgradeBrowserPageV1.cs" />
     <Compile Include="Domain\Youtube\YoutubeBot.cs" />
-    <Compile Include="Domain\Youtube\YoutubeBot1.cs" />
     <Compile Include="Domain\Campaigns\CampaignWorker.cs" />
     <Compile Include="Domain\Proxies\IProxyRepository.cs" />
     <Compile Include="Domain\Models\IAccountRegister.cs" />
@@ -163,10 +155,10 @@
     <Compile Include="Domain\Youtube\Campaign2.cs" />
     <Compile Include="Domain\Campaigns\Campaign.cs" />
     <Compile Include="Domain\Youtube\CommentTemplate.cs" />
-    <Compile Include="Domain\Youtube\VideoSerialiser.cs" />
     <Compile Include="Domain\Youtube\WorkerConfigGenerator.cs" />
-    <Compile Include="Domain\Youtube\Video.cs" />
     <Compile Include="Domain\Youtube\YoutubeAccount.cs" />
+    <Compile Include="Domain\Youtube\YoutubeLoginBotV1.cs" />
+    <Compile Include="Domain\Youtube\YoutubeVideo.cs" />
     <Compile Include="Domain\Youtube\YoutubeVideoPage.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Domain\Campaigns\CampaignEventArgs.cs" />
@@ -186,7 +178,6 @@
     <Compile Include="Interfaces\ICampaignService.cs" />
     <Compile Include="Services\ISuccessfulCommentManager.cs" />
     <Compile Include="Services\ProxyTestService.cs" />
-    <Compile Include="Services\SearchService.cs" />
     <Compile Include="Domain\Models\States\CheckLoginStateCode.cs" />
     <Compile Include="Domain\Models\States\ExtractCatpchaResult.cs" />
     <Compile Include="Domain\Models\States\ExtractCatpchaResultCode.cs" />
@@ -222,7 +213,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="Services\YouTubeApi.cs" />
     <Compile Include="SettingsStorage.cs" />
     <Compile Include="SharedData.cs" />
   </ItemGroup>
@@ -251,12 +241,12 @@
     <None Include="Resources\video_extraction.js" />
   </ItemGroup>
   <ItemGroup>
-    <Analyzer Include="..\packages\SonarAnalyzer.CSharp.7.2.0.5463\analyzers\Google.Protobuf.dll" />
-    <Analyzer Include="..\packages\SonarAnalyzer.CSharp.7.2.0.5463\analyzers\SonarAnalyzer.CSharp.dll" />
-    <Analyzer Include="..\packages\SonarAnalyzer.CSharp.7.2.0.5463\analyzers\SonarAnalyzer.dll" />
+    <Resource Include="FodyWeavers.xml" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="FodyWeavers.xml" />
+    <Analyzer Include="..\packages\SonarAnalyzer.CSharp.7.11.0.8083\analyzers\Google.Protobuf.dll" />
+    <Analyzer Include="..\packages\SonarAnalyzer.CSharp.7.11.0.8083\analyzers\SonarAnalyzer.CSharp.dll" />
+    <Analyzer Include="..\packages\SonarAnalyzer.CSharp.7.11.0.8083\analyzers\SonarAnalyzer.dll" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
@@ -264,7 +254,7 @@
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
     <Error Condition="!Exists('..\packages\PropertyChanged.Fody.2.6.0\build\PropertyChanged.Fody.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\PropertyChanged.Fody.2.6.0\build\PropertyChanged.Fody.props'))" />
-    <Error Condition="!Exists('..\packages\Fody.3.3.5\build\Fody.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Fody.3.3.5\build\Fody.targets'))" />
+    <Error Condition="!Exists('..\packages\Fody.4.0.2\build\Fody.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Fody.4.0.2\build\Fody.targets'))" />
   </Target>
-  <Import Project="..\packages\Fody.3.3.5\build\Fody.targets" Condition="Exists('..\packages\Fody.3.3.5\build\Fody.targets')" />
+  <Import Project="..\packages\Fody.4.0.2\build\Fody.targets" Condition="Exists('..\packages\Fody.4.0.2\build\Fody.targets')" />
 </Project>

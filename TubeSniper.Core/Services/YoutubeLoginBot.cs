@@ -11,8 +11,8 @@ namespace TubeSniper.Core.Services
 {
 	public class YoutubeLoginBot
 	{
-		private readonly YoutubeBrowser _browser;
 		private readonly YoutubeAccount _account;
+		private readonly YoutubeBrowser _browser;
 
 		public YoutubeLoginBot(YoutubeBrowser browser, YoutubeAccount account)
 		{
@@ -27,24 +27,20 @@ namespace TubeSniper.Core.Services
 
 		public LoginResult Login(YoutubeBrowser browser, YoutubeAccount account)
 		{
-
 			var loadSignInResult = LoadSignIn(browser);
 			Console.WriteLine(loadSignInResult.Code);
 			if (loadSignInResult.Code == LoadSignInResultCode.AlreadyLoggedIn)
 			{
-
 				return new LoginResult(LoginResultCode.Success);
 			}
 
 			if (loadSignInResult.Code != LoadSignInResultCode.Success)
 			{
-
 				return new LoginResult(LoginResultCode.HttpError, browser.Proxy);
 			}
 
 
-
-			for (; ; Thread.Sleep(500))
+			for (;; Thread.Sleep(500))
 			{
 				//Console.ReadLine();
 				var page = GetLoginState();
@@ -52,68 +48,68 @@ namespace TubeSniper.Core.Services
 				switch (page)
 				{
 					case LoginEmailPage loginEmailPage:
-						{
-							Console.WriteLine("Login Email Page");
-							HandleLoginEmailState(browser, account, loginEmailPage);
-							break;
-						}
+					{
+						Console.WriteLine("Login Email Page");
+						HandleLoginEmailState(browser, account, loginEmailPage);
+						break;
+					}
 					case LoginPasswordPage loginPasswordPage:
+					{
+						Console.WriteLine("Login Password Page");
+						HandleLoginPasswordState(browser, account, pageUrl, loginPasswordPage);
+						if (browser.Browser.WebView.GetEvalBool("(typeof jQuery != 'undefined') && $(\"input[type=\\\"password\\\"]\").attr(\"aria-invalid\") == \"true\""))
 						{
-							Console.WriteLine("Login Password Page");
-							HandleLoginPasswordState(browser, account, pageUrl, loginPasswordPage);
-							if (browser.Browser.WebView.GetEvalBool("(typeof jQuery != 'undefined') && $(\"input[type=\\\"password\\\"]\").attr(\"aria-invalid\") == \"true\""))
-							{
-								return new LoginResult(LoginResultCode.BadCredentials);
-							}
-							break;
+							return new LoginResult(LoginResultCode.BadCredentials);
 						}
+
+						break;
+					}
 					case LoginCaptchaPage loginCaptchaPage:
-						{
-							Console.WriteLine("Login Captcha Page");
-							HandleLoginCaptchaState(account, loginCaptchaPage, browser);
-							break;
-						}
+					{
+						Console.WriteLine("Login Captcha Page");
+						HandleLoginCaptchaState(account, loginCaptchaPage, browser);
+						break;
+					}
 					case LoginSelectRecoveryPage loginSelectRecoveryPage:
-						{
-							Console.WriteLine("Login Select Recovery Page");
-							HandleRecoverySelectState(loginSelectRecoveryPage);
-							break;
-						}
+					{
+						Console.WriteLine("Login Select Recovery Page");
+						HandleRecoverySelectState(loginSelectRecoveryPage);
+						break;
+					}
 					case LoginSubmitRecoveryPage loginSubmitRecoveryPage:
+					{
+						Console.WriteLine("Login Submit Recovery Page");
+						HandleSubmitRecoveryState(account, loginSubmitRecoveryPage);
+						if (browser.Browser.WebView.GetEvalBool("(typeof jQuery != 'undefined') && $(\"input[type=\\\"text\\\"]\").attr(\"aria-invalid\") == \"true\""))
 						{
-							Console.WriteLine("Login Submit Recovery Page");
-							HandleSubmitRecoveryState(account, loginSubmitRecoveryPage);
-							if (browser.Browser.WebView.GetEvalBool("(typeof jQuery != 'undefined') && $(\"input[type=\\\"text\\\"]\").attr(\"aria-invalid\") == \"true\""))
-							{
-								return new LoginResult(LoginResultCode.BadRecoveryCredentials);
-							}
-							break;
+							return new LoginResult(LoginResultCode.BadRecoveryCredentials);
 						}
+
+						break;
+					}
 
 
 					case LoginAccountSuspended loginAccountSuspended:
 					{
 						Console.WriteLine("Account Susspended");
 						return new LoginResult(LoginResultCode.AccountSuspended);
-
 					}
 					case LoginAccountNotFound loginAccountNotFound:
 					{
 						Console.WriteLine("Account Not found");
 						return new LoginResult(LoginResultCode.AccountNotFound);
-
 					}
 
 					default:
+					{
+						if (browser.Browser.WebView.Url.StartsWith("https://www.youtube.com/"))
 						{
-							if (browser.Browser.WebView.Url.StartsWith("https://www.youtube.com/"))
-							{
-								return new LoginResult(LoginResultCode.Success);
-							}
-							continue;
+							return new LoginResult(LoginResultCode.Success);
 						}
-				}
 
+						continue;
+					}
+				}
 			}
 		}
 
@@ -162,7 +158,7 @@ namespace TubeSniper.Core.Services
 			loginPasswordPage.SetAriaInvalid(checkString);
 			loginPasswordPage.SetPassword(account.Credentials.Password);
 			loginPasswordPage.Submit();
-			for (; ; Thread.Sleep(500))
+			for (;; Thread.Sleep(500))
 			{
 				if (pageUrl != browser.Browser.WebView.Url)
 				{

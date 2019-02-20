@@ -1,18 +1,18 @@
-﻿using Com.CloudRail.SI.Types;
-
-namespace TubeSniper.Core.Domain.Youtube
+﻿namespace TubeSniper.Core.Domain.Youtube
 {
-    public class CommentPostedResult
-    {
-        public VideoMetaData MetaData { get; }
-        public string Comment { get; }
-        public CommentPostedResultCode Code { get; }
+	public class CommentPostedResult
+	{
+		public CommentPostedResult(YoutubeVideo video, string comment, CommentPostedResultCode code)
+		{
+			Code = code;
+			Video = video;
+			Comment = comment;
+		}
 
-        public CommentPostedResult(VideoMetaData metaData, string comment, CommentPostedResultCode code)
-        {
-            MetaData = metaData;
-            Comment = comment;
-            Code = code;
-        }
-    }
+		public CommentPostedResultCode Code { get; }
+
+		public YoutubeVideo Video { get; }
+
+		public string Comment { get; }
+	}
 }

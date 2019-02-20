@@ -76,7 +76,7 @@ namespace TubeSniper.Core.Services
 			var dto = _campaignMappper.Map(campaign);
 			var copy = _campaignMappper.Map(dto);
 			_campaignRepository.Update(campaign);
-			CampaignEvents.RaiseCampaignCreated(new CampaignCreated(copy));
+			CampaignEvents.RaiseCampaignUpdated(new CampaignUpdated(copy));
 		}
 
 		public Campaign GetById(Guid id)

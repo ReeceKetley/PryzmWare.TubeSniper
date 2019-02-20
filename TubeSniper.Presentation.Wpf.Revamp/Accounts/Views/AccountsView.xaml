@@ -9,6 +9,13 @@
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="400"
       Background="#f2f2f2">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/TubeSniper.Presentation.Wpf;component/Themes/Master.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
     <Grid Height="Auto" Width="Auto"  >
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -39,11 +46,12 @@
                                     <ColumnDefinition Width="*"  />
                                     <ColumnDefinition Width="*" />
                                     <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
                                 </Grid.ColumnDefinitions>
-                                <TextBlock Text="{Binding Email}" />
+                                <TextBlock Text="{Binding Email}" Grid.Column="0" />
                                 <TextBlock Grid.Column="1" Text="{Binding Password}" />
                                 <TextBlock Grid.Column="2" Text="{Binding Recovery}" />
-                                <Button Grid.Column="2" Content="Delete" Command="{Binding Path=DeleteCommand}"/>
+                                <Button Grid.Column="3" Content="&#xf056;" FontFamily="{StaticResource FontAwesome-Solid}" Foreground="Red" FontSize="13" Command="{Binding Path=DeleteCommand}"/>
                             </Grid>
                         </DataTemplate>
                     </ListView.ItemTemplate>
@@ -55,10 +63,16 @@
                             <GridViewColumn Header="Actions" Width="100">
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
-                                        <Button  Content="Delete" Command="{Binding Path=DeleteCommand}"/>
+                                        <Button  Content="&#xf056;" FontFamily="{StaticResource FontAwesome-Solid}" FontSize="14" Foreground="Red" Command="{Binding Path=DeleteCommand}"/>
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
+                            <GridView.ColumnHeaderContainerStyle>
+                                <Style TargetType="{x:Type GridViewColumnHeader}">
+                                    <Setter Property="HorizontalAlignment" Value="Center"/>
+                                    <Setter Property="Width" Value="188"></Setter>
+                                </Style>
+                            </GridView.ColumnHeaderContainerStyle>
                         </GridView>
                     </ListView.View>
                 </ListView>

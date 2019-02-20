@@ -1,17 +1,21 @@
 ﻿namespace TubeSniper.Core.Domain.Auth
 {
-	public static class SelectorPayload
+	public class SelectorPayload
 	{
-		public static string CloudRailKey;
-		public static string CloudRailSecret;
-		public static string InputTypePasswordEqFocus;
-		public static string ImgSrcCaptchaAttrSrc;
-		public static string InputTypeTextEqFocus;
-		public static string ImgSrcCaptchaLength;
-		public static string LoginEmailidentifierid;
-		public static string SigninV2Identifier;
-		public static string TypeofJqueryUndefinedInputTypePasswordAttrAriaInvalid;
-		public static string SigninV2SlPwd;
+		public string CloudRailKey { get; set; }
+		public string CloudRailSecret { get; set; }
+		public string InputTypePasswordEqFocus { get; set; }
+		public string ImgSrcCaptchaAttrSrc { get; set; }
+		public string InputTypeTextEqFocus { get; set; }
+		public string ImgSrcCaptchaLength { get; set; }
+		public string LoginEmailidentifierid { get; set; }
+		public string SigninV2Identifier { get; set; }
+		public string TypeofJqueryUndefinedInputTypePasswordAttrAriaInvalid { get; set; }
+		public string SigninV2SlPwd { get; set; }
 
+		public static SelectorPayload GetDefault()
+		{
+			return new SelectorPayload { };
+		}
 	}
 }

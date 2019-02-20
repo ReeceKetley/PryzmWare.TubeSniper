@@ -1,13 +1,22 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using TubeSniper.Core.Application.Accounts;
 using TubeSniper.Core.Domain.Campaigns;
 using TubeSniper.Core.Domain.Proxies;
 using TubeSniper.Core.Domain.Youtube;
+using TubeSniper.Core.Interfaces;
 
 namespace TubeSniper.Core.Application.Campaigns
 {
 	public class CampaignMappper : ICampaignMappper
 	{
+		private readonly ISearchService _searchService;
+
+		public CampaignMappper(ISearchService searchService)
+		{
+			_searchService = searchService;
+		}
+
 		public CampaignDto Map(Campaign campaign)
 		{
 			var dto = new CampaignDto();
@@ -17,6 +26,7 @@ namespace TubeSniper.Core.Application.Campaigns
 			{
 				accounts.Add(campaignMetaAccount.ToDto());
 			}
+
 			dto.Accounts = accounts;
 			dto.Comment = campaign.BaseComment;
 			dto.VaribablesDictionary = campaign.Variables;
@@ -38,17 +48,18 @@ namespace TubeSniper.Core.Application.Campaigns
 			{
 				return null;
 			}
+
 			foreach (var campaignMetaAccount in campaignDto.Accounts)
 			{
 				accounts.Add(campaignMetaAccount.FromDto());
 			}
+
 			meta.ProxyRegister = new ProxyRegister(campaignDto.Proxies);
 			meta.Accounts = accounts;
 			meta.VideoProccesed = campaignDto.ProcessedIds;
-			var campaign = new Campaign(meta, new StandardAccountRegister(accounts), campaignDto.Keyword, campaignDto.Comment, campaignDto.VaribablesDictionary, campaignDto.AsReply);
+			var campaign = new Campaign(meta, new StandardAccountRegister(accounts), campaignDto.Keyword, campaignDto.Comment, campaignDto.VaribablesDictionary, campaignDto.AsReply, _searchService);
 			campaign.Id = campaignDto.Id;
 			return campaign;
 		}
 	}
 }
-

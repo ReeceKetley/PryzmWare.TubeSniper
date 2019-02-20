@@ -11,11 +11,11 @@ namespace TubeSniper.Presentation.Wpf.Validators.CampaignEditor
 				.Cascade(CascadeMode.StopOnFirstFailure)
 				.NotEmpty().WithMessage("Must not be empty")
 				.MaximumLength(64).WithMessage("Must not be longer than 64 characters");
-			
+
 			RuleFor(x => x.SearchKeyword)
 				.Cascade(CascadeMode.StopOnFirstFailure)
 				.NotEmpty().WithMessage("Must not be empty")
-				.MaximumLength(64).WithMessage("Must not be longer than 512 characters");
+				.MaximumLength(512).WithMessage("Must not be longer than 512 characters");
 
 			RuleFor(x => x.MaxResults)
 				.Cascade(CascadeMode.StopOnFirstFailure)

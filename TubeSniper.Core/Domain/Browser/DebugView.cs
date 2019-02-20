@@ -2,6 +2,8 @@
 using System.Net;
 using System.Threading;
 using System.Windows.Forms;
+using EO.Base;
+using TubeSniper.Core.Domain.Auth;
 using TubeSniper.Core.Domain.Youtube;
 
 namespace TubeSniper.Core.Domain.Browser
@@ -13,10 +15,10 @@ namespace TubeSniper.Core.Domain.Browser
 		{
 			InitializeComponent();
 			var proxy = new WebProxy();
-			bot = new YoutubeBot(new YoutubeAccount(new YoutubeCredentials("jacobsholmes925@gmail.com", "PryzmWare!123"), "jacobsholmes315@gmail.com"),proxy, "O1nok2VlF1M", "epic man", false, false);
+			bot = new YoutubeBot(new YoutubeAccount(new YoutubeCredentials("jacobsholmes925@gmail.com", "PryzmWare!1234"), "jacobsholmes315@gmail.com"), proxy, new YoutubeVideo("O1nok2VlF1M", "", "", ""), "epic man", false, false);
 			WebControl.WebView = bot._browser.Browser.WebView;
 			WebControl.WebView.Engine.Options.CachePath = Guid.NewGuid().ToString();
-			//WebControl.WebView.Engine.Options.Proxy = new ProxyInfo(ProxyType.HTTP, "185.80.128.172", 3128);
+			WebControl.WebView.Engine.Options.Proxy = new ProxyInfo(ProxyType.HTTP, "83.151.4.172", 57812);
 			WebControl.WebView.UrlChanged += WebView_UrlChanged;
 		}
 

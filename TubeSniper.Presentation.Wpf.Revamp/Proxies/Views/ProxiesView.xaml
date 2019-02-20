@@ -14,6 +14,7 @@
       Background="#f2f2f2">
     <UserControl.Resources>
         <ResourceDictionary>
+          
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="pack://application:,,,/TubeSniper.Presentation.Wpf;component/Themes/Master.xaml" />
             </ResourceDictionary.MergedDictionaries>
@@ -37,35 +38,42 @@
             <Button Grid.Column="1" Background="White" FontSize="25" BorderThickness="0.6" HorizontalAlignment="Right" Margin="0,25,70,25" BorderBrush="Black" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Padding="-5,0,0,0" Height="50" Width="50" VerticalAlignment="Center" FontFamily="{StaticResource FontAwesome-Solid}" Content="{x:Static common:FontAwesome.File_import}"  Command="{Binding ImportProxyCommand}" />
         </Grid>
         <Grid Margin="0 10 0 0" Grid.Row="1">
-            <Border Margin="15,10" CornerRadius="4" Background="White">
+            <Border Margin="15,10,15,15" CornerRadius="4" Background="White">
                 <Border.Effect>
                     <DropShadowEffect ShadowDepth="0" Opacity="0.2" BlurRadius="30" Direction="0" Color="Black"/>
                 </Border.Effect>
-                <ListView FontFamily="{StaticResource Montserrat-Regular}" Margin="4" Grid.Row="1" BorderThickness="0" ItemsSource="{Binding Proxies}" behaviors:MultiSelectorBehaviours.SynchronizedSelectedItems="{Binding SelectedItems}" >
+                <ListView VerticalAlignment="Top" Margin="4,4,4,15" Grid.Row="1" BorderThickness="0" ItemsSource="{Binding Proxies}" behaviors:MultiSelectorBehaviours.SynchronizedSelectedItems="{Binding SelectedItems}" Height="Auto" mah:ScrollViewerHelper.IsHorizontalScrollWheelEnabled="True">
                     <ListView.ItemTemplate>
                         <DataTemplate DataType="{x:Type viewModels:ProxyListItem}">
                             <Grid Margin="0,2">
                                 <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"  />
                                     <ColumnDefinition Width="*" />
-                                    <ColumnDefinition Width="*" />
-                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="100" />
                                 </Grid.ColumnDefinitions>
                                 <TextBlock Grid.Column="0" Text="{Binding Host}" />
                                 <TextBlock Grid.Column="1" Text="{Binding Port}" />
-                                <Button Grid.Column="2" Content="Delete" Command="{Binding Path=DeleteCommand}"/>
+                                <Button Grid.Column="2" Content="&#xf1f8;" FontFamily="{StaticResource FontAwesome-Solid}" Command="{Binding Path=DeleteCommand}"/>
                             </Grid>
                         </DataTemplate>
                     </ListView.ItemTemplate>
                     <ListView.View>
-                        <GridView >
-                            <GridViewColumn Header="Host" DisplayMemberBinding="{Binding Host}" Width="150"/>
-                            <GridViewColumn Header="Port" DisplayMemberBinding="{Binding Port}" Width="150"/>
-                            <GridViewColumn Header="Actions" Width="100">
+                        <GridView>
+                            <GridViewColumn Header="Host" DisplayMemberBinding="{Binding Host}" Width="Auto"/>
+                            <GridViewColumn Header="Port" DisplayMemberBinding="{Binding Port}" Width="Auto"/>
+                            <GridViewColumn Header="Actions" Width="Auto">
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
+                                        <Button  Content="&#xf056;" FontFamily="{StaticResource FontAwesome-Solid}" FontSize="14" Foreground="Red" Command="{Binding Path=DeleteCommand}"/>
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
+                            <GridView.ColumnHeaderContainerStyle>
+                                <Style TargetType="{x:Type GridViewColumnHeader}">
+                                    <Setter Property="HorizontalAlignment" Value="Center"/>
+                                    <Setter Property="Width" Value="215"></Setter>
+                                </Style>
+                            </GridView.ColumnHeaderContainerStyle>
                         </GridView>
                     </ListView.View>
                 </ListView>

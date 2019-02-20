@@ -46,15 +46,15 @@
 			// 
 			// textBox1
 			// 
-			this.textBox1.Dock = System.Windows.Forms.DockStyle.Top;
-			this.textBox1.Location = new System.Drawing.Point(0, 0);
+			this.textBox1.Dock = System.Windows.Forms.DockStyle.Bottom;
+			this.textBox1.Location = new System.Drawing.Point(0, 628);
 			this.textBox1.Name = "textBox1";
 			this.textBox1.Size = new System.Drawing.Size(1075, 20);
 			this.textBox1.TabIndex = 1;
 			// 
 			// panel1
 			// 
-			this.panel1.Location = new System.Drawing.Point(0, 492);
+			this.panel1.Location = new System.Drawing.Point(0, 469);
 			this.panel1.Name = "panel1";
 			this.panel1.Size = new System.Drawing.Size(1075, 156);
 			this.panel1.TabIndex = 2;

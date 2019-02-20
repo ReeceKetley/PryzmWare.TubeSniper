@@ -1,7 +1,6 @@
 ﻿using TubeSniper.Core.Common;
 using TubeSniper.Presentation.Wpf.Accounts.ViewModels;
 using TubeSniper.Presentation.Wpf.Proxies.ViewModels;
-using TubeSniper.Presentation.Wpf.ViewModels;
 using TubeSniper.Presentation.Wpf.ViewModels.Auth;
 using TubeSniper.Presentation.Wpf.ViewModels.CampaignEditor;
 using TubeSniper.Presentation.Wpf.ViewModels.Campaigns;
@@ -57,9 +56,9 @@ namespace TubeSniper.Presentation.Wpf.Common
 				return GlobalContainer.Container.Resolve<SuccessViewTileViewModel>();
 			}
 
-			public static SuccessMoniterViewModel SuccessMoniterViewModel()
+			public static SuccessMonitorViewModel SuccessMoniterViewModel()
 			{
-				return GlobalContainer.Container.Resolve<SuccessMoniterViewModel>();
+				return GlobalContainer.Container.Resolve<SuccessMonitorViewModel>();
 			}
 		}
 

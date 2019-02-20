@@ -9,6 +9,6 @@
 		bool SaveLicenseKey(LicenseKey licenseKey);
 		bool IsStoredKeyValid();
 		IsActivatedResult IsActivated();
-		bool GetSelectorPaylod(string key);
+		SelectorPayload GetSelectorPayload(string key);
 	}
 }

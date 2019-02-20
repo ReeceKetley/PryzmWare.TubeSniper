@@ -99,7 +99,7 @@ namespace TubeSniper.Presentation.Wpf.ViewModels.Campaigns
 
 		private void Campaign_VideoProcessed(object sender, VideoProcessedEventArgs e)
 		{
-			Status = e.Meta.GetTitle() + " - Video Proccesed";
+			Status = e.Video.Title + " - Video Proccesed";
 			++_proccesCount;
 			SuccesCount = _proccesCount > 99 ? "99+" : _proccesCount.ToString();
 			OnVideoProcessed();
@@ -117,7 +117,7 @@ namespace TubeSniper.Presentation.Wpf.ViewModels.Campaigns
 		{
 			AdvancedCampaignView view = new AdvancedCampaignView();
 			view.Show();
-			var viewModel = (CampaignAdvancedViewModel) view.DataContext;
+			var viewModel = (CampaignAdvancedViewModel)view.DataContext;
 			viewModel.Campaign = Campaign;
 			viewModel.Setup();
 		}
