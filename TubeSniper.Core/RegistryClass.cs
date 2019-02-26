@@ -6,19 +6,27 @@ namespace TubeSniper.Core
 	{
 		static RegistryKey key = Registry.CurrentUser.CreateSubKey(@"SOFTWARE\PryzmWare\TubeSniper");
 
-		public static bool SaveStringSetting(string settting, string value)
+		public static bool SaveStringSetting(string setting, string value)
 		{
-			key.SetValue(settting, value);
+			key.
+			key.SetValue(setting, value);
 			key.Close();
 			return true;
 		}
 
-		public static string ReadStringSetting(string setting)
+		public static string ReadStringSetting(string setting, string def = null)
 		{
 			if (key != null) return (string) key.GetValue(setting);
 			else
 			{
-				return "0";
+				if (def == null)
+				{
+					return "0";
+				}
+				else
+				{
+					return def.Trim();
+				}
 			}
 		}
 

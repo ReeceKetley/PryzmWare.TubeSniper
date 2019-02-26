@@ -8,10 +8,7 @@
     x:Class="TubeSniper.Presentation.Wpf.Views.Campaigns.CampaignsView"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
-      Background="#f2f2f2"
-    
-    >
-
+      Background="#f2f2f2">
     <UserControl.Resources>
         <Style x:Key="LargeTileStyle" TargetType="{x:Type mah:Tile}">
             <Setter Property="Width" Value="300" />
@@ -39,7 +36,6 @@
                 <StackPanel Margin="15" VerticalAlignment="Center" Grid.Column="0">
                     <TextBlock FontSize="28" FontWeight="Bold" Text="Dashboard" />
                     <TextBlock FontWeight="Light" FontSize="18" Text="An overview of your campaigns." />
-
                 </StackPanel>
                 <Button Grid.Column="1" Background="White" FontSize="50" BorderThickness="0.6" HorizontalAlignment="Right" Margin="12" BorderBrush="Black"  Padding="0,-15,0,0" Height="50" Width="50" VerticalAlignment="Center" Content="+" Command="{Binding CreateCampaignCommand}"/>
             </Grid>

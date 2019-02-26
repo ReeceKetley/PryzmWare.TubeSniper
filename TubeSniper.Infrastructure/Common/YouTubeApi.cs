@@ -10,16 +10,12 @@ namespace TubeSniper.Infrastructure.Common
 {
 	public class YouTubeApi
 	{
-		private readonly string clLk;
-		private readonly string apiKey;
-		private readonly string apiSecret;
 		public static YouTube YouTubeClient;
 
-		private static YouTubeApi _server;
-		private static bool isInit;
+		private static bool _isInit;
 		public bool Init()
 		{
-			if (isInit)
+			if (_isInit)
 			{
 				return true;
 			}
@@ -27,7 +23,7 @@ namespace TubeSniper.Infrastructure.Common
 			{
 				return false;
 			}
-			isInit = true;
+			_isInit = true;
 			return true;
 		}
 
@@ -53,7 +49,7 @@ namespace TubeSniper.Infrastructure.Common
 					YouTubeClient.Login();
 				}
 			}
-			catch (Exception exception)
+			catch (Exception)
 			{
 				//Console.WriteLine(exception.Message);
 				return false;

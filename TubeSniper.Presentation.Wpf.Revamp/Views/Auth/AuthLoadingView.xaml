@@ -24,7 +24,7 @@
         <StackPanel Margin="30">
             <Image Width="250" Source="/TubeSniper.Presentation.Wpf;component/Resources/logo.png"/>
             <StackPanel Margin="0,25,0,0">
-                <ProgressBar HorizontalAlignment="Left" Height="25" BorderThickness="0" VerticalAlignment="Top" Width="348" Background="Transparent" Foreground="#684DA0" Value="50" IsIndeterminate="True"/>
+                <ProgressBar HorizontalAlignment="Left" Height="25" BorderThickness="2" BorderBrush="#684DA0" VerticalAlignment="Top" Width="348" Background="Transparent" Foreground="#684DA0" Value="50" IsIndeterminate="True"/>
             </StackPanel>
         </StackPanel>
     </Grid>

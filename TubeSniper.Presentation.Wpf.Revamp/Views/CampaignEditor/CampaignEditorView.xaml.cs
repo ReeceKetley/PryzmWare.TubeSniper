@@ -10,8 +10,6 @@ namespace TubeSniper.Presentation.Wpf.Views.CampaignEditor
     /// </summary>
     public partial class CampaignEditorView
     {
-	    private bool _selcted;
-	    private bool _selctedA;
 	    public CampaignEditorView(CampaignEditorViewModel viewModel)
 	    {
 		    InitializeComponent();

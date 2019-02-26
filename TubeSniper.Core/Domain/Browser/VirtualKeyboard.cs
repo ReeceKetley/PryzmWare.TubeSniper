@@ -20,7 +20,7 @@ namespace TubeSniper.Core.Domain.Browser
             View.Send(() =>
             {
                 View.SendKeyEvent(true, key);
-                Thread.Sleep(_random.Next(50, 80));
+                Thread.Sleep(_random.Next(SettingsStorage.MinTypeSpeed, SettingsStorage.MaxTypeSpeed));
                 View.SendKeyEvent(false, key);
             });
         }
@@ -34,7 +34,7 @@ namespace TubeSniper.Core.Domain.Browser
                     var c = text[index];
                     if (index > 0)
                     {
-                        Thread.Sleep(_random.Next(150, 250));
+                        Thread.Sleep(_random.Next(SettingsStorage.MinTypeSpeed, SettingsStorage.MaxTypeSpeed));
                     }
 
                     View.SendChar(c);
@@ -47,7 +47,7 @@ namespace TubeSniper.Core.Domain.Browser
             View.Send(() =>
             {
                 TypeString(text);
-                Thread.Sleep(_random.Next(50,250));
+                Thread.Sleep(_random.Next(SettingsStorage.MinTypeSpeed, SettingsStorage.MaxTypeSpeed));
                 PressSubmit();
             });
         }
@@ -57,7 +57,7 @@ namespace TubeSniper.Core.Domain.Browser
             View.Send(() =>
             {
                 View.SendKeyEvent(true, KeyCode.Enter);
-                Thread.Sleep(50);
+                Thread.Sleep(_random.Next(SettingsStorage.MinTypeSpeed, SettingsStorage.MaxTypeSpeed));
                 View.SendKeyEvent(false, KeyCode.Enter);
             });
         }
@@ -67,7 +67,7 @@ namespace TubeSniper.Core.Domain.Browser
             View.Send(() =>
             {
                 View.SendKeyEvent(true, KeyCode.Tab);
-                Thread.Sleep(50);
+                Thread.Sleep(_random.Next(SettingsStorage.MinTypeSpeed, SettingsStorage.MaxTypeSpeed));
                 View.SendKeyEvent(false, KeyCode.Tab);
             });
         }
@@ -77,7 +77,7 @@ namespace TubeSniper.Core.Domain.Browser
             View.Send(() =>
             {
                 View.SendKeyEvent(true, KeyCode.Back);
-                Thread.Sleep(50);
+                Thread.Sleep(_random.Next(SettingsStorage.MinTypeSpeed, SettingsStorage.MaxTypeSpeed));
                 View.SendKeyEvent(false, KeyCode.Back);
             });
         }
@@ -88,11 +88,11 @@ namespace TubeSniper.Core.Domain.Browser
 		    View.Send(() =>
 		    {
 			    View.SendKeyEvent(true, KeyCode.LControlKey);
-			    Thread.Sleep(50);
+			    Thread.Sleep(_random.Next(SettingsStorage.MinTypeSpeed, SettingsStorage.MaxTypeSpeed));
 				View.SendKeyEvent(true, KeyCode.A);
-			    Thread.Sleep(50);
+			    Thread.Sleep(_random.Next(SettingsStorage.MinTypeSpeed, SettingsStorage.MaxTypeSpeed));
 			    View.SendKeyEvent(false, KeyCode.A);
-			    Thread.Sleep(50);
+			    Thread.Sleep(_random.Next(SettingsStorage.MinTypeSpeed, SettingsStorage.MaxTypeSpeed));
 			    View.SendKeyEvent(false, KeyCode.LControlKey);
 		    });
 		}
@@ -100,7 +100,7 @@ namespace TubeSniper.Core.Domain.Browser
 	    public void SelectAllBackspace()
 	    {
 			SelectAll();
-			Thread.Sleep(100);
+			Thread.Sleep(_random.Next(SettingsStorage.MinTypeSpeed, SettingsStorage.MaxTypeSpeed));
 			PressBackspace();
 		}
     }

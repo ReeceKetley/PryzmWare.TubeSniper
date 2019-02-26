@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json.Linq;
 using System;
+using System.Windows.Forms;
 using Newtonsoft.Json;
 using TubeSniper.Core.Domain.Auth;
 using TubeSniper.Infrastructure.Common;
@@ -11,16 +12,26 @@ namespace TubeSniper.Infrastructure.Services
 	{
 		public SelectorPayload GetSelectorPayload(string key)
 		{
+			GetAuthPayloadResponse response = null;
 			var apiClient = new TubeSniperApiClient();
-			var response = apiClient.PostAuthPayload(new GetAuthPayloadRequest() {LicenseKey = key});
-			if (response.Response["CloudRailKey"] == null)
+			try
+			{
+				response = apiClient.PostAuthPayload(new GetAuthPayloadRequest() {LicenseKey = key});
+			}
+			catch (Exception)
+			{
+				MessageBox.Show("Unable to conenct to PryzmAPI Service. Check internet or proxy settings.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				Application.Exit();
+			}
+
+			if (response != null && response.Response["CloudRailKey"] == null)
 			{
 				return null  ;
 			}
-			SelectorPayload dto;
+			SelectorPayload dto = null;
 			try
 			{
-				dto = JsonConvert.DeserializeObject<SelectorPayload>(response.Response.ToString(), new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
+				if (response != null) dto = JsonConvert.DeserializeObject<SelectorPayload>(response.Response.ToString(), new JsonSerializerSettings {NullValueHandling = NullValueHandling.Ignore});
 			}
 			catch (JsonException)
 			{
@@ -38,6 +49,12 @@ namespace TubeSniper.Infrastructure.Services
 //			selctorPayload.TypeofJqueryUndefinedInputTypePasswordAttrAriaInvalid = response.Response["TypeofJqueryUndefinedInputTypePasswordAttrAriaInvalid"].Value<string>();
 //			selctorPayload.SigninV2SlPwd = response.Response["SigninV2SlPwd"].Value<string>();
 			return dto;
+		}
+
+		public void DeactiveKey()
+		{
+			var turboActivate = GetTurboActivate();
+			turboActivate.Deactivate(true);
 		}
 
 		public LicenseKey GetStoredKey()
@@ -84,12 +101,12 @@ namespace TubeSniper.Infrastructure.Services
 				return CheckNewActivationCode.PkeyRevokedException;
 				//System.Windows.Forms.MessageBox.Show("This product key appears to have been revoked. If you believe this is an error, please open a support ticket.", "", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 			}
-			catch (EnableNetworkAdaptersException e)
+			catch (EnableNetworkAdaptersException)
 			{
 				return CheckNewActivationCode.EnableNetworkAdaptersException;
 				//System.Windows.Forms.MessageBox.Show(e.Message, "", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 			}
-			catch (DateTimeException e)
+			catch (DateTimeException)
 			{
 				return CheckNewActivationCode.DateTimeException;
 				//System.Windows.Forms.MessageBox.Show(e.Message, "", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -99,7 +116,7 @@ namespace TubeSniper.Infrastructure.Services
 				return CheckNewActivationCode.VirtualMachineException;
 				//System.Windows.Forms.MessageBox.Show("This license is not permitted on virtual machines.", "", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 			}
-			catch (Exception e)
+			catch (Exception)
 			{
 				return CheckNewActivationCode.Exception;
 				//System.Windows.Forms.MessageBox.Show("An unhandled exception has occurred. Please contact support for help on resolving this issue. (Quote this information: " + e.Message + ")", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -117,13 +134,13 @@ namespace TubeSniper.Infrastructure.Services
 			{
 				gr = turboActivate.IsGenuine();
 			}
-			catch (DateTimeException ex)
+			catch (DateTimeException)
 			{
 				//gr MyIsGenuineResult.NotGenuine;
 				gr = IsGenuineResult.NotGenuine;
 				//System.Windows.Forms.MessageBox.Show(ex.Message, "", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 			}
-			catch (Exception ex)
+			catch (Exception)
 			{
 				/*
 				if (form != null)

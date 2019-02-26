@@ -25,8 +25,6 @@ namespace TubeSniper.Presentation.Wpf.Openers
 			var app = new Application();
 			app.ShutdownMode = ShutdownMode.OnExplicitShutdown;
 			_app = app;
-			LicenseKey licenseKey;
-			License result = null;
 
 			if (!LicenseCheck())
 			{

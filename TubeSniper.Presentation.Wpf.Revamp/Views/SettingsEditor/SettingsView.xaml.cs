@@ -1,4 +1,6 @@
 ﻿using System.Windows.Controls;
+using TubeSniper.Presentation.Wpf.Common;
+using TubeSniper.Presentation.Wpf.ViewModels.SettingsEditor;
 
 namespace TubeSniper.Presentation.Wpf.Views.SettingsEditor
 {
@@ -10,6 +12,12 @@ namespace TubeSniper.Presentation.Wpf.Views.SettingsEditor
 		public SettingsView()
 		{
 			InitializeComponent();
+			DataContext = ViewModelLocator.Locate<SettingsViewModel>();
+		}
+
+		private void RangeSlider_RangeSelectionChanged(object sender, MahApps.Metro.Controls.RangeSelectionChangedEventArgs e)
+		{
+			
 		}
 	}
 }

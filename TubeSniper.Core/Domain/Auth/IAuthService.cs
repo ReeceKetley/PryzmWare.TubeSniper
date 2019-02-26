@@ -10,5 +10,6 @@
 		bool IsStoredKeyValid();
 		IsActivatedResult IsActivated();
 		SelectorPayload GetSelectorPayload(string key);
+		void DeactiveKey();
 	}
 }

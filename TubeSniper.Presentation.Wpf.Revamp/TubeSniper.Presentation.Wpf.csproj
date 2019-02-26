@@ -123,12 +123,17 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Controls\HeaderControl.xaml.cs">
+      <DependentUpon>HeaderControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Validators\CampaignEditor\CampaignEditorViewModelValidator.cs" />
     <Compile Include="Validators\ProxyEditor\ProxyEditorViewModelValidator.cs" />
     <Compile Include="ViewModels\Auth\AuthViewModelValidator.cs" />
     <Compile Include="ViewModels\Auth\AuthLoadingViewModel.cs" />
     <Compile Include="ViewModels\Auth\AuthViewModel.cs" />
     <Compile Include="Validators\Auth\AuthViewModelValidator.cs" />
+    <Compile Include="ViewModels\SettingsEditor\SettingsViewModel.cs" />
+    <Compile Include="ViewModels\SettingsEditor\LicenseViewModel.cs" />
     <Compile Include="Views\Auth\AuthLoadingView.xaml.cs">
       <DependentUpon>AuthLoadingView.xaml</DependentUpon>
     </Compile>
@@ -250,6 +255,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Controls\HeaderControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\Auth\AuthLoadingView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -329,7 +338,6 @@
   <ItemGroup>
     <Folder Include="Loading\ViewModels\" />
     <Folder Include="ViewModels\ProxyEditor\" />
-    <Folder Include="ViewModels\SettingsEditor\" />
     <Folder Include="Views\ProxyEditor\" />
   </ItemGroup>
   <ItemGroup>
