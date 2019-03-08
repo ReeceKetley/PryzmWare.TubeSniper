@@ -4,13 +4,13 @@
 	{
 		public bool IsGenuine;
 		public bool IsActivated;
-		public LicenseKey LicenseKey;
+		public ProductKey ProductKey;
 
-		public License(bool isGenuine, bool isActivated, LicenseKey licenseKey)
+		public License(bool isGenuine, bool isActivated, ProductKey productKey)
 		{
 			IsGenuine = isGenuine;
 			IsActivated = isActivated;
-			LicenseKey = licenseKey;
+			ProductKey = productKey;
 		}
 	}
 }

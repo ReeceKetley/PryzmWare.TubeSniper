@@ -7,13 +7,13 @@ namespace TubeSniper.Core.Services
 {
 	class ProxyTestService
 	{
-		public static ProxyTestResult TestProxy(ProxyEntry proxy)
+		public static ProxyTestResult TestProxy(HttpProxy proxy)
 		{
 			var stopWatch = new Stopwatch();
 			HttpWebRequest request = (HttpWebRequest)WebRequest.Create("http://youtube.com");
-			request.Proxy = proxy.Proxy;
+			request.Proxy = proxy.ToWebProxy();
 			request.UserAgent = "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.95 Safari/537.36";
-			request.Timeout = 15000;
+			request.Timeout = 30000;
 			stopWatch.Start();
 			try
 			{

@@ -2,8 +2,8 @@
 using System.Net;
 using System.Threading;
 using System.Windows.Forms;
-using EO.Base;
-using TubeSniper.Core.Domain.Auth;
+using TubeSniper.Core.Common.Helpers;
+using TubeSniper.Core.Domain.Proxies;
 using TubeSniper.Core.Domain.Youtube;
 
 namespace TubeSniper.Core.Domain.Browser
@@ -15,10 +15,10 @@ namespace TubeSniper.Core.Domain.Browser
 		{
 			InitializeComponent();
 			var proxy = new WebProxy();
-			bot = new YoutubeBot(new YoutubeAccount(new YoutubeCredentials("jacobsholmes925@gmail.com", "PryzmWare!1234"), "jacobsholmes315@gmail.com"), proxy, new YoutubeVideo("O1nok2VlF1M", "", "", ""), "epic man", false, false);
+			bot = new YoutubeBot(new YoutubeAccount(new YoutubeCredentials("jacobsholmes925@gmail.com", "PryzmWare!1234"), "jacobsholmes315@gmail.com"), new HttpProxy(new HttpProxyAddress(proxy.Address.Host)), new YoutubeVideo("1S0aBV-Waeo", "", "", ""), "very intresting video!", true, false);
 			WebControl.WebView = bot._browser.Browser.WebView;
-			WebControl.WebView.Engine.Options.CachePath = Guid.NewGuid().ToString();
-			WebControl.WebView.Engine.Options.Proxy = new ProxyInfo(ProxyType.HTTP, "83.151.4.172", 57812);
+			//WebControl.WebView.Engine.Options.CachePath = Guid.NewGuid().ToString();
+			//WebControl.WebView.Engine.Options.Proxy = new ProxyInfo(ProxyType.HTTP, "1.17.154.4", 8080);
 			WebControl.WebView.UrlChanged += WebView_UrlChanged;
 		}
 
@@ -46,6 +46,12 @@ namespace TubeSniper.Core.Domain.Browser
 		private void WebControl_Click(object sender, EventArgs e)
 		{
 
+		}
+
+		private void button1_Click(object sender, EventArgs e)
+		{
+			var source = WebControl.WebView.GetHtml();
+			var fileName = "source\\" + GeneralHelpers.MakeValidFileName(WebControl.WebView.Url.Substring(WebControl.WebView.Url.LastIndexOf('/')) + ".html");
 		}
 	}
 }

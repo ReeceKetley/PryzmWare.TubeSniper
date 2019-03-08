@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading;
+using EO.WebBrowser;
 using TubeSniper.Core.Common.Extensions;
 using TubeSniper.Core.Common.Helpers;
 using TubeSniper.Core.Domain.Browser;
@@ -12,19 +13,22 @@ namespace TubeSniper.Core.Domain.Models.States.V1
 		public void SetRecoveryEmail(string email)
 		{
 			if (TimeoutHelper.Wait(
-				    () => _browser.WebView.ElementExists("[name='email']"),
+				    () => _browser.WebView.ElementExists("#challenge > content > div > div:nth-child(3) > input"),
 				    TimeSpan.FromSeconds(30)) == WaitCode.Timeout)
 			{
 				return;
 			}
 
-			Thread.Sleep(250);
 			_browser.Keyboard.TypeString(email);
+			Thread.Sleep(250);
+			Console.WriteLine("Clicking submit");
+			_browser.Mouse.MoveToAndClickElement("#submit");
+			_browser.Keyboard.KeyPress(KeyCode.Enter);
 		}
 
 		public void Submit()
 		{
-			_browser.Keyboard.PressSubmit();
+			_browser.Keyboard.KeyPress(KeyCode.Enter);
 		}
 
 		public LoginSubmitRecoveryPageV1(VirtualBrowser browser) : base(browser)

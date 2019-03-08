@@ -1,27 +1,21 @@
 ﻿using System;
 using System.Net;
 using System.Threading;
-using TubeSniper.Core.Domain.Auth;
 using TubeSniper.Core.Domain.Models;
 using TubeSniper.Core.Domain.Proxies;
 using TubeSniper.Core.Domain.Youtube;
-using TubeSniper.Core.Interfaces;
 using TubeSniper.Core.Services;
 
 namespace TubeSniper.Core.Domain.Campaigns
 {
 	public class CampaignWorker
 	{
-		public CommentRegister CommentTemplate { get; }
 		private readonly IAccountRegister _accountRegister;
-		private readonly ThreadSafeVideoStack _videoStack;
 		private readonly bool _asReply;
 		private readonly ProxyRegister _proxyRegister;
 		private bool _shouldStop;
-		public event EventHandler<FatalErrorEventArgs> FatalError;
-		public event EventHandler<StatusChangedEventArgs> StatusChanged;
-		public event EventHandler<VideoProcessedEventArgs> VideoProcessed;
 		private Thread _thread;
+		private readonly ThreadSafeVideoStack _videoStack;
 
 		public CampaignWorker(IAccountRegister accountRegister, ThreadSafeVideoStack videoStack, CommentRegister commentTemplate, bool asReply, ProxyRegister proxyRegister = null)
 		{
@@ -33,23 +27,15 @@ namespace TubeSniper.Core.Domain.Campaigns
 			_thread = new Thread(ThreadMain);
 		}
 
-		public void Start()
-		{
-			if (_shouldStop)
-			{
-				_shouldStop = false;
-			}
-			var thread = new Thread(ThreadMain);
-			thread.Start();
-			OnStatusChanged(new StatusChangedEventArgs("Started worker."));
-		}
+		public event EventHandler<FatalErrorEventArgs> FatalError;
+		public event EventHandler<StatusChangedEventArgs> StatusChanged;
+		public event EventHandler<VideoProcessedEventArgs> VideoProcessed;
 
 		private void ThreadMain()
 		{
-			YoutubeAccount ytAccount = null;
+			YoutubeAccount account = null;
 			while (!_shouldStop)
 			{
-				Console.WriteLine("Thread Main");
 				var job = new Job();
 				job.FatalError += (sender, args) => OnFatalError(args);
 				job.StatusChanged += (sender, args) => OnStatusChanged(args);
@@ -60,9 +46,7 @@ namespace TubeSniper.Core.Domain.Campaigns
 					break;
 				}
 
-
-				WebProxy proxy = null;
-
+				HttpProxy proxy = null;
 				if (_proxyRegister.HasProxies)
 				{
 					for (; ; )
@@ -70,11 +54,12 @@ namespace TubeSniper.Core.Domain.Campaigns
 						var proxyEntry = _proxyRegister.Aquire();
 						proxy = proxyEntry.Proxy;
 						SharedData.OnCurrentStep(CurrentStepEventArgs.EstablishingProxyConnection);
-						var proxyTestResult = ProxyTestService.TestProxy(proxyEntry);
+						var proxyTestResult = ProxyTestService.TestProxy(proxyEntry.Proxy);
 						if (!proxyTestResult.Active)
 						{
 							OnStatusChanged(new StatusChangedEventArgs("Proxy connection failed (" + proxy.Address.Host + "). Trying new proxy."));
 							SharedData.OnCurrentStep(CurrentStepEventArgs.EstablishingProxyConnectionFailled);
+							_proxyRegister.Remove(proxyEntry);
 							continue;
 						}
 
@@ -84,25 +69,25 @@ namespace TubeSniper.Core.Domain.Campaigns
 					}
 				}
 
-				var accounts = _accountRegister.GetAll();
-				Console.WriteLine("Campaign Worker");
-				ytAccount = _accountRegister.Acquire();
-				while (ytAccount == null)
+				for (;;)
 				{
+					account = _accountRegister.Acquire();
+					if (account != null)
+					{
+						break;
+					}
 					Thread.Sleep(1000);
-					ytAccount = _accountRegister.Acquire();
 				}
 
-				Console.WriteLine("Aquired account");
-				job.Run(ytAccount, proxy, nextVideo, CommentTemplate, _asReply);
+				job.Run(account, proxy, nextVideo, CommentTemplate, _asReply);
+				_accountRegister.Release(account);
 			}
 
-			_accountRegister.Release(ytAccount);
 			OnStatusChanged(new StatusChangedEventArgs("Worker finished."));
 		}
 
 		protected virtual void OnFatalError(FatalErrorEventArgs e)
-		{
+		{ 
 			FatalError?.Invoke(this, e);
 		}
 
@@ -116,6 +101,17 @@ namespace TubeSniper.Core.Domain.Campaigns
 			VideoProcessed?.Invoke(this, e);
 		}
 
+		public void Start()
+		{
+			if (_shouldStop)
+			{
+				_shouldStop = false;
+			}
+			var thread = new Thread(ThreadMain);
+			thread.Start();
+			OnStatusChanged(new StatusChangedEventArgs("Started worker."));
+		}
+
 		public void Stop()
 		{
 			if (!_shouldStop)
@@ -125,5 +121,7 @@ namespace TubeSniper.Core.Domain.Campaigns
 			_thread.Abort();
 			OnStatusChanged(new StatusChangedEventArgs("Stopping worker."));
 		}
+
+		public CommentRegister CommentTemplate { get; }
 	}
 }

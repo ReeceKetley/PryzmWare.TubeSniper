@@ -37,5 +37,13 @@ namespace TubeSniper.Presentation.Wpf.Views.CampaignEditor
 		{
 			Close();
 		}
+
+		private void Window_KeyUp(object sender, KeyEventArgs e)
+		{
+			if (e.Key == Key.Escape)
+			{
+				this.Close();
+			}
+		}
 	}
 }

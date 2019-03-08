@@ -4,16 +4,17 @@ using System.Net;
 using System.Threading;
 using Pyrzm.AntiCaptchaClient;
 using TubeSniper.Core.Common.Extensions;
-using TubeSniper.Core.Domain.Auth;
+using TubeSniper.Core.Common.Helpers;
 using TubeSniper.Core.Domain.Models.States;
+using TubeSniper.Core.Domain.Models.States.V0;
 using TubeSniper.Core.Domain.Models.States.V1;
 
 namespace TubeSniper.Core.Domain.Youtube
 {
 	class YoutubeLoginBotV1
 	{
-		private readonly YoutubeBrowser _browser;
 		private readonly YoutubeAccount _account;
+		private readonly YoutubeBrowser _browser;
 
 		public YoutubeLoginBotV1(YoutubeBrowser browser, YoutubeAccount account)
 		{
@@ -28,96 +29,109 @@ namespace TubeSniper.Core.Domain.Youtube
 
 		public LoginResult Login(YoutubeBrowser browser, YoutubeAccount account)
 		{
-
 			var loadSignInResult = LoadSignIn(browser);
-			Console.WriteLine(loadSignInResult.Code);
 			if (loadSignInResult.Code == LoadSignInResultCode.AlreadyLoggedIn)
 			{
-
 				return new LoginResult(LoginResultCode.Success);
 			}
 
 			if (loadSignInResult.Code != LoadSignInResultCode.Success)
 			{
-
 				return new LoginResult(LoginResultCode.HttpError, browser.Proxy);
 			}
 
-
-
-			for (; ; Thread.Sleep(500))
+			for (;; Thread.Sleep(750))
 			{
-				//Console.ReadLine();
+				while (browser.Browser.WebView.IsLoading && !browser.Browser.WebView.CanEvalScript)
+				{
+					Thread.Sleep(50);
+				}
+
 				var page = GetLoginState();
 				var pageUrl = browser.Browser.WebView.Url;
-				Console.WriteLine(pageUrl);
+				browser.Browser.ImageCapture(GeneralHelpers.MakeValidFileName(pageUrl.Substring(42)));
 				switch (page)
 				{
-					case LoginEmailPageV1 loginEmailPage:
+					case LoginYoutubeHomeStateV1 loginYoutubeHomeStateV1:
+					{
+						return new LoginResult(LoginResultCode.Success);
+					}
+					case LoginProxyErrorV1 loginProxyError:
+					{
+						return new LoginResult(LoginResultCode.ProxyError);
+					}
+					case LoginErrorPageV1 loginErrorPage:
+					{
+						var type = LoginErrorPageV1.GetErrorType(browser.Browser);
+						switch (type)
 						{
-							Console.WriteLine("Login Email Page");
-							HandleLoginEmailState(browser, account, loginEmailPage);
-							break;
-						}
-					case LoginPasswordPageV1 loginPasswordPage:
-						{
-							Console.WriteLine("Login Password Page");
-							HandleLoginPasswordState(browser, account, pageUrl, loginPasswordPage);
-							break;
-						}
-					case LoginUpgradeBrowserPageV1 loginUpgradeBrowserPage:
-						{
-							Console.WriteLine("Login Upgrade Browser");
-							HandleLoginUpgradeBrowser(browser, loginUpgradeBrowserPage);
-							break;
-						}
-					case LoginCaptchaPageV1 loginCaptchaPage:
-						{
-							Console.WriteLine("Login Captcha Page");
-							HandleLoginCaptchaState(account, loginCaptchaPage, browser);
-							break;
-						}
-					case LoginSelectRecoveryPageV1 loginSelectRecoveryPage:
-						{
-							Console.WriteLine("Login Select Recovery Page");
-							HandleRecoverySelectState(loginSelectRecoveryPage);
-							break;
-						}
-					case LoginSubmitRecoveryPage loginSubmitRecoveryPage:
-						{
-							Console.WriteLine("Login Submit Recovery Page");
-							HandleSubmitRecoveryState(account, loginSubmitRecoveryPage);
-							if (browser.Browser.WebView.GetEvalBool("(typeof jQuery != 'undefined') && $(\"input[type=\\\"text\\\"]\").attr(\"aria-invalid\") == \"true\""))
-							{
+							case LoginFormErrorEnums.AccountNotFound:
+								return new LoginResult(LoginResultCode.AccountNotFound);
+							case LoginFormErrorEnums.AccountSusspended:
+								return new LoginResult(LoginResultCode.AccountSuspended);
+							case LoginFormErrorEnums.InvalidCaptcha:
+								return new LoginResult(LoginResultCode.CaptchaSolveFail);
+							case LoginFormErrorEnums.PasswordInvalid:
+								return new LoginResult(LoginResultCode.BadCredentials);
+							case LoginFormErrorEnums.SubmitRecoveryFail:
 								return new LoginResult(LoginResultCode.BadRecoveryCredentials);
-							}
-							break;
+							case LoginFormErrorEnums.UnkownError:
+								return new LoginResult(LoginResultCode.Failure);
 						}
+
+						break;
+					}
+					case LoginEmailPageV1 loginEmailPage:
+					{
+						HandleLoginEmailState(account, loginEmailPage);
+						break;
+					}
+					case LoginPasswordPageV1 loginPasswordPage:
+					{
+						HandleLoginPasswordState(browser, account, pageUrl, loginPasswordPage);
+						break;
+					}
+					case LoginUpgradeBrowserPageV1 loginUpgradeBrowserPage:
+					{
+						HandleLoginUpgradeBrowser(browser, loginUpgradeBrowserPage);
+						break;
+					}
+					case LoginCaptchaPageV1 loginCaptchaPage:
+					{
+						HandleLoginCaptchaState(account, loginCaptchaPage, browser);
+						break;
+					}
+					case LoginSelectRecoveryPageV1 loginSelectRecoveryPage:
+					{
+						HandleRecoverySelectState(loginSelectRecoveryPage);
+						break;
+					}
+					case LoginSubmitRecoveryPageV1 loginSubmitRecoveryPage:
+					{
+						HandleSubmitRecoveryState(account, loginSubmitRecoveryPage);
+						break;
+					}
 
 
 					case LoginAccountSuspended loginAccountSuspended:
-						{
-							Console.WriteLine("Account Susspended");
-							return new LoginResult(LoginResultCode.AccountSuspended);
-
-						}
+					{
+						return new LoginResult(LoginResultCode.AccountSuspended);
+					}
 					case LoginAccountNotFound loginAccountNotFound:
-						{
-							Console.WriteLine("Account Not found");
-							return new LoginResult(LoginResultCode.AccountNotFound);
-
-						}
+					{
+						return new LoginResult(LoginResultCode.AccountNotFound);
+					}
 
 					default:
+					{
+						if (browser.Browser.WebView.Url.Contains("youtube.com/"))
 						{
-							if (browser.Browser.WebView.Url.StartsWith("https://www.youtube.com/"))
-							{
-								return new LoginResult(LoginResultCode.Success);
-							}
-							continue;
+							return new LoginResult(LoginResultCode.Success);
 						}
-				}
 
+						continue;
+					}
+				}
 			}
 		}
 
@@ -126,7 +140,7 @@ namespace TubeSniper.Core.Domain.Youtube
 			loginUpgradeBrowserPage.SetUserAgent(browser);
 		}
 
-		private static void HandleSubmitRecoveryState(YoutubeAccount account, LoginSubmitRecoveryPage loginSubmitRecoveryPage)
+		private static void HandleSubmitRecoveryState(YoutubeAccount account, LoginSubmitRecoveryPageV1 loginSubmitRecoveryPage)
 		{
 			loginSubmitRecoveryPage.SetRecoveryEmail(account.RecoveryEmail);
 			loginSubmitRecoveryPage.Submit();
@@ -139,6 +153,7 @@ namespace TubeSniper.Core.Domain.Youtube
 
 		private void HandleLoginCaptchaState(YoutubeAccount account, LoginCaptchaPageV1 loginCaptchaPage, YoutubeBrowser browser)
 		{
+			loginCaptchaPage.SetPassword(account.Credentials.Password);
 			var img = loginCaptchaPage.GetImageUrl();
 			Image captchaImage = null;
 			try
@@ -155,21 +170,19 @@ namespace TubeSniper.Core.Domain.Youtube
 
 			var antiCaptcha = AntiCaptchaHelper.SolveCaptcha(captchaImage, "62362c3187702f77b13610b02fa96df4", TimeSpan.FromSeconds(30));
 			loginCaptchaPage.SetToken(antiCaptcha.Result);
-			loginCaptchaPage.SetPassword(account.Credentials.Password);
 			loginCaptchaPage.Submit();
 		}
 
-		private static void HandleLoginEmailState(YoutubeBrowser browser, YoutubeAccount account, LoginEmailPageV1 loginEmailPage)
+		private static void HandleLoginEmailState(YoutubeAccount account, LoginEmailPageV1 loginEmailPage)
 		{
 			loginEmailPage.SubmitEmail(account.Credentials.Email);
-			browser.Browser.WebView.WaitUntilUrlContains("ServiceLogin?sacu=1#identifier", TimeSpan.FromSeconds(30));
 		}
 
 		private static void HandleLoginPasswordState(YoutubeBrowser browser, YoutubeAccount account, string pageUrl, LoginPasswordPageV1 loginPasswordPage)
 		{
 			loginPasswordPage.SetPassword(account.Credentials.Password);
 			loginPasswordPage.Submit();
-			for (; ; Thread.Sleep(500))
+			for (;; Thread.Sleep(500))
 			{
 				if (pageUrl != browser.Browser.WebView.Url)
 				{
@@ -180,14 +193,24 @@ namespace TubeSniper.Core.Domain.Youtube
 
 		private LoginState GetLoginState()
 		{
+			if (LoginProxyErrorV1.Detect(_browser))
+			{
+				return new LoginProxyErrorV1(_browser.Browser);
+			}
+
+			if (LoginErrorPageV1.Detect(_browser.Browser))
+			{
+				return new LoginErrorPageV1(_browser.Browser);
+			}
+
 			if (LoginEmailPageV1.Detect(_browser))
 			{
 				return new LoginEmailPageV1(_browser.Browser);
 			}
 
-			if (LoginCaptchaPage.Detect(_browser))
+			if (LoginCaptchaPageV1.Detect(_browser))
 			{
-				return new LoginCaptchaPage(_browser.Browser);
+				return new LoginCaptchaPageV1(_browser.Browser);
 			}
 
 			if (LoginPasswordPageV1.Detect(_browser))
@@ -200,9 +223,9 @@ namespace TubeSniper.Core.Domain.Youtube
 				return new LoginSelectRecoveryPageV1(_browser.Browser);
 			}
 
-			if (LoginSubmitRecoveryPage.Detect(_browser))
+			if (LoginSubmitRecoveryPageV1.Detect(_browser))
 			{
-				return new LoginSubmitRecoveryPage(_browser.Browser);
+				return new LoginSubmitRecoveryPageV1(_browser.Browser);
 			}
 
 			if (LoginAccountSuspended.Detect(_browser))
@@ -220,13 +243,23 @@ namespace TubeSniper.Core.Domain.Youtube
 				return new LoginUpgradeBrowserPageV1(_browser.Browser);
 			}
 
+			if (LoginYoutubeHomeStateV1.Detect(_browser))
+			{
+				return new LoginYoutubeHomeStateV1(_browser.Browser);
+			}
+
 			return null;
 		}
 
 		private LoadSignInResult LoadSignIn(YoutubeBrowser browser)
 		{
 			browser.Browser.WebView.CustomUserAgent = "Mozilla/5.0 (iPhone; CPU iPhone OS 5_1_1 like Mac OS X) AppleWebKit/534.46 (KHTML, like Gecko) Version/5.1 Mobile/9B206 Safari/7534.48.3";
-			browser.Browser.WebView.LoadUrlAndWait("https://accounts.google.com/ServiceLogin?sacu=1#identifier");
+			browser.Browser.WebView.LoadUrlAndWait("https://accounts.google.com/ServiceLogin?sacu=1#identifier&hl=en");
+
+			if (browser.Browser.WebView.Url.Contains("general-light") || browser.Browser.WebView.Url.Contains("youtube.com"))
+			{
+				return new LoadSignInResult(LoadSignInResultCode.AlreadyLoggedIn);
+			}
 
 			if (!browser.Browser.WebView.WaitUntilUrlContains("ServiceLogin", TimeSpan.FromSeconds(30)))
 			{
@@ -242,4 +275,3 @@ namespace TubeSniper.Core.Domain.Youtube
 		}
 	}
 }
-

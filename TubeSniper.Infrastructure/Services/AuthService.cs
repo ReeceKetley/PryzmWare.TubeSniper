@@ -57,10 +57,10 @@ namespace TubeSniper.Infrastructure.Services
 			turboActivate.Deactivate(true);
 		}
 
-		public LicenseKey GetStoredKey()
+		public ProductKey GetStoredKey()
 		{
 			var turboActivate = GetTurboActivate();
-			return new LicenseKey(turboActivate.GetPKey());
+			return new ProductKey(turboActivate.GetPKey());
 		}
 
 		public CheckNewActivationCode CheckNewActivation()
@@ -170,10 +170,10 @@ namespace TubeSniper.Infrastructure.Services
 			}
 		}
 
-		public bool SaveLicenseKey(LicenseKey licenseKey)
+		public bool SaveLicenseKey(ProductKey productKey)
 		{
 			var turboActivate = GetTurboActivate();
-			if (!turboActivate.CheckAndSavePKey(licenseKey.Value))
+			if (!turboActivate.CheckAndSavePKey(productKey.Value))
 			{
 				return false;
 

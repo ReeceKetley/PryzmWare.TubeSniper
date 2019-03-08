@@ -21,16 +21,6 @@ namespace TubeSniper.Core.Domain.Proxies
 
 		public ProxyEntry Aquire()
         {
-            foreach (var proxyEntry in Proxies.OrderByDescending(x => x.UseCount).ToArray())
-            {
-	            if (proxyEntry.InUse)
-	            {
-					continue;
-	            }
-				proxyEntry.InUse = true;
-				Update(proxyEntry);
-	            return proxyEntry;
-            }
 			var random = new Random();
             return Proxies[random.Next(0, Proxies.Count - 1)];
         }
@@ -43,6 +33,17 @@ namespace TubeSniper.Core.Domain.Proxies
 			    {
 				    Proxies.Remove(proxyEntry);
 					Proxies.Add(proxy);
+			    }
+		    }
+	    }
+
+		public void Remove(ProxyEntry proxy)
+	    {
+		    foreach (var proxyEntry in Proxies.ToArray())
+		    {
+			    if (proxyEntry.Proxy == proxy.Proxy)
+			    {
+				    Proxies.Remove(proxyEntry);
 			    }
 		    }
 	    }

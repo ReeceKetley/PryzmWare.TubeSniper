@@ -22,7 +22,7 @@ namespace TubeSniper.Presentation.Wpf.ViewModels.CampaignEditor
 		private readonly IProxyRepository _proxyRepository;
 		private readonly CampaignEditorViewModelValidator _validator;
 		private Guid _campaignId;
-		private ICommand _saveCommand;
+		private ICommand _submitCommand;
 		private ICommand _selectAllAccountsCommand;
 		private ICommand _selectAllProxiesCommand;
 
@@ -57,7 +57,7 @@ namespace TubeSniper.Presentation.Wpf.ViewModels.CampaignEditor
 			}
 		}
 
-		public ICommand SaveCommand => _saveCommand ?? (_saveCommand = new RelayCommand(Save, CanSave));
+		public ICommand SubmitCommand => _submitCommand ?? (_submitCommand = new RelayCommand(Submit, CanSubmit));
 
 		public ICommand SelectAllProxiesCommand => _selectAllProxiesCommand ?? (_selectAllProxiesCommand = new RelayCommand(SelectAllProxies));
 
@@ -118,7 +118,7 @@ namespace TubeSniper.Presentation.Wpf.ViewModels.CampaignEditor
 			}
 		}
 
-		private void Save(object obj)
+		private void Submit(object obj)
 		{
 			var model = GetCampaign();
 			if (_campaignId == Guid.Empty)
@@ -133,7 +133,7 @@ namespace TubeSniper.Presentation.Wpf.ViewModels.CampaignEditor
 			CloseAction?.Invoke();
 		}
 
-		private bool CanSave(object obj)
+		private bool CanSubmit(object obj)
 		{
 			return _validator.Validate(this).IsValid;
 		}

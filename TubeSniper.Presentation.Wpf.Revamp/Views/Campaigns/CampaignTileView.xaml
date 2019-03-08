@@ -5,98 +5,119 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:controls="clr-namespace:TubeSniper.Presentation.Wpf.Controls"
     xmlns:wpf="clr-namespace:LoadingIndicators.WPF;assembly=LoadingIndicators.WPF"
+    xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+    xmlns:common="clr-namespace:TubeSniper.Presentation.Wpf.Common"
     x:Class="TubeSniper.Presentation.Wpf.Views.Campaigns.CampaignTileView"
-    mc:Ignorable="d" Height="220" Width="200"
-    Background="White">
+    mc:Ignorable="d" Height="220" Width="200">
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="pack://application:,,,/TubeSniper.Presentation.Wpf;component/Themes/Master.xaml"/>
-                <ResourceDictionary Source="pack://application:,,,/LoadingIndicators.WPF;component/Colors.xaml"/>
-                <ResourceDictionary Source="pack://application:,,,/LoadingIndicators.WPF;component/Styles.xaml"/>
-                <ResourceDictionary Source="pack://application:,,,/TubeSniper.Presentation.Wpf;component/Themes/Master.xaml" />
-                <ResourceDictionary Source="pack://application:,,,/LoadingIndicators.WPF;component/Styles/LoadingWave.xaml"/>
-                <ResourceDictionary Source="pack://application:,,,/LoadingIndicators.WPF;component/Styles/LoadingThreeDots.xaml"/>
-                <ResourceDictionary Source="pack://application:,,,/LoadingIndicators.WPF;component/Styles/LoadingFlipPlane.xaml"/>
-                <ResourceDictionary Source="pack://application:,,,/LoadingIndicators.WPF;component/Styles/LoadingPulse.xaml"/>
-                <ResourceDictionary Source="pack://application:,,,/LoadingIndicators.WPF;component/Styles/LoadingDoubleBounce.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/TubeSniper.Presentation.Wpf;component/Themes/CampaignTile/Include.xaml"/>
             </ResourceDictionary.MergedDictionaries>
+
+            <Style x:Key="CampaignTile.Buttons.LeftIcon" TargetType="{x:Type Button}">
+                <Setter Property="Foreground" Value="IndianRed"/>
+                <Setter Property="Background" Value="#f5f5f5"/>
+                <Setter Property="Content" Value="{x:Static common:FontAwesome.Cog}"/>
+                <Setter Property="Cursor" Value="Hand"/>
+                <Setter Property="HorizontalAlignment" Value="Left"/>
+                <Setter Property="VerticalAlignment" Value="Top"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type Button}">
+                            <Border Width="30" Height="30" Background="{TemplateBinding Background}" CornerRadius="4 0 4 0">
+                                <TextBlock Margin="-1" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="15" FontFamily="{StaticResource FontAwesome-Solid}" Text="{TemplateBinding Content}" Foreground="{TemplateBinding Foreground}"/>
+                            </Border>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+                <Style.Triggers>
+                    <Trigger Property="IsMouseOver" Value="True">
+                        <Setter Property="Background" Value="#d9d9d9"/>
+                        <Setter Property="Foreground" Value="White"/>
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
+
+            <Style x:Key="CampaignTile.Buttons.RightIcon" TargetType="{x:Type Button}">
+                <Setter Property="Foreground" Value="CornflowerBlue"/>
+                <Setter Property="Background" Value="#f5f5f5"/>
+                <Setter Property="Content" Value="{x:Static common:FontAwesome.Search}"/>
+                <Setter Property="Cursor" Value="Hand"/>
+                <Setter Property="HorizontalAlignment" Value="Right"/>
+                <Setter Property="VerticalAlignment" Value="Top"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type Button}">
+                            <Border Width="30" Height="30" Background="{TemplateBinding Background}" CornerRadius="0 4 0 4">
+                                <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="15" FontFamily="{StaticResource FontAwesome-Solid}" Text="{TemplateBinding Content}" Foreground="{TemplateBinding Foreground}"/>
+                            </Border>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+                <Style.Triggers>
+                    <Trigger Property="IsMouseOver" Value="True">
+                        <Setter Property="Background" Value="#d9d9d9"/>
+                        <Setter Property="Foreground" Value="White"/>
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
+
         </ResourceDictionary>
     </UserControl.Resources>
-    <UserControl.FontFamily>
-        <StaticResource ResourceKey="Montserrat-Regular" />
-    </UserControl.FontFamily>
-    <Grid>
-        <Border CornerRadius="4" Background="White">
-            <Border.Effect>
-                <DropShadowEffect ShadowDepth="0" Opacity="0.2" BlurRadius="30" Direction="0" Color="Black"/>
-            </Border.Effect>
-            <Grid ShowGridLines="False">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="*"/>
-                </Grid.RowDefinitions>
-                <Border  Grid.Row="0" CornerRadius="4 0 4 0" Width="24" Height="24" HorizontalAlignment="Left" VerticalAlignment="Top" Background="#f5f5f5" MouseEnter="Edit_MouseEnter" MouseLeave="Edit_MouseLeave" MouseDown="Edit_MouseDown" MouseUp="Edit_MouseUp" >
-                    <Button VerticalAlignment="Center" HorizontalAlignment="Center" Content="&#xf013;" Foreground="IndianRed" FontFamily="{StaticResource FontAwesome-Solid}" FontSize="15" Background="Transparent" BorderThickness="0" Margin="0,-10" Command="{Binding Path=EditCommand}">
-                        <Button.ContextMenu>
-                            <ContextMenu>
-                                <MenuItem Header="Delete" Command="{Binding DeleteCommand}"/>
-                            </ContextMenu>
-                        </Button.ContextMenu>
-                    </Button>
-                </Border>
-
+    <Border CornerRadius="4" Background="White">
+        <Border.Effect>
+            <DropShadowEffect ShadowDepth="0" Opacity="0.2" BlurRadius="30" Direction="0" Color="Black"/>
+        </Border.Effect>
+        <Grid ShowGridLines="False">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <Grid Grid.Row="0">
+                <Button Style="{StaticResource CampaignTile.Buttons.LeftIcon}" Command="{Binding Path=EditCommand}">
+                    <Button.ContextMenu>
+                        <ContextMenu>
+                            <MenuItem Header="Delete" Command="{Binding DeleteCommand}"/>
+                        </ContextMenu>
+                    </Button.ContextMenu>
+                </Button>
                 <TextBlock Grid.Row="0" FontSize="16" Margin="3" HorizontalAlignment="Center" Foreground="Gray" Text="{Binding Title, FallbackValue='Campaign'}"/>
-                <!--<Border CornerRadius="0 4 0 4" Width="24" Height="24" HorizontalAlignment="Right" VerticalAlignment="Top" Background="#f5f5f5"/>-->
-                <Border  Grid.Row="0" CornerRadius="0 4 0 4" Width="24" Height="24" HorizontalAlignment="Right" VerticalAlignment="Top" Background="#f5f5f5" MouseEnter="UIElement_OnMouseEnter" MouseLeave="UIElement_OnMouseLeave" MouseDown="UIElement_OnMouseDown" MouseUp="UIElement_OnMouseUp">
-                    <Button VerticalAlignment="Center" HorizontalAlignment="Center" Content="&#xF002;" Foreground="CornflowerBlue" FontFamily="{StaticResource FontAwesome-Solid}" FontSize="15" Background="Transparent" BorderThickness="0" Margin="0,-10" Command="{Binding Path=AdvancedCommand}"/>
-                </Border>
-                <Grid Grid.Row="1">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*" />
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="*"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                    </Grid.RowDefinitions>
-                    <Border Name="ProgressBorder" Grid.Column="0" Grid.Row="0">
-                        <Border.Effect>
-                            <DropShadowEffect  ShadowDepth="0" Opacity="0.7" BlurRadius="10" Direction="0" Color="DarkGreen"/>
-                        </Border.Effect>
-                        <!--wpf:LoadingIndicator Foreground="#0078D7" SpeedRatio="0" IsActive="True"  Style="{DynamicResource LoadingIndicatorArcsStyle}" RenderTransformOrigin="0.5,0.5">-->
-                        <wpf:LoadingIndicator Name="ProgressSpinner" Foreground="LightGray" SpeedRatio="1" IsActive="{Binding IsRunning, FallbackValue=False}"  Style="{DynamicResource LoadingIndicatorArcsStyle}" RenderTransformOrigin="0.5,0.5">
-                            <wpf:LoadingIndicator.RenderTransform>
-                                <TransformGroup>
-                                    <ScaleTransform ScaleX="2" ScaleY="2"/>
-                                    <SkewTransform/>
-                                    <RotateTransform/>
-                                    <TranslateTransform/>
-                                </TransformGroup>
-                            </wpf:LoadingIndicator.RenderTransform>
-                        </wpf:LoadingIndicator>
-                    </Border>
-                    <Border Grid.Row="1" Height="24">
-                        <Grid Grid.Row="1">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition></ColumnDefinition>
-                                <ColumnDefinition></ColumnDefinition>
-                                <ColumnDefinition></ColumnDefinition>
-                            </Grid.ColumnDefinitions>
-
-
-                            <Border Grid.Column="0" Width="30" BorderThickness="0" BorderBrush="Black" Background="#F3F3F3" CornerRadius="0,4,0,0" HorizontalAlignment="Left">
-                                <TextBlock HorizontalAlignment="Center" TextWrapping="Wrap" Text="{Binding SuccesCount}" Foreground="DarkGreen" FontSize="15" VerticalAlignment="Center" FontFamily="/FontAwesome.Sharp;component/fonts/#Font Awesome 5 Free Solid"/>
-                            </Border>
-                            <Border Grid.Column="2" Width="30" Background="#F3F3F3" CornerRadius="4,0,0,0" HorizontalAlignment="Right">
-                                <TextBlock HorizontalAlignment="Center" TextWrapping="Wrap" Text="{Binding WarningCount}" Foreground="Orange" FontSize="15" VerticalAlignment="Center" FontFamily="/FontAwesome.Sharp;component/fonts/#Font Awesome 5 Free Solid"/>
-                            </Border>
-                        </Grid>
-                    </Border>
-                    <controls:StyledButton Content="{Binding StartButtonText}"  Height="30" Grid.Row="2" Margin="0" SnapsToDevicePixels="True" Click="ButtonBase_OnClick" Command="{Binding Path=StartCommand}"/>
-                </Grid>
+                <Button Style="{StaticResource CampaignTile.Buttons.RightIcon}" Command="{Binding Path=AdvancedCommand}"/>
             </Grid>
-        </Border>
-    </Grid>
+            <Border Name="ProgressBorder" Grid.Row="1">
+                <Border.Effect>
+                    <DropShadowEffect  ShadowDepth="0" Opacity="0.7" BlurRadius="10" Direction="0" Color="DarkGreen"/>
+                </Border.Effect>
+                <wpf:LoadingIndicator Name="ProgressSpinner" Foreground="LightGray" SpeedRatio="1" IsActive="{Binding IsRunning, FallbackValue=False}"  Style="{DynamicResource LoadingIndicatorArcsStyle}" RenderTransformOrigin="0.5,0.5">
+                    <wpf:LoadingIndicator.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform ScaleX="2" ScaleY="2"/>
+                            <SkewTransform/>
+                            <RotateTransform/>
+                            <TranslateTransform/>
+                        </TransformGroup>
+                    </wpf:LoadingIndicator.RenderTransform>
+                </wpf:LoadingIndicator>
+            </Border>
+            <StackPanel Grid.Row="2">
+                <Grid Height="24">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <Border Grid.Column="0" Width="30" BorderThickness="0" BorderBrush="Black" Background="#F3F3F3" CornerRadius="0,4,0,0">
+                        <TextBlock HorizontalAlignment="Center" TextWrapping="Wrap" Text="{Binding SuccesCount}" Foreground="DarkGreen" FontSize="15" VerticalAlignment="Center" FontFamily="{StaticResource FontAwesome-Solid}"/>
+                    </Border>
+                    <Border Grid.Column="2" Width="30" Background="#F3F3F3" CornerRadius="4,0,0,0" >
+                        <TextBlock HorizontalAlignment="Center" TextWrapping="Wrap" Text="{Binding WarningCount}" Foreground="Orange" FontSize="15" VerticalAlignment="Center" FontFamily="{StaticResource FontAwesome-Solid}"/>
+                    </Border>
+                </Grid>
+                <Button Style="{StaticResource CampaignTile.Buttons.StartStop}" Content="{Binding StartButtonText}"  Height="30" Margin="0" SnapsToDevicePixels="True" Click="ButtonBase_OnClick" Command="{Binding Path=StartCommand}"/>
+            </StackPanel>
+        </Grid>
+    </Border>
 </UserControl>
 

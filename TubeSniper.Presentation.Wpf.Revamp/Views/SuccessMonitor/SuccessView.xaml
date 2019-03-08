@@ -2,10 +2,8 @@
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-      xmlns:behaviors="clr-namespace:TubeSniper.Presentation.Wpf.Behaviors"
-      xmlns:viewModels1="clr-namespace:TubeSniper.Presentation.Wpf.Proxies.ViewModels"
-      xmlns:successMonitor="clr-namespace:TubeSniper.Presentation.Wpf.Views.SuccessMonitor"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:successMonitor="clr-namespace:TubeSniper.Presentation.Wpf.Views.SuccessMonitor"
       x:Class="TubeSniper.Presentation.Wpf.Views.SuccessMonitor.SuccessView"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
@@ -14,7 +12,7 @@
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="pack://application:,,,/TubeSniper.Presentation.Wpf;component/Themes/Master.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/TubeSniper.Presentation.Wpf;component/Themes/Global/Include.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </UserControl.Resources>
@@ -29,20 +27,20 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
             <StackPanel Margin="15" VerticalAlignment="Center" Grid.Column="0">
-                <TextBlock FontSize="28" FontWeight="Bold" Text="Success Moniter" />
-                <TextBlock FontWeight="Light" FontSize="18" Text="A simple way to moniter successful comments." />
+                <TextBlock Style="{StaticResource Page.Title}" Text="Success Monitor" />
+                <TextBlock Style="{StaticResource Page.Description}" Text="A simple way to monitor successfully posted comments." />
             </StackPanel>
         </Grid>
         <ScrollViewer Grid.Row="1">
-        <StackPanel Grid.Row="1" Orientation="Vertical">
-            <ItemsControl Grid.Row="1" ItemsSource="{Binding Tiles}">
-                <ItemsControl.ItemTemplate>
-                <DataTemplate>
-                    <successMonitor:SuccessViewTile Margin="1"/>
-                </DataTemplate>
-            </ItemsControl.ItemTemplate>
-        </ItemsControl>
-        </StackPanel>
+            <StackPanel Grid.Row="1" Orientation="Vertical">
+                <ItemsControl Grid.Row="1" ItemsSource="{Binding Tiles}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <successMonitor:SuccessViewTile Margin="1"/>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </StackPanel>
         </ScrollViewer>
     </Grid>
 </UserControl>

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading;
+using EO.WebBrowser;
 using TubeSniper.Core.Common.Extensions;
 using TubeSniper.Core.Common.Helpers;
 using TubeSniper.Core.Domain.Browser;
@@ -17,14 +18,9 @@ namespace TubeSniper.Core.Domain.Models.States.V1
 			{
 				return;
 			}
-			Console.WriteLine("Select Recvoery");
-
-			//_browser.Keyboard.PressTab();
-			_browser.WebView.ClickElement("#challengePickerList > li:nth-child(1)");
+			_browser.Keyboard.PressTab();
 			Thread.Sleep(50);
-			//_browser.Keyboard.TypeString(email);
-			//Thread.Sleep(50);
-			_browser.Keyboard.PressSubmit();
+			_browser.Keyboard.KeyPress(KeyCode.Space);
 		}
 
 		public void Submit()
@@ -39,9 +35,8 @@ namespace TubeSniper.Core.Domain.Models.States.V1
 
 		public static bool Detect(YoutubeBrowser browser)
 		{
-			if (browser.Browser.WebView.Url.Contains("signin/selectchallenge/4"))
+			if (browser.Browser.WebView.Url.Contains("signin/selectchallenge/"))
 			{
-				Console.WriteLine("Select");
 				return true;
 			}
 

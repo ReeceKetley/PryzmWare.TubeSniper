@@ -16,6 +16,22 @@
     <TargetFrameworkProfile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <PublishUrl>G:\Desktop\TS\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>1</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <PublishWizardCompleted>true</PublishWizardCompleted>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -38,6 +54,18 @@
   </PropertyGroup>
   <PropertyGroup>
     <StartupObject>TubeSniper.Presentation.Wpf.App</StartupObject>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ManifestCertificateThumbprint>8E6438C454DCA764FC6958B360236EC0C67B0F6A</ManifestCertificateThumbprint>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ManifestKeyFile>TubeSniper.Presentation.Wpf_TemporaryKey.pfx</ManifestKeyFile>
+  </PropertyGroup>
+  <PropertyGroup>
+    <GenerateManifests>true</GenerateManifests>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignManifests>true</SignManifests>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="ControlzEx, Version=3.0.2.4, Culture=neutral, processorArchitecture=MSIL">
@@ -126,6 +154,10 @@
     <Compile Include="Controls\HeaderControl.xaml.cs">
       <DependentUpon>HeaderControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Services\ClipboardService.cs" />
+    <Compile Include="Services\DialogService.cs" />
+    <Compile Include="Services\MessageBoxService.cs" />
+    <Compile Include="Validators\AccountEditor\AccountEditorViewModelValidator.cs" />
     <Compile Include="Validators\CampaignEditor\CampaignEditorViewModelValidator.cs" />
     <Compile Include="Validators\ProxyEditor\ProxyEditorViewModelValidator.cs" />
     <Compile Include="ViewModels\Auth\AuthViewModelValidator.cs" />
@@ -146,9 +178,6 @@
     <Compile Include="Common\ViewModelLocator.cs" />
     <Compile Include="Controls\ProxyListItemControl.cs" />
     <Compile Include="Converters\BoolInverterConverter.cs" />
-    <Compile Include="Loading\Views\LoadingWindow.xaml.cs">
-      <DependentUpon>LoadingWindow.xaml</DependentUpon>
-    </Compile>
     <Compile Include="MessageBox\MessageBox.xaml.cs">
       <DependentUpon>MessageBox.xaml</DependentUpon>
     </Compile>
@@ -157,6 +186,9 @@
     </Compile>
     <Compile Include="Views\MainWindow\MainWindowView.xaml.cs">
       <DependentUpon>MainWindowView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Panels\SavePanel.xaml.cs">
+      <DependentUpon>SavePanel.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\SettingsEditor\LicenseView.xaml.cs">
       <DependentUpon>LicenseView.xaml</DependentUpon>
@@ -169,9 +201,6 @@
     <Compile Include="Views\SuccessMonitor\SuccessView.xaml.cs">
       <DependentUpon>SuccessView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Themes\Controls\RatingControl.xaml.cs">
-      <DependentUpon>RatingControl.xaml</DependentUpon>
-    </Compile>
     <Compile Include="ValidationRules\CheckedValidationRule.cs" />
     <Compile Include="ValidationRules\EmailValidationRule.cs" />
     <Compile Include="ValidationRules\IntRangeRule.cs" />
@@ -180,16 +209,12 @@
     <Compile Include="ViewModels\Campaigns\CampaignAdvancedViewModel.cs" />
     <Compile Include="Common\ColorFader.cs" />
     <Compile Include="Controls\ScrollOnNewItems.cs" />
-    <Compile Include="Controls\StyledButton.cs" />
     <Compile Include="Openers\MainWindowOpener.cs" />
-    <Compile Include="Themes\Controls\NotifactionIcon.xaml.cs">
-      <DependentUpon>NotifactionIcon.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Accounts\ViewModels\AccountsViewModel.cs" />
     <Compile Include="Common\ViewModelFactory.cs" />
     <Compile Include="ViewModels\CampaignEditor\CampaignEditorViewModel.cs" />
-    <Compile Include="Proxies\ViewModels\ProxyEditorViewModel.cs" />
-    <Compile Include="Proxies\ViewModels\ProxiesViewModel.cs" />
+    <Compile Include="ViewModels\ProxyEditor\ProxyEditorViewModel.cs" />
+    <Compile Include="ViewModels\ProxyEditor\ProxiesViewModel.cs" />
     <Compile Include="Views\Campaigns\CampaignTileView.xaml.cs">
       <DependentUpon>CampaignTileView.xaml</DependentUpon>
     </Compile>
@@ -210,19 +235,16 @@
       <DependentUpon>AccountsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Campaigns\AdvancedCampaignView.xaml.cs" />
-    <Compile Include="Proxies\Views\ProxyEditorView.xaml.cs">
+    <Compile Include="Views\ProxyEditor\ProxyEditorView.xaml.cs">
       <DependentUpon>ProxyEditorView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\LicenesePageView.xaml.cs">
-      <DependentUpon>LicenesePageView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Campaigns\CampaignsView.xaml.cs">
       <DependentUpon>CampaignsView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Proxies\Views\ProxiesView.xaml.cs">
+    <Compile Include="Views\ProxyEditor\ProxiesView.xaml.cs">
       <DependentUpon>ProxiesView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Proxies\ViewModels\ProxyListItem.cs" />
+    <Compile Include="ViewModels\ProxyEditor\ProxyListItem.cs" />
     <Compile Include="Views\SettingsEditor\SettingsView.xaml.cs">
       <DependentUpon>SettingsView.xaml</DependentUpon>
     </Compile>
@@ -245,17 +267,51 @@
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+    <None Include="TubeSniper.Presentation.Wpf_TemporaryKey.pfx" />
     <Page Include="Accounts\Views\AccountEditorView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Controls\HeaderControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\Auth\Include.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\CampaignTile\Include.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Global\TextBlocks.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Global\Buttons.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\Global\Fonts.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Global\Include.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\MainWindow\Include.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\SettingsEditor\Include.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -267,19 +323,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Loading\Views\LoadingWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="MessageBox\MessageBox.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Themes\Controls\LoadingPulse.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Themes\Styles\SideMenu.xaml">
+    <Page Include="Themes\MainWindow\SideMenu.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -288,6 +336,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\MainWindow\MainWindowView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Panels\SavePanel.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -303,27 +355,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Themes\Controls\RatingControl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Themes\Generic.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Themes\Styles\Images.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Views\Campaigns\AdvancedCampaignView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Proxies\Views\ProxyEditorView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\LicenesePageView.xaml">
+    <Page Include="Views\ProxyEditor\ProxyEditorView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -336,26 +372,12 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Loading\ViewModels\" />
-    <Folder Include="ViewModels\ProxyEditor\" />
-    <Folder Include="Views\ProxyEditor\" />
+    <Folder Include="Themes\Controls\" />
   </ItemGroup>
   <ItemGroup>
-    <Page Include="Themes\Controls\NotifactionIcon.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Themes\Controls\StyledButton.xaml">
+    <Page Include="Themes\CampaignTile\StyledButton.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Themes\Master.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Themes\Styles\Fonts.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Campaigns\CampaignTileView.xaml">
       <SubType>Designer</SubType>
@@ -373,7 +395,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Proxies\Views\ProxiesView.xaml">
+    <Page Include="Views\ProxyEditor\ProxiesView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -398,38 +420,27 @@
     <Resource Include="Resources\Fonts\FontAwesome\FontAwesome-Light.otf" />
     <Resource Include="Resources\Fonts\FontAwesome\FontAwesome-Regular.otf" />
     <Resource Include="Resources\Fonts\FontAwesome\FontAwesome-Solid.otf" />
-    <None Include="Resources\Padlock_16px.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\ribbon-silhouette.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\ribbon-silhouette%281%29.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\tubesniper.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\logo.png" />
+    <Resource Include="Resources\MainWindow\Logo.png" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Behaviors\TwoListSynchronizer.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\exclamation-triangle.png" />
+    <Resource Include="Resources\Auth\Logo.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\Cellular Network_32px.png" />
-    <Resource Include="Resources\Checked User Male_32px.png" />
-    <Resource Include="Resources\Comments_32px.png" />
-    <Resource Include="Resources\Computers Connecting_32px.png" />
-    <Resource Include="Resources\Downloading Updates_32px.png" />
-    <Resource Include="Resources\Error Cloud_32px.png" />
-    <Resource Include="Resources\Error_32px.png" />
-    <Resource Include="Resources\Login_32px.png" />
-    <Resource Include="Resources\Ok_32px.png" />
-    <Resource Include="Resources\Search More_32px.png" />
-    <Resource Include="Resources\Wired Network Connection_32px.png" />
+    <BootstrapperPackage Include=".NETFramework,Version=v4.5.2">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4.5.2 %28x86 and x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

@@ -9,9 +9,5 @@ namespace TubeSniper.Infrastructure.Models
         public string Email { get; set; }
         public string Password { get; set; }
 	    public int UseCount { get; set; }
-
-	    public YoutubeDatabaseAccountEntry()
-        {
-        }
     }
 }

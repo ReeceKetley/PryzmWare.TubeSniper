@@ -4,5 +4,6 @@
 	{
 		ProxyEntry Aquire();
 		void Update(ProxyEntry proxy);
+		void Remove(ProxyEntry proxy);
 	}
 }

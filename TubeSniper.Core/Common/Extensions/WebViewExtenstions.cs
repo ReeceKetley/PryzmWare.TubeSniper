@@ -12,7 +12,7 @@ namespace TubeSniper.Core.Common.Extensions
 	    {
 		    if (view.ThreadRunner != null)
 		    {
-			    view.Send(action);
+			    view.ThreadRunner.Send(action);
 		    }
 		    else
 		    {

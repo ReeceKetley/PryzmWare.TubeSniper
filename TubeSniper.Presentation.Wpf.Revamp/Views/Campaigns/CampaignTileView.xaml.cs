@@ -57,31 +57,6 @@ namespace TubeSniper.Presentation.Wpf.Views.Campaigns
 
 		}
 
-		private void UIElement_OnMouseEnter(object sender, MouseEventArgs e)
-		{
-			var border = (Border)sender;
-			border.Background = new SolidColorBrush(Color.FromRgb(0, 120, 215));
-		}
-
-		private void UIElement_OnMouseLeave(object sender, MouseEventArgs e)
-		{
-			var border = (Border)sender;
-			border.Background = new SolidColorBrush(Color.FromRgb(245, 245, 245));
-		}
-
-		private void UIElement_OnMouseDown(object sender, MouseButtonEventArgs e)
-		{
-			var border = (Border)sender;
-			border.Background = new SolidColorBrush(Color.FromRgb(0, 165, 215));
-
-		}
-
-		private void UIElement_OnMouseUp(object sender, MouseButtonEventArgs e)
-		{
-			var border = (Border)sender;
-			border.Background = new SolidColorBrush(Color.FromRgb(0, 120, 215));
-		}
-
 
 		private void ChangeControlColour(System.Drawing.Color activeControl, System.Drawing.Color eventColour)
 		{

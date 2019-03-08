@@ -1,0 +1,10 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls">
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="../Global/Include.xaml" />
+        <ResourceDictionary Source="SideMenu.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+
+    <BitmapImage x:Key="MainWindow.SideMenu.Images.Logo" UriSource="pack://application:,,,/TubeSniper.Presentation.Wpf;component/Resources/MainWindow/Logo.png"/>
+</ResourceDictionary>

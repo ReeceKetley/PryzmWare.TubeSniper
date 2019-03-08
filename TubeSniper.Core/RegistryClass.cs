@@ -8,7 +8,7 @@ namespace TubeSniper.Core
 
 		public static bool SaveStringSetting(string setting, string value)
 		{
-			key.
+			//key.
 			key.SetValue(setting, value);
 			key.Close();
 			return true;

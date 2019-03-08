@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using LiteDB;
+using TubeSniper.Core;
 using TubeSniper.Core.Domain.Campaigns;
 using TubeSniper.Core.Domain.Youtube;
 using TubeSniper.Infrastructure.Models;
@@ -12,6 +13,19 @@ namespace TubeSniper.Infrastructure.Repositories
     public static class DatabaseManager
     {
         private static LiteDatabase _database = new LiteDatabase(@"data\core.dat");
+
+	    public static ApplicationSettings GetSettings()
+	    {
+		    var settingsQuery = _database.GetCollection<ApplicationSettings>("settings");
+		    var settings = settingsQuery.FindAll();
+		    return settings.GetEnumerator().Current;
+	    }
+
+		public static void SaveSettings(ApplicationSettings setting)
+	    {
+		    var settingsQuery = _database.GetCollection<ApplicationSettings>("settings");
+			settingsQuery.Insert("default", setting);
+		}
 
         public static List<YoutubeAccount> GetAccounts()
         {

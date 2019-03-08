@@ -2,7 +2,6 @@
 using System.Threading;
 using TubeSniper.Core.Common.Extensions;
 using TubeSniper.Core.Common.Helpers;
-using TubeSniper.Core.Domain.Auth;
 using TubeSniper.Core.Domain.Browser;
 using TubeSniper.Core.Domain.Youtube;
 
@@ -36,7 +35,7 @@ namespace TubeSniper.Core.Domain.Models.States.V1
 
 		public static bool Detect(YoutubeBrowser browser)
 		{
-			if (browser.Browser.WebView.ElementExists("#gaia_loginform") && browser.Browser.WebView.Url.Contains("accounts.google.com/ServiceLogin?sacu=1#password"))
+			if (browser.Browser.WebView.ElementExists("#gaia_loginform") && browser.Browser.WebView.Url.Contains("#password") && !browser.Browser.WebView.Url.Contains("challenge"))
 			{
 				return true;
 			}

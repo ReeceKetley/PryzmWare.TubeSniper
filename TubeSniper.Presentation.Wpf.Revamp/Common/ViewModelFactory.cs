@@ -1,10 +1,10 @@
 ﻿using TubeSniper.Core.Common;
 using TubeSniper.Presentation.Wpf.Accounts.ViewModels;
-using TubeSniper.Presentation.Wpf.Proxies.ViewModels;
 using TubeSniper.Presentation.Wpf.ViewModels.Auth;
 using TubeSniper.Presentation.Wpf.ViewModels.CampaignEditor;
 using TubeSniper.Presentation.Wpf.ViewModels.Campaigns;
 using TubeSniper.Presentation.Wpf.ViewModels.MainWindow;
+using TubeSniper.Presentation.Wpf.ViewModels.ProxyEditor;
 using TubeSniper.Presentation.Wpf.ViewModels.SuccessMonitor;
 using CampaignsViewModel = TubeSniper.Presentation.Wpf.ViewModels.Campaigns.CampaignsViewModel;
 

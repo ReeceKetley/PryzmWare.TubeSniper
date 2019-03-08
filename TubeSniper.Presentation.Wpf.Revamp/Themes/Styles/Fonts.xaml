@@ -1,9 +1,0 @@
-﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-    <FontFamily x:Key="Montserrat-SemiBold">pack://application:,,,/TubeSniper.Presentation.Wpf;component/Resources/Fonts/Montserrat/Montserrat-SemiBold.ttf#Montserrat SemiBold</FontFamily>
-    <FontFamily x:Key="Montserrat-Regular">pack://application:,,,/TubeSniper.Presentation.Wpf;component/Resources/Fonts/Montserrat/Montserrat-Regular.ttf#Montserrat</FontFamily>
-    <FontFamily x:Key="FontAwesome-Brands">pack://application:,,,/TubeSniper.Presentation.Wpf;component/Resources/Fonts/FontAwesome/FontAwesome-Brands.otf#Font Awesome 5 Brands Regular</FontFamily>
-    <FontFamily x:Key="FontAwesome-Light">pack://application:,,,/TubeSniper.Presentation.Wpf;component/Resources/Fonts/FontAwesome/FontAwesome-Light.otf#Font Awesome 5 Pro Light</FontFamily>
-    <FontFamily x:Key="FontAwesome-Regular">pack://application:,,,/TubeSniper.Presentation.Wpf;component/Resources/Fonts/FontAwesome/FontAwesome-Regular.otf#Font Awesome 5 Pro Regular</FontFamily>
-    <FontFamily x:Key="FontAwesome-Solid">pack://application:,,,/TubeSniper.Presentation.Wpf;component/Resources/Fonts/FontAwesome/FontAwesome-Solid.otf#Font Awesome 5 Pro Solid</FontFamily>
-</ResourceDictionary>

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Windows;
 using System.Windows.Forms;
 using TubeSniper.Core.Domain.Auth;
@@ -22,6 +23,10 @@ namespace TubeSniper.Presentation.Wpf.Openers
 
 		public void StartApplication()
 		{
+			if(!Directory.Exists(Path.Combine(Environment.CurrentDirectory, "data")))
+			{
+				Directory.CreateDirectory(Path.Combine(Environment.CurrentDirectory, "data"));
+			}
 			var app = new Application();
 			app.ShutdownMode = ShutdownMode.OnExplicitShutdown;
 			_app = app;
@@ -110,7 +115,7 @@ namespace TubeSniper.Presentation.Wpf.Openers
 			return NewActivationCode.True;
 		}
 
-		private LicenseKey PromptLicenseKey()
+		private ProductKey PromptLicenseKey()
 		{
 			var viewModel = ViewModelFactory.AuthViewModel();
 			var view = new AuthView(viewModel);

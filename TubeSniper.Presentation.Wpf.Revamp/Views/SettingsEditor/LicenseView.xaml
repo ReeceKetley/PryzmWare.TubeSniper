@@ -7,6 +7,13 @@
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
       Background="#f2f2f2">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/TubeSniper.Presentation.Wpf;component/Themes/Global/Include.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
     <Grid Height="Auto" Width="Auto"  >
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -18,8 +25,8 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
             <StackPanel Margin="15" VerticalAlignment="Center" Grid.Column="0">
-                <TextBlock FontSize="28" FontWeight="Bold" Text="License" />
-                <TextBlock FontWeight="Light" FontSize="18" Text="Manage TubeSnipers license." />
+                <TextBlock Style="{StaticResource Page.Title}" Text="License" />
+                <TextBlock Style="{StaticResource Page.Description}" Text="Manage your license." />
             </StackPanel>
         </Grid>
         <Grid Margin="0 10 0 0" Grid.Row="1">
@@ -29,8 +36,8 @@
                 </Border.Effect>
                 <GroupBox Margin="10" Header="License Settings" mah:ControlsHelper.ContentCharacterCasing="Normal" Background="#FF111926" BorderBrush="#111926" SnapsToDevicePixels="True" mah:ControlsHelper.HeaderFontSize="14">
                     <StackPanel>
-                        <TextBlock Text="{Binding Key}" FontSize="20" Margin="0,0,0,4"/>
-                        <Button Content="De-Activate (Program Will Close)" mah:ControlsHelper.ContentCharacterCasing="Normal" Command="{Binding Path=DeactivateCommand}" ></Button>
+                        <TextBlock Text="{Binding ProductKey, FallbackValue='XXXX-XXXX-XXXX-XXXX-XXXX-XXXX-XXXX'}" FontSize="20" Margin="0,0,0,4"/>
+                        <Button Style="{StaticResource Global.Buttons.ActionButton}" Content="Deactivate (Program Will Close)" Command="{Binding Path=DeactivateCommand}"/>
                     </StackPanel>
                 </GroupBox>
             </Border>

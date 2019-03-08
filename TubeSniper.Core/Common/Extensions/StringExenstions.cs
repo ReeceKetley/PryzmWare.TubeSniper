@@ -10,5 +10,6 @@ namespace TubeSniper.Core.Common.Extensions
 			return Enumerable.Range(0, str.Length / chunkSize)
 				.Select(i => str.Substring(i * chunkSize, chunkSize));
 		}
+
 	}
 }

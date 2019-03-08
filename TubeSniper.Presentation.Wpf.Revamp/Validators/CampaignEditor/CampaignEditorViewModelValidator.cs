@@ -31,44 +31,6 @@ namespace TubeSniper.Presentation.Wpf.Validators.CampaignEditor
 				.Cascade(CascadeMode.StopOnFirstFailure)
 				.NotEmpty().WithMessage("Must not be empty")
 				.MaximumLength(2056).WithMessage("Must not be longer than 2056 characters");
-
-			/*//Console.WriteLine("Save Called");
-			if (WorkersCount <= 0)
-			{
-				//Console.WriteLine("No workers selected");
-				return;
-			}
-
-			if (MaxResults <= 0)
-			{
-				//Console.WriteLine("No max videos selected");
-				return;
-			}
-
-			if (string.IsNullOrEmpty(CampaignTitle))
-			{
-				//Console.WriteLine("No campaign title");
-				return;
-			}
-
-			if (string.IsNullOrEmpty(SearchKeyword))
-			{
-				//Console.WriteLine("No search keyword entered");
-				return;
-			}
-
-			if (string.IsNullOrEmpty(Comment))
-			{
-				//Console.WriteLine("Comment is null");
-				return;
-			}
-
-			if (SelectedAccounts.Count <= 0)
-			{
-				//Console.WriteLine("No accounts selected");
-				return;
-			}
-*/
 		}
 	}
 }

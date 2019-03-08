@@ -11,7 +11,7 @@ namespace TubeSniper.Presentation.Wpf.Validators.Auth
 			RuleFor(x => x.LicenseKey)
 				.Cascade(CascadeMode.StopOnFirstFailure)
 				.NotEmpty().WithMessage("Must not be empty.")
-				.Must(x => LicenseKey.TryCreate(x, out _)).WithMessage("Must be a valid License key.");
+				.Must(x => ProductKey.TryCreate(x, out _)).WithMessage("Must be a valid License key.");
 		}
 	}
 }

@@ -5,6 +5,7 @@ using System.Threading;
 using Pyrzm.AntiCaptchaClient;
 using TubeSniper.Core.Common.Extensions;
 using TubeSniper.Core.Domain.Models.States;
+using TubeSniper.Core.Domain.Models.States.V0;
 using TubeSniper.Core.Domain.Youtube;
 
 namespace TubeSniper.Core.Services
@@ -22,6 +23,7 @@ namespace TubeSniper.Core.Services
 
 		public LoginResult Run()
 		{
+			Console.WriteLine("Called Run");
 			return Login(_browser, _account);
 		}
 
@@ -45,6 +47,8 @@ namespace TubeSniper.Core.Services
 				//Console.ReadLine();
 				var page = GetLoginState();
 				var pageUrl = browser.Browser.WebView.Url;
+				Console.WriteLine(page);
+
 				switch (page)
 				{
 					case LoginEmailPage loginEmailPage:
@@ -214,13 +218,14 @@ namespace TubeSniper.Core.Services
 
 		private LoadSignInResult LoadSignIn(YoutubeBrowser browser)
 		{
-			browser.Browser.WebView.LoadUrlAndWait("https://www.youtube.com/");
-			if (!browser.Browser.WebView.WaitUntilUrlContains("https://www.youtube.com/", TimeSpan.FromSeconds(30)))
+			Console.WriteLine("Loading Youtube");
+			browser.Browser.WebView.LoadUrl("https://www.youtube.com/");
+			if (!browser.Browser.WebView.Url.Contains("youtube.com"))
 			{
 				return new LoadSignInResult(LoadSignInResultCode.LoadYoutubeError);
 			}
 
-			if (browser.Browser.WebView.ElementExists("#avatar-btn"))
+			if (browser.Browser.WebView.ElementExists("#avatar-btn") || browser.Browser.WebView.Url.Contains("general-light"))
 			{
 				return new LoadSignInResult(LoadSignInResultCode.AlreadyLoggedIn);
 			}

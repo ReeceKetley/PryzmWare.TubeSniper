@@ -1,0 +1,24 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls">
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="../Global/Include.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+    <Style x:Key="Auth.Buttons.Primary" TargetType="{x:Type Button}" BasedOn="{StaticResource MetroButton}">
+        <Setter Property="FontSize" Value="15"/>
+        <Setter Property="FontFamily" Value="{StaticResource Montserrat-Regular}"/>
+        <Setter Property="Cursor" Value="Hand"/>
+        <Setter Property="mah:ControlsHelper.CornerRadius" Value="3"/>
+        <Setter Property="Background" Value="#6C3ABF"/>
+        <Setter Property="Foreground" Value="White"/>
+        <Setter Property="BorderBrush" Value="#6C3ABF"/>
+        <Setter Property="BorderThickness" Value="2"/>
+        <Setter Property="Padding" Value="0 9"/>
+        <Setter Property="mah:ControlsHelper.ContentCharacterCasing" Value="Normal"/>
+    </Style>
+
+    <BitmapImage x:Key="Auth.Images.Logo" UriSource="pack://application:,,,/TubeSniper.Presentation.Wpf;component/Resources/Auth/Logo.png"/>
+    <Style TargetType="Window">
+        <Setter Property="Background" Value="#111926"></Setter>
+    </Style>
+</ResourceDictionary>

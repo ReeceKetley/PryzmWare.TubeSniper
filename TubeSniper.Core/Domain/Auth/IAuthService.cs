@@ -3,10 +3,10 @@
 	public interface IAuthService
 	{
 		/*License VerifyLicense(LicenseKey licenseKey);*/
-		LicenseKey GetStoredKey();
+		ProductKey GetStoredKey();
 		CheckNewActivationCode CheckNewActivation();
 		MyIsGenuineResult CheckActivation();
-		bool SaveLicenseKey(LicenseKey licenseKey);
+		bool SaveLicenseKey(ProductKey productKey);
 		bool IsStoredKeyValid();
 		IsActivatedResult IsActivated();
 		SelectorPayload GetSelectorPayload(string key);

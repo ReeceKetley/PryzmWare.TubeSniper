@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Net;
-using TubeSniper.Core.Domain.Auth;
 using TubeSniper.Core.Domain.Campaigns;
+using TubeSniper.Core.Domain.Proxies;
 
 namespace TubeSniper.Core.Domain.Youtube
 {
@@ -16,7 +16,7 @@ namespace TubeSniper.Core.Domain.Youtube
 		public event EventHandler<StatusChangedEventArgs> StatusChanged;
 		public event EventHandler<VideoProcessedEventArgs> VideoProcessed;
 
-		public YoutubeBot(YoutubeAccount account, WebProxy proxy, YoutubeVideo video, string comment, bool useCache, bool asReply)
+		public YoutubeBot(YoutubeAccount account, HttpProxy proxy, YoutubeVideo video, string comment, bool useCache, bool asReply)
 		{
 			_account = account;
 			_video = video;
@@ -27,7 +27,6 @@ namespace TubeSniper.Core.Domain.Youtube
 
 		public void Run()
 		{
-			Console.WriteLine("Run");
 			if (_account == null)
 			{
 				return;
@@ -37,19 +36,11 @@ namespace TubeSniper.Core.Domain.Youtube
 			if (loginResult != LoginResultCode.Success)
 			{
 				ThrowErrorEvent("Failed to login to account: + " + _account.Credentials.Email + ". (" + loginResult + ")");
-				SharedData.OnCurrentStep(CurrentStepEventArgs.LogingIn);
-				return;
 			}
 
 			UpdateStatus("Logged in: " + _account.Credentials.Email);
-			SharedData.OnCurrentStep(CurrentStepEventArgs.LoggedIn);
 			UpdateStatus("Posting Comment: " + _video);
-			SharedData.OnCurrentStep(CurrentStepEventArgs.Commenting);
 			var commentPostedResult = _browser.PostComment(_browser, _video, _comment, _asReply);
-			for (; ; )
-			{
-				// Remove this
-			}
 			if (commentPostedResult.Code != CommentPostedResultCode.Success)
 			{
 				SharedData.OnCurrentStep(CurrentStepEventArgs.Failure);
@@ -66,6 +57,7 @@ namespace TubeSniper.Core.Domain.Youtube
 		{
 			var loginBot = new YoutubeLoginBotV1(_browser, _account);
 			var loginResult = loginBot.Run();
+			Console.WriteLine(loginResult.Code);
 			if (loginResult.Code != LoginResultCode.Success)
 			{
 				return loginResult;

@@ -7,34 +7,33 @@
         xmlns:validationRules="clr-namespace:TubeSniper.Presentation.Wpf.ValidationRules"
         xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
         xmlns:converters="clr-namespace:TubeSniper.Presentation.Wpf.Converters"
+        xmlns:panels="clr-namespace:TubeSniper.Presentation.Wpf.Views.Panels"
+        xmlns:common="clr-namespace:TubeSniper.Presentation.Wpf.Common"
         x:Class="TubeSniper.Presentation.Wpf.Views.CampaignEditor.CampaignEditorView"
         mc:Ignorable="d"
-        Title="Campaign Editor                  " Width="400" SizeToContent="Height" ResizeMode="NoResize"
-        >
+        Title="Campaign Editor" Width="400" SizeToContent="Height" ResizeMode="NoResize" KeyUp="Window_KeyUp"
+        Background="#F9F9F9">
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="pack://application:,,,/TubeSniper.Presentation.Wpf;component/Themes/Master.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/TubeSniper.Presentation.Wpf;component/Themes/Global/Include.xaml" />
             </ResourceDictionary.MergedDictionaries>
             <converters:BoolInverterConverter x:Key="BoolInverterConverter"/>
-            <ControlTemplate x:Key="TextBoxErrorTemplate">
-                <StackPanel Orientation="Horizontal">
-                    <Image Height="16" Margin="0,0,5,0" 
-                           Source="{StaticResource ExcalmationTriangle}" ToolTip="{Binding AdornedElement.(Validation.Errors)[0].ErrorContent, ElementName=Holder}"/>
-                    <AdornedElementPlaceholder x:Name="Holder"/>
-                </StackPanel>
-            </ControlTemplate>
             <Style TargetType="{x:Type TextBox}">
                 <Setter Property="Padding" Value="3"/>
-                <Setter Property="Validation.ErrorTemplate" Value="{StaticResource TextBoxErrorTemplate}"/>
                 <Setter Property="Margin" Value="3"/>
                 <Setter Property="VerticalAlignment" Value="Center"/>
+                <Style.Triggers>
+                    <Trigger Property="Validation.HasError" Value="True">
+                        <Setter Property="ToolTip" Value="{Binding RelativeSource={RelativeSource Self}, Path=(Validation.Errors)[0].ErrorContent}" />
+                    </Trigger>
+                </Style.Triggers>
             </Style>
         </ResourceDictionary>
     </Window.Resources>
     <Border Margin="10" CornerRadius="4" BorderThickness="0.6" BorderBrush="Black">
-        <StackPanel>
-            <Grid Margin="5">
+        <StackPanel Margin="5">
+            <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="140" />
                     <ColumnDefinition Width="*" />
@@ -58,11 +57,11 @@
                 <TextBlock Grid.Row="2" Grid.Column="0" Text="Max Results:" FontSize="16" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="3" />
                 <TextBox x:Name="TxtMaxResults" Grid.Row="2" Grid.Column="1" PreviewTextInput="UIElement_OnPreviewTextInput" Text="{Binding Path=MaxResults, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"/>
 
-                    <TextBlock Grid.Row="3" Grid.Column="0" Text="Workers:" FontSize="16" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="3" />
+                <TextBlock Grid.Row="3" Grid.Column="0" Text="Workers:" FontSize="16" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="3" />
                 <TextBox x:Name="TxtWorkers" Grid.Row="3" Grid.Column="1" Text="{Binding Path=WorkersCount, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"/>
 
 
-                    <TextBlock Grid.Row="4" Grid.Column="0" Text="Post As:" FontSize="16" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="3" />
+                <TextBlock Grid.Row="4" Grid.Column="0" Text="Post As:" FontSize="16" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="3" />
                 <StackPanel Grid.Row="4" Grid.Column="1" Orientation="Horizontal">
                     <RadioButton GroupName="PostAs" IsChecked="{Binding PostAsReply}" Margin="3" Content="Reply"/>
                     <RadioButton GroupName="PostAs" IsChecked="{Binding PostAsReply, Converter={StaticResource BoolInverterConverter}}" Margin="3" Content="Comment"/>
@@ -71,7 +70,7 @@
                 <TextBlock Grid.Row="5" Grid.Column="0" Text="Comment:" FontSize="16" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="3 6 3 3" />
                 <TextBox Grid.Row="5" Grid.Column="1" Text="{Binding Comment, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"/>
 
-                    <TextBlock Grid.Row="6" Grid.Column="0" Text="Proxies:" FontSize="16" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="3 6 3 3" />
+                <TextBlock Grid.Row="6" Grid.Column="0" Text="Proxies:" FontSize="16" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="3 6 3 3" />
                 <ListView Grid.Row="6" Grid.Column="1" BorderBrush="#cccccc" BorderThickness="1" ItemsSource="{Binding Proxies}" SelectionMode="Multiple" behaviors:MultiSelectorBehaviours.SynchronizedSelectedItems="{Binding SelectedProxies}"  Height="150" Margin="3"/>
 
 
@@ -79,14 +78,13 @@
                 <ListView Grid.Row="7" Grid.Column="1" BorderBrush="#cccccc" BorderThickness="1"  ItemsSource="{Binding Accounts}" behaviors:MultiSelectorBehaviours.SynchronizedSelectedItems="{Binding SelectedAccounts}" SelectionMode="Multiple" Height="150" Margin="3" />
                 <Image HorizontalAlignment="Left" Height="16" Margin="122,9,0,0" Grid.Row="7" Grid.Column="0" VerticalAlignment="Top" Width="16" RenderTransformOrigin="0.729,-1.604" Source="/TubeSniper.Presentation.Wpf;component/Resources/exclamation-triangle.png" Visibility="Hidden"/>
                 <Image x:Name="ProxyErrorImg" HorizontalAlignment="Left" Height="16" Margin="122,9,0,0" Grid.Row="6" Grid.Column="0" VerticalAlignment="Top" Width="16" RenderTransformOrigin="0.729,-1.604" Source="/TubeSniper.Presentation.Wpf;component/Resources/exclamation-triangle.png" Visibility="Hidden"/>
-                <Button Grid.Column="0" Content="Select/Deselect All" HorizontalAlignment="Left" Margin="3,27,0,0" Grid.Row="6" VerticalAlignment="Top" Width="116" mah:ControlsHelper.ContentCharacterCasing="Normal" Command="{Binding SelectAllProxiesCommand}"/>
-                <Button Grid.Column="0" Content="Select/Deselect All" HorizontalAlignment="Left" Margin="3,27,0,0" Grid.Row="7" VerticalAlignment="Top" Width="116" mah:ControlsHelper.ContentCharacterCasing="Normal" Command="{Binding SelectAllAccountsCommand}"/>
+                <Button Style="{StaticResource Global.Buttons.ActionButton}"  Grid.Column="0" Content="Select/Deselect All" HorizontalAlignment="Left" Margin="3,27,0,0" Grid.Row="6" VerticalAlignment="Top" Padding="7"
+                        Command="{Binding SelectAllProxiesCommand}"/>
+                <Button Style="{StaticResource Global.Buttons.ActionButton}" Grid.Column="0" Content="Select/Deselect All" HorizontalAlignment="Left" Margin="3,27,0,0" Grid.Row="7" VerticalAlignment="Top" Padding="7"
+                        Command="{Binding SelectAllAccountsCommand}"/>
             </Grid>
 
-            <Grid Margin="5 0 5 5">
-                <Button Content="Cancel" IsCancel="True" Width="100" Height="32" Margin="3" HorizontalAlignment="Left" Click="Button_Click" />
-                <Button Content="Save" Command="{Binding SaveCommand}" IsDefault="True" Width="100" Height="32" Margin="3" HorizontalAlignment="Right"/>
-            </Grid>
+            <panels:SavePanel Margin="5 10 5 5"/>
         </StackPanel>
     </Border>
 </Window>

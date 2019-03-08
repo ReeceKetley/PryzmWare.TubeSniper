@@ -11,6 +11,7 @@ using TubeSniper.Core.Services;
 using TubeSniper.Infrastructure.Repositories;
 using TubeSniper.Infrastructure.Services;
 using TubeSniper.Presentation.Wpf.Openers;
+using TubeSniper.Presentation.Wpf.Services;
 
 namespace TubeSniper.DependencyResolution
 {
@@ -28,12 +29,18 @@ namespace TubeSniper.DependencyResolution
 			Container.Register<IAccountsRepository, AccountsRepository>(Lifestyle.Singleton);
 			Container.Register<IAccountService, AccountService>(Lifestyle.Singleton);
 			Container.Register<IProxyRepository, ProxyRepository>(Lifestyle.Singleton);
+			Container.Register<IProxyEntryMapper, ProxyEntryMapper>(Lifestyle.Singleton);
 			Container.Register<IProxyService, ProxyService>(Lifestyle.Singleton);
+			Container.Register<IHttpProxyMapper, HttpProxyMapper>(Lifestyle.Singleton);
+			Container.Register<IProxyPortationMapper, ProxyPortationMapper>(Lifestyle.Singleton);
 			Container.Register<ICampaignMappper, CampaignMappper>(Lifestyle.Singleton);
 			Container.Register<IAuthService, AuthService>(Lifestyle.Singleton);
 			Container.Register<ISearchService, SearchService>(Lifestyle.Singleton);
-			//Container.Register<ISuccessfulCommentManager, SuccessfulCommentManager>(Lifestyle.Singleton);
 			Container.Register<MainWindowOpener>();
+
+			Container.Register<IDialogService, DialogService>(Lifestyle.Singleton);
+			Container.Register<IMessageBoxService, MessageBoxService>(Lifestyle.Singleton);
+			Container.Register<IClipboardService, ClipboardService>(Lifestyle.Singleton);
 			Container.Verify();
 		}
 

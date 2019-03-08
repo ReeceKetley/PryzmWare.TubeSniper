@@ -1,0 +1,17 @@
+﻿<UserControl x:Class="TubeSniper.Presentation.Wpf.Views.Panels.SavePanel"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:TubeSniper.Presentation.Wpf.Views.Panels"
+             mc:Ignorable="d">
+    <Grid Height="30">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+        <Button Grid.Column="0" Content="Cancel" IsCancel="True" MinWidth="100" Margin="0 0 4 0" />
+        <Button Grid.Column="2" Content="Save" Command="{Binding SubmitCommand}" IsDefault="True" MinWidth="100" Margin="4 0 0 0" />
+    </Grid>
+</UserControl>

@@ -11,7 +11,7 @@
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="pack://application:,,,/TubeSniper.Presentation.Wpf;component/Themes/Master.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/TubeSniper.Presentation.Wpf;component/Themes/MainWindow/Include.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </UserControl.Resources>
@@ -21,7 +21,7 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        <Image Margin="25" Grid.Row="0" Source="/TubeSniper.Presentation.Wpf;component/Resources/logo.png"/>
+        <Image Margin="25" Grid.Row="0" Source="{StaticResource MainWindow.SideMenu.Images.Logo}"/>
         <ListView Grid.Row="1" SelectedIndex="{Binding SelectedTopItem}" Style="{StaticResource SideMenuListView}">
             <ListViewItem >
                 <StackPanel Orientation="Horizontal">
@@ -67,7 +67,7 @@
                             <ColumnDefinition/>
                         </Grid.ColumnDefinitions>
                         <TextBlock Style="{StaticResource SideMenuIcon}" Text="{x:Static common:FontAwesome.Comment_alt_check}" Grid.Column="0"/>
-                    <TextBlock Style="{StaticResource SideMenuText}" Text="Success Moniter" Grid.Column="1" />
+                    <TextBlock Style="{StaticResource SideMenuText}" Text="Success Monitor" Grid.Column="1" />
                         </Grid>
                 </StackPanel>
             </ListViewItem>

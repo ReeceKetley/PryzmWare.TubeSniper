@@ -10,19 +10,14 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="pack://application:,,,/LoadingIndicators.WPF;component/Colors.xaml"/>
                 <ResourceDictionary Source="pack://application:,,,/LoadingIndicators.WPF;component/Styles.xaml"/>
-                <ResourceDictionary Source="pack://application:,,,/TubeSniper.Presentation.Wpf;component/Themes/Master.xaml" />
-                <ResourceDictionary Source="pack://application:,,,/LoadingIndicators.WPF;component/Styles/LoadingWave.xaml"/>
-                <ResourceDictionary Source="pack://application:,,,/LoadingIndicators.WPF;component/Styles/LoadingThreeDots.xaml"/>
-                <ResourceDictionary Source="pack://application:,,,/LoadingIndicators.WPF;component/Styles/LoadingFlipPlane.xaml"/>
-                <ResourceDictionary Source="pack://application:,,,/LoadingIndicators.WPF;component/Styles/LoadingPulse.xaml"/>
-                <ResourceDictionary Source="pack://application:,,,/LoadingIndicators.WPF;component/Styles/LoadingDoubleBounce.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/TubeSniper.Presentation.Wpf;component/Themes/Auth/Include.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Window.Resources>
 
     <Grid>
         <StackPanel Margin="30">
-            <Image Width="250" Source="/TubeSniper.Presentation.Wpf;component/Resources/logo.png"/>
+            <Image Width="250" Source="{StaticResource Auth.Images.Logo}"/>
             <StackPanel Margin="0,25,0,0">
                 <ProgressBar HorizontalAlignment="Left" Height="25" BorderThickness="2" BorderBrush="#684DA0" VerticalAlignment="Top" Width="348" Background="Transparent" Foreground="#684DA0" Value="50" IsIndeterminate="True"/>
             </StackPanel>

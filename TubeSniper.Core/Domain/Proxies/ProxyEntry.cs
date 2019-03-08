@@ -5,10 +5,18 @@ namespace TubeSniper.Core.Domain.Proxies
 {
     public class ProxyEntry
     {
+	    public ProxyEntry(Guid id, HttpProxy proxy)
+	    {
+		    Id = id;
+		    Proxy = proxy;
+	    }
+
+	    public ProxyEntry()
+	    {
+	    }
+
 	    public Guid Id { get; set; }
-	    public WebProxy Proxy { get; set; }
-	    public int UseCount { get; set; }
-	    public bool InUse { get; set; }
+	    public HttpProxy Proxy { get; set; }
 
 	    public ProxyEntry DeepClone()
 	    {

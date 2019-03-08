@@ -4,14 +4,14 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:validationRules="clr-namespace:TubeSniper.Presentation.Wpf.ValidationRules"
+        xmlns:common="clr-namespace:TubeSniper.Presentation.Wpf.Common"
         mc:Ignorable="d"
         Title="Account Editor" Width="400" ResizeMode="NoResize" SizeToContent="Height">
     <Window.Resources>
         <ResourceDictionary>
             <ControlTemplate x:Key="TextBoxErrorTemplate">
                 <StackPanel Orientation="Horizontal">
-                    <Image Height="16" Margin="0,0,5,0" 
-                           Source="{StaticResource ExcalmationTriangle}" ToolTip="{Binding ElementName=Holder, Path=AdornedElement.(Validation.Errors)[0].ErrorContent}"/>
+                    <TextBlock FontFamily="{StaticResource FontAwesome-Solid}" Text="{x:Static common:FontAwesome.Exclamation_triangle}" ToolTip="{Binding AdornedElement.(Validation.Errors)[0].ErrorContent, ElementName=Holder}" Margin="0 0 5 0"/>
                     <AdornedElementPlaceholder x:Name="Holder"/>
                 </StackPanel>
             </ControlTemplate>
@@ -22,7 +22,7 @@
                 <Setter Property="VerticalAlignment" Value="Center"/>
             </Style>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="pack://application:,,,/TubeSniper.Presentation.Wpf;component/Themes/Master.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/TubeSniper.Presentation.Wpf;component/Themes/Global/Include.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Window.Resources>
@@ -73,9 +73,9 @@
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
-                    <Button Height="32" Width="100" Grid.Column="0" HorizontalAlignment="Left" Content="Cancel" IsCancel="True"/>
-                    <Button Height="32" Width="100" Grid.Column="1" HorizontalAlignment="Center" Content="Import" IsEnabled="False" Command="{Binding ImportCsvCommand}" ToolTip="Import CSV (Email, Password, Recovery Email) file."/>
-                    <Button Height="32" Width="100" Grid.Column="2" HorizontalAlignment="Right" Command="{Binding SaveCommand}" Content="Save" IsDefault="True"/>
+                    <Button Style="{StaticResource Global.Buttons.ButtonBase}" Height="32" Width="100" Grid.Column="0" HorizontalAlignment="Left" Content="Cancel" IsCancel="True"/>
+                    <Button Style="{StaticResource Global.Buttons.ButtonBase}" Height="32" Width="100" Grid.Column="1" HorizontalAlignment="Center" Content="Import" IsEnabled="False" Command="{Binding ImportCsvCommand}" ToolTip="Import CSV (Email, Password, Recovery Email) file."/>
+                    <Button Style="{StaticResource Global.Buttons.ButtonBase}" Height="32" Width="100" Grid.Column="2" HorizontalAlignment="Right" Command="{Binding SaveCommand}" Content="Save" IsDefault="True"/>
                 </Grid>
             </StackPanel>
         </Border>

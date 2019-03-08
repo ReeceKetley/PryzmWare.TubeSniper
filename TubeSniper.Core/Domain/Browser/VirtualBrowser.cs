@@ -1,7 +1,6 @@
 ﻿using System;
 using System.IO;
 using System.Net;
-using System.Threading;
 using EO.WebBrowser;
 using EO.WebEngine;
 using TubeSniper.Core.Common.Extensions;
@@ -52,40 +51,25 @@ namespace TubeSniper.Core.Domain.Browser
 			}
 			catch
 			{
-				return;
+				// do nothing
 			}
 		}
 
 
 		public static VirtualBrowser Create(WebProxy proxy, YoutubeAccount youtubeAccount, bool useCache)
 		{
-			//Runtime.SetDefaultBrowserOptions(new BrowserOptions
-			//{
-				//EnableWebSecurity = true,
-				//AllowPlugins = true,
-				//AllowZooming = false,
-			//});
-			//var engine = CreateEngine(proxy, youtubeAccount, true);
-			//var threadRunner = CreateThreadRunner(engine);
-			var webView = CreateView(null);
-
-			bool debug = false;
-
-			if (debug)
+			Runtime.SetDefaultBrowserOptions(new BrowserOptions
 			{
-				Thread t = new Thread(CreateDebug);
-				t.Start(webView);
-			}
+				EnableWebSecurity = true,
+				AllowPlugins = true,
+				AllowZooming = false,
+			});
+			var engine = CreateEngine(proxy, youtubeAccount, true);
+			var threadRunner = CreateThreadRunner(engine);
+			var webView = CreateView(threadRunner); // use null for debug
 			return new VirtualBrowser(webView, new VirtualMouse(webView), new VirtualKeyboard(webView), proxy);
 		}
 
-		private static void CreateDebug(object o)
-		{
-			var webView = (EO.WebBrowser.WebView) o;
-			//DebugView debugView = new DebugView(webView);
-			//debugView.Show();
-			//CreateEngine()
-		}
 
 		private static Engine CreateEngine(WebProxy proxy, YoutubeAccount youtubeAccount, bool useCache)
 		{
@@ -118,19 +102,17 @@ namespace TubeSniper.Core.Domain.Browser
 
 		private static WebView CreateView(ThreadRunner threadRunner)
 		{
-			//var view = threadRunner.CreateWebView(800, 600);
+			var view = threadRunner.CreateWebView(320, 568);
 			var engine = Engine.Create("ts-debug");
 			engine.Options.CachePath = Path.Combine(Path.GetDirectoryName(System.Windows.Forms.Application.ExecutablePath), "debug");
-			var view = new WebView();
+			//var view = new WebView();
 			view.CustomUserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.87 Safari/537.36";
+			//Mozilla/5.0 (iPhone; CPU iPhone OS 5_1_1 like Mac OS X) AppleWebKit/534.46 (KHTML, like Gecko) Version/5.1 Mobile/9B206 Safari/7534.48.3
 			view.AcceptLanguage = "en-US";
 			view.CertificateError += (sender, args1) =>
 			{
 				args1.Continue();
 			};
-
-			//var frm = new DebugView(view);
-			//frm.Show();
 
 			return view;
 		}

@@ -50,6 +50,16 @@ namespace TubeSniper.Core.Domain.Browser
 
             return isDone;
         }
+        public bool FocusElement(string selector)
+        {
+	        WebView.Send(() =>
+            {
+                WebView.InjectJQuery();
+	            WebView.EvalScript("$(\"" + selector + "\").focus();");
+            });
+
+	        return true;
+        }
 
         public MoveToElementResult MoveToElement(string selector)
         {

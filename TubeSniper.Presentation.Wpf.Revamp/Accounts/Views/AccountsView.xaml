@@ -12,7 +12,7 @@
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="pack://application:,,,/TubeSniper.Presentation.Wpf;component/Themes/Master.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/TubeSniper.Presentation.Wpf;component/Themes/Global/Include.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </UserControl.Resources>
@@ -31,7 +31,8 @@
                 <TextBlock FontWeight="Light" FontSize="18" Text="Manage your YouTube accounts." />
 
             </StackPanel>
-            <Button Grid.Column="1" Background="White" FontSize="50" BorderThickness="0.6" HorizontalAlignment="Right" Margin="12" BorderBrush="Black"  Padding="0,-15,0,0" Height="50" Width="50" VerticalAlignment="Center" Content="+" Command="{Binding CreateAccount}"/>
+            <Button Style="{StaticResource Global.Buttons.IconButton}"  Grid.Column="1" FontSize="50"  HorizontalAlignment="Right" Margin="12"
+                    VerticalAlignment="Center" Content="+" Command="{Binding CreateAccount}" Padding="0,-7,0,0"/>
         </Grid>
         <Grid Margin="0 10 0 0" Grid.Row="1">
             <Border Margin="15,10,15,15" CornerRadius="4" Background="White">

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using TubeSniper.Core.Domain.Proxies;
 
 namespace TubeSniper.Core.Application.Proxies
@@ -8,5 +9,6 @@ namespace TubeSniper.Core.Application.Proxies
 		void Delete(Guid id);
 		void Insert(ProxyEntry proxyEntry);
 		void Update(ProxyEntry proxyEntry);
+		List<HttpProxy> ImportFromFile(string path);
 	}
 }

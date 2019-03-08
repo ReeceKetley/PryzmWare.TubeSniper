@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using TubeSniper.Core.Application.Accounts;
 using TubeSniper.Core.Domain.Campaigns;
 using TubeSniper.Core.Domain.Proxies;

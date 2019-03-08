@@ -14,8 +14,8 @@ namespace TubeSniper.Presentation.Wpf.ViewModels.SettingsEditor
 {
     public class SettingsViewModel : ViewModelBase
     {
-	    public string MinTypeSpeed { get; set; } = SettingsStorage.MinTypeSpeed.ToString();
-	    public string MaxTypeSpeed { get; set; } = SettingsStorage.MaxTypeSpeed.ToString();
+	    public string MinTypeSpeed { get; set; } = "0";
+	    public string MaxTypeSpeed { get; set; } = "200";
 
 		private ICommand _clearCache;
 		private ICommand _saveCommand;

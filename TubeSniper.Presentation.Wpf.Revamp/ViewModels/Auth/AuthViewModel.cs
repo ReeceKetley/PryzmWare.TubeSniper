@@ -27,7 +27,7 @@ namespace TubeSniper.Presentation.Wpf.ViewModels.Auth
 
 		public string LicenseKey { get; set; }
 
-		public LicenseKey Key { get; set; }
+		public ProductKey Key { get; set; }
 
 		public string this[string columnName]
 		{
@@ -60,7 +60,7 @@ namespace TubeSniper.Presentation.Wpf.ViewModels.Auth
 
 		private void SubmitKey(object obj)
 		{
-			Key = new LicenseKey(LicenseKey);
+			Key = new ProductKey(LicenseKey);
 			OnSubmitted();
 		}
 

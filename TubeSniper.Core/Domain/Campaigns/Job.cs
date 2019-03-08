@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Net;
-using TubeSniper.Core.Domain.Auth;
+using TubeSniper.Core.Domain.Proxies;
 using TubeSniper.Core.Domain.Youtube;
 using TubeSniper.Core.Services;
 
@@ -9,13 +9,11 @@ namespace TubeSniper.Core.Domain.Campaigns
 	public class Job : IJob
 	{
 		private YoutubeAccount _account;
-		private WebProxy _proxy;
+		private HttpProxy _proxy;
 
-		public void Run(YoutubeAccount account, WebProxy proxy, YoutubeVideo video, CommentRegister comment, bool asReply)
+		public void Run(YoutubeAccount account, HttpProxy proxy, YoutubeVideo video, CommentRegister comment, bool asReply)
 		{
-			Console.WriteLine("RUN1");
 			_account = account;
-			//Console.WriteLine("Proxy: Job.cs"  + proxy.Address.Host);
 			_proxy = proxy;
 			var bot = new YoutubeBot(account, proxy, video, comment.Generate(), true, asReply);
 			bot.StatusChanged += Bot_StatusChanged;
@@ -39,23 +37,18 @@ namespace TubeSniper.Core.Domain.Campaigns
 
 			comment.Comment = e.Comment;
 			comment.Email = _account.Credentials.Email;
-
-			//var commentThumbnail = e.Video.ThumbnailUrl;
-			//GeneralHelpers.
-			//comment.Thumbnail = commentThumbnail;
-			//Console.WriteLine("Job: [Comment Posted] :  {0} - {1}", e.Meta.GetTitle(), e.Comment);
 			OnVideoProcessed(e);
 		}
 
 		private void Bot_Error(object sender, FatalErrorEventArgs e)
 		{
-			//Console.WriteLine("Job: [Error Event] : {0}", e.Error);
+			Console.WriteLine("Job: [Error Event] : {0}", e.Error);
 			OnFatalError(e);
 		}
 
 		private void Bot_StatusChanged(object sender, StatusChangedEventArgs e)
 		{
-			//Console.WriteLine("Job: [Status Event] : {0}", e.Status);
+			Console.WriteLine("Job: [Status Event] : {0}", e.Status);
 			OnStatusChanged(e);
 		}
 

@@ -1,5 +1,6 @@
 ﻿using System.Net;
 using TubeSniper.Core.Domain.Browser;
+using TubeSniper.Core.Domain.Proxies;
 using TubeSniper.Core.Interfaces;
 
 namespace TubeSniper.Core.Domain.Youtube
@@ -9,15 +10,15 @@ namespace TubeSniper.Core.Domain.Youtube
 		private ILoginService _loginService;
 		private YoutubeVideoPage _videoPage;
 
-		public YoutubeBrowser(WebProxy proxy, YoutubeAccount account, bool useCache = false)
+		public YoutubeBrowser(HttpProxy proxy, YoutubeAccount account, bool useCache = false)
 		{
 			Proxy = proxy;
-			Browser = VirtualBrowser.Create(proxy, account, useCache);
+			Browser = VirtualBrowser.Create(proxy.ToWebProxy(), account, useCache);
 		}
 
 		public VirtualBrowser Browser { get; }
 
-		public WebProxy Proxy { get; }
+		public HttpProxy Proxy { get; }
 
 		public LoginResultCode Login(YoutubeAccount credentials)
 		{
@@ -27,7 +28,7 @@ namespace TubeSniper.Core.Domain.Youtube
 
 		public bool LoadVideoById(string videoId)
 		{
-			return Browser.LoadUrlAndVerify("https://www.youtube.com/watch?v=" + videoId);
+			return Browser.LoadUrlAndVerify("https://m.youtube.com/watch?v=" + videoId);
 		}
 
 		public CommentPostedResult PostComment(YoutubeBrowser browser, YoutubeVideo video, string comment, bool asReply)

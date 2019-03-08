@@ -59,7 +59,11 @@ namespace TubeSniper.Presentation.Wpf.ViewModels.Campaigns
 
 		private void CampaignEvents_OnCampaignUpdated(object sender, CampaignUpdated e)
 		{
-			// do something here
+			var viewModels = Tiles.Where(x => x.Campaign.Id == e.Campaign.Id).ToList();
+			foreach (var viewModel in viewModels)
+			{
+				viewModel.Campaign = e.Campaign;
+			}
 		}
 	}
 }

@@ -1,0 +1,59 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:common="clr-namespace:TubeSniper.Presentation.Wpf.Common"
+                    xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls">
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="../Global/Fonts.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+
+    <Style x:Key="Global.Buttons.ButtonBase" TargetType="{x:Type Button}" BasedOn="{StaticResource MetroButton}">
+        <Setter Property="Cursor" Value="Hand"/>
+        <Setter Property="FontFamily" Value="{StaticResource Montserrat-Regular}" />
+        <Setter Property="FontSize" Value="14" />
+        <Setter Property="mah:ControlsHelper.ContentCharacterCasing" Value="Normal" />
+    </Style>
+
+    <Style x:Key="Global.Buttons.ActionButton" TargetType="{x:Type Button}" BasedOn="{StaticResource MetroButton}">
+        <Setter Property="Cursor" Value="Hand"/>
+        <Setter Property="FontFamily" Value="{StaticResource Montserrat-Regular}" />
+        <Setter Property="mah:ControlsHelper.ContentCharacterCasing" Value="Normal" />
+        <Setter Property="FontSize" Value="10"/>
+    </Style>
+
+    <Style TargetType="{x:Type GroupBox}" BasedOn="{StaticResource MetroGroupBox}">
+        <Setter Property="Background" Value="#FF111926" />
+        <Setter Property="BorderBrush" Value="#111926" />
+        <Setter Property="Padding" Value="10" />
+        <Setter Property="mah:ControlsHelper.ContentCharacterCasing" Value="Normal" />
+        <Setter Property="SnapsToDevicePixels" Value="True" />
+        <Setter Property="mah:ControlsHelper.HeaderFontSize" Value="16" />
+    </Style>
+
+    <Style TargetType="{x:Type Button}" BasedOn="{StaticResource Global.Buttons.ButtonBase}">
+    </Style>
+
+    <Style x:Key="Global.Buttons.IconButton" TargetType="{x:Type Button}" BasedOn="{StaticResource Global.Buttons.ButtonBase}">
+        <Setter Property="Background" Value="White" />
+        <Setter Property="FontSize" Value="25" />
+        <Setter Property="BorderThickness" Value="0.6" />
+        <Setter Property="BorderBrush" Value="Black" />
+        <Setter Property="HorizontalContentAlignment" Value="Center" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="Height" Value="50" />
+        <Setter Property="Width" Value="50" />
+        <Setter Property="FontFamily" Value="{StaticResource FontAwesome-Solid}" />
+        <Setter Property="mah:ControlsHelper.CornerRadius" Value="3" />
+    </Style>
+
+    <Style x:Key="Global.Buttons.Save" TargetType="{x:Type Button}" BasedOn="{StaticResource Global.Buttons.IconButton}">
+        <Setter Property="Content" Value="{x:Static common:FontAwesome.Check}" />
+    </Style>
+    <Style x:Key="Global.Buttons.Plus" TargetType="{x:Type Button}" BasedOn="{StaticResource Global.Buttons.IconButton}">
+        <Setter Property="Content" Value="{x:Static common:FontAwesome.Plus}" />
+    </Style>
+
+    <Style x:Key="Global.Buttons.Import" TargetType="{x:Type Button}" BasedOn="{StaticResource Global.Buttons.IconButton}">
+        <Setter Property="Content" Value="{x:Static common:FontAwesome.File_import}" />
+    </Style>
+</ResourceDictionary>

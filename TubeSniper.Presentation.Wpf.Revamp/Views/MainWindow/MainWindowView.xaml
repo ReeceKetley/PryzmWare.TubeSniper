@@ -3,14 +3,12 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:TubeSniper.Presentation.Wpf"
-        xmlns:views="clr-namespace:TubeSniper.Presentation.Wpf.Accounts.Views"
-        xmlns:proxiesViews="clr-namespace:TubeSniper.Presentation.Wpf.Proxies.Views"
-        xmlns:Controls="clr-namespace:TubeSniper.Presentation.Wpf.Controls"
-        xmlns:mainWindow="clr-namespace:TubeSniper.Presentation.Wpf.Views.MainWindow"
+    xmlns:views="clr-namespace:TubeSniper.Presentation.Wpf.Accounts.Views"
+    xmlns:mainWindow="clr-namespace:TubeSniper.Presentation.Wpf.Views.MainWindow"
         xmlns:campaigns="clr-namespace:TubeSniper.Presentation.Wpf.Views.Campaigns"
         xmlns:successMonitor="clr-namespace:TubeSniper.Presentation.Wpf.Views.SuccessMonitor"
         xmlns:settingsEditor="clr-namespace:TubeSniper.Presentation.Wpf.Views.SettingsEditor"
+        xmlns:proxyEditor="clr-namespace:TubeSniper.Presentation.Wpf.Views.ProxyEditor"
         x:Class="TubeSniper.Presentation.Wpf.Views.MainWindow.MainWindowView"
         mc:Ignorable="d"
         Title="TubeSniper - PryzmWare" Height="600" Width="900" ResizeMode="CanMinimize" WindowStartupLocation="CenterScreen"
@@ -18,7 +16,7 @@
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="pack://application:,,,/TubeSniper.Presentation.Wpf;component/Themes/Master.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/TubeSniper.Presentation.Wpf;component/Themes/Global/Include.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Window.Resources>
@@ -36,9 +34,9 @@
                 <views:AccountsView />
             </TabItem>
             <TabItem Header="Proxies" Visibility="Collapsed">
-                <proxiesViews:ProxiesView />
+                <proxyEditor:ProxiesView />
             </TabItem>
-            <TabItem Header="Success Moniter" Visibility="Collapsed">
+            <TabItem Header="Success Monitor" Visibility="Collapsed">
                 <successMonitor:SuccessView />
             </TabItem>
             <TabItem Header="Settings" Visibility="Collapsed">
