@@ -1,8 +1,8 @@
 ﻿using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Input;
-using TubeSniper.Core.Application.Events.Campaigns;
-using TubeSniper.Core.Interfaces;
+using TubeSniper.Application.Events.Campaigns;
+using TubeSniper.Domain.Campaigns;
 using TubeSniper.Presentation.Wpf.Commands;
 using TubeSniper.Presentation.Wpf.Common;
 using TubeSniper.Presentation.Wpf.Views.CampaignEditor;

@@ -2,10 +2,9 @@
 using System.Collections.ObjectModel;
 using System.Windows.Data;
 using System.Windows.Input;
-using TubeSniper.Core;
-using TubeSniper.Core.Domain.Campaigns;
-using TubeSniper.Core.Domain.Youtube;
-using TubeSniper.Core.Interfaces;
+using TubeSniper.Domain;
+using TubeSniper.Domain.Campaigns;
+using TubeSniper.Domain.Youtube;
 using TubeSniper.Presentation.Wpf.Commands;
 using TubeSniper.Presentation.Wpf.Common;
 using TubeSniper.Presentation.Wpf.Views.CampaignEditor;
@@ -31,7 +30,6 @@ namespace TubeSniper.Presentation.Wpf.ViewModels.Campaigns
 			_campaignService = campaignService;
 			_warningCount = 0;
 			BindingOperations.EnableCollectionSynchronization(StatusLog, _statusLock);
-			SharedData.CurrentStep += SharedData_CurrentStep;
 		}
 
 		public ObservableCollection<string> StatusLog { get; private set; } = new ObservableCollection<string>();
@@ -45,7 +43,6 @@ namespace TubeSniper.Presentation.Wpf.ViewModels.Campaigns
 		public ICommand StartCommand => _startCommand ?? (_startCommand = new RelayCommand(Start));
 
 
-		public ICommand StopCommand => _stopCommand ?? (_stopCommand = new RelayCommand(Stop));
 		public ICommand EditCommand => _editCommand ?? (_editCommand = new RelayCommand(Edit));
 		public ICommand DeleteCommand => _deleteCommand ?? (_deleteCommand = new RelayCommand(Delete));
 		public ICommand AdvancedCommand => _advancedCommand ?? (_advancedCommand = new RelayCommand(AdvancedView));
@@ -137,7 +134,6 @@ namespace TubeSniper.Presentation.Wpf.ViewModels.Campaigns
 			Campaign.StatusChanged += Campaign_StatusChanged;
 			Campaign.VideoProcessed += Campaign_VideoProcessed;
 			Campaign.FatalError += Campaign_FatalError;
-			Campaign.NetworkError += Campaign_NetworkError;
 			Campaign.CampaignStarted += Campaign_CampaignStarted;
 			Campaign.CampaignStopped += Campaign_CampaignStopped;
 		}
@@ -173,10 +169,6 @@ namespace TubeSniper.Presentation.Wpf.ViewModels.Campaigns
 			}
 		}
 
-		private void Stop(object obj)
-		{
-		}
-
 		private void Edit(object obj)
 		{
 			if (IsRunning)
@@ -193,7 +185,7 @@ namespace TubeSniper.Presentation.Wpf.ViewModels.Campaigns
 		// ReSharper disable once UnusedMember.Local
 		private void OnCampaignChanged()
 		{
-			Title = Campaign.CampaignMeta.Title;
+			Title = Campaign.Meta.Title;
 			InstallEvents();
 		}
 

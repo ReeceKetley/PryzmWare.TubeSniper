@@ -1,5 +1,5 @@
 ﻿using FluentValidation;
-using TubeSniper.Core.Domain.Auth;
+using TubeSniper.Domain.Auth;
 using TubeSniper.Presentation.Wpf.ViewModels.Auth;
 
 namespace TubeSniper.Presentation.Wpf.Validators.Auth

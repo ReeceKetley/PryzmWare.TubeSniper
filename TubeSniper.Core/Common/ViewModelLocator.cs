@@ -1,4 +1,0 @@
-﻿namespace TubeSniper.Core.Common
-{
-
-}

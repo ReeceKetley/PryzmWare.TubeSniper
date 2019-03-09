@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.ObjectModel;
-using System.Windows;
 using System.Windows.Data;
 using System.Windows.Threading;
-using TubeSniper.Core.Domain.Campaigns;
-using TubeSniper.Core.Domain.Youtube;
+using TubeSniper.Domain.Campaigns;
+using TubeSniper.Domain.Youtube;
 
 namespace TubeSniper.Presentation.Wpf.ViewModels.Campaigns
 {
@@ -23,7 +22,7 @@ namespace TubeSniper.Presentation.Wpf.ViewModels.Campaigns
 
 		private void Campaign_StatusChanged(object sender, StatusChangedEventArgs e)
 		{
-			Application.Current.Dispatcher.BeginInvoke(
+			System.Windows.Application.Current.Dispatcher.BeginInvoke(
 				DispatcherPriority.Background,
 				new Action(() => { StatusLog.Add("[" + DateTime.Now.ToShortTimeString() + "] [Status Event] - " + e.Status); }));
 		}
@@ -41,8 +40,7 @@ namespace TubeSniper.Presentation.Wpf.ViewModels.Campaigns
 				Campaign.StatusChanged += Campaign_StatusChanged;
 				Campaign.VideoProcessed += CampaignOnVideoProcessed;
 				Campaign.FatalError += CampaignOnFatalError;
-				Campaign.NetworkError += CampaignOnNetworkError;
-				foreach (var campaignMetaAccount in Campaign.CampaignMeta.Accounts)
+				foreach (var campaignMetaAccount in Campaign.Meta.Accounts)
 				{
 					//Console.WriteLine(campaignMetaAccount.Credentials.Email);
 					CredentailList.Add(campaignMetaAccount.Credentials.Email);
@@ -52,21 +50,21 @@ namespace TubeSniper.Presentation.Wpf.ViewModels.Campaigns
 
 		private void CampaignOnNetworkError(object sender, EventArgs e)
 		{
-			Application.Current.Dispatcher.BeginInvoke(
+			System.Windows.Application.Current.Dispatcher.BeginInvoke(
 				DispatcherPriority.Background,
 				new Action(() => { StatusLog.Add("[" + DateTime.Now.ToShortTimeString() + "] [Unkown Network Error] - Retrying"); }));
 		}
 
 		private void CampaignOnFatalError(object sender, FatalErrorEventArgs e)
 		{
-			Application.Current.Dispatcher.BeginInvoke(
+			System.Windows.Application.Current.Dispatcher.BeginInvoke(
 				DispatcherPriority.Background,
 				new Action(() => { StatusLog.Add("[" + DateTime.Now.ToShortTimeString() + "] [Error Event] - " + e.Error); }));
 		}
 
 		private void CampaignOnVideoProcessed(object sender, VideoProcessedEventArgs e)
 		{
-			Application.Current.Dispatcher.BeginInvoke(
+			System.Windows.Application.Current.Dispatcher.BeginInvoke(
 				DispatcherPriority.Background,
 				new Action(() => { StatusLog.Add("[" + DateTime.Now.ToShortTimeString() + "] [Video Processed] - " + e.Video.Title + " - " + e.Comment + " - " + e.Video.Url); }));
 		}

@@ -1,12 +1,12 @@
 ﻿using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Input;
-using TubeSniper.Core.Application.Events.Proxies;
-using TubeSniper.Core.Application.Proxies;
-using TubeSniper.Core.Domain.Proxies;
+using TubeSniper.Application.Events.Proxies;
+using TubeSniper.Application.Proxies;
+using TubeSniper.Application.Services;
+using TubeSniper.Domain.Proxies;
 using TubeSniper.Presentation.Wpf.Commands;
 using TubeSniper.Presentation.Wpf.Common;
-using TubeSniper.Presentation.Wpf.Services;
 using TubeSniper.Presentation.Wpf.Views.ProxyEditor;
 
 namespace TubeSniper.Presentation.Wpf.ViewModels.ProxyEditor

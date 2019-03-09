@@ -1,5 +1,5 @@
-﻿using TubeSniper.Core.Domain.Campaigns;
-using TubeSniper.Core.Domain.Youtube;
+﻿using TubeSniper.Domain.Campaigns;
+using TubeSniper.Domain.Youtube;
 
 namespace TubeSniper.Presentation.Wpf.ViewModels.SuccessMonitor
 {

@@ -2,7 +2,7 @@
 using System.ComponentModel;
 using System.Linq;
 using System.Windows.Input;
-using TubeSniper.Core.Domain.Auth;
+using TubeSniper.Domain.Auth;
 using TubeSniper.Presentation.Wpf.Commands;
 
 namespace TubeSniper.Presentation.Wpf.ViewModels.Auth

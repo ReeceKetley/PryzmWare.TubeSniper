@@ -1,4 +1,4 @@
-﻿using TubeSniper.Core.Common;
+﻿using TubeSniper.Domain.Common;
 
 namespace TubeSniper.Presentation.Wpf.Common
 {

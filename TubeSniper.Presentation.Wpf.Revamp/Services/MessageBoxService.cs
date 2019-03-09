@@ -1,5 +1,6 @@
 ﻿using System.Windows.Forms;
-using TubeSniper.Core;
+using TubeSniper.Application.Services;
+using TubeSniper.Domain;
 
 namespace TubeSniper.Presentation.Wpf.Services
 {

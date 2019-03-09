@@ -1,5 +1,6 @@
 ﻿using System;
 using Microsoft.Win32;
+using TubeSniper.Application.Services;
 
 namespace TubeSniper.Presentation.Wpf.Services
 {

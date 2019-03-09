@@ -1,13 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
-using TubeSniper.Core;
-using TubeSniper.Infrastructure.Services;
 using TubeSniper.Presentation.Wpf.Commands;
 
 namespace TubeSniper.Presentation.Wpf.ViewModels.SettingsEditor
@@ -39,8 +33,6 @@ namespace TubeSniper.Presentation.Wpf.ViewModels.SettingsEditor
 
 	    private void SaveSettings(object obj)
 	    {
-		    RegistryClass.SaveStringSetting("TypeSpeedMin", MinTypeSpeed);
-		    RegistryClass.SaveStringSetting("TypeSpeedMax", MaxTypeSpeed);
 		    System.Windows.MessageBox.Show("Settings have been updated.", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
 
 		}

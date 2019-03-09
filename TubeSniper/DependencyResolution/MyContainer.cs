@@ -1,5 +1,5 @@
 ﻿using SimpleInjector;
-using TubeSniper.Core.Interfaces;
+using TubeSniper.Domain.Interfaces;
 
 namespace TubeSniper.DependencyResolution
 {

@@ -1,8 +1,6 @@
-﻿using Newtonsoft.Json.Linq;
-using System;
-using System.Windows.Forms;
+﻿using System;
 using Newtonsoft.Json;
-using TubeSniper.Core.Domain.Auth;
+using TubeSniper.Domain.Auth;
 using TubeSniper.Infrastructure.Common;
 using TubeSniperApi.Client;
 
@@ -20,8 +18,7 @@ namespace TubeSniper.Infrastructure.Services
 			}
 			catch (Exception)
 			{
-				MessageBox.Show("Unable to conenct to PryzmAPI Service. Check internet or proxy settings.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-				Application.Exit();
+				return null;
 			}
 
 			if (response != null && response.Response["CloudRailKey"] == null)
@@ -37,17 +34,7 @@ namespace TubeSniper.Infrastructure.Services
 			{
 				throw new Exception();
 			}
-//			var selctorPayload = new SelectorPayload();
-//			selctorPayload.CloudRailKey = response.Response["CloudRailKey"].Value<string>();
-//			selctorPayload.CloudRailSecret = response.Response["CloudRailSecret"].Value<string>();
-//			selctorPayload.InputTypePasswordEqFocus = response.Response["InputTypePasswordEqFocus"].Value<string>();
-//			selctorPayload.ImgSrcCaptchaAttrSrc = response.Response["ImgSrcCaptchaAttrSrc"].Value<string>();
-//			selctorPayload.InputTypeTextEqFocus = response.Response["InputTypeTextEqFocus"].Value<string>();
-//			selctorPayload.ImgSrcCaptchaLength = response.Response["ImgSrcCaptchaLength"].Value<string>();
-//			selctorPayload.LoginEmailidentifierid = response.Response["LoginEmailidentifierid"].Value<string>();
-//			selctorPayload.SigninV2Identifier = response.Response["SigninV2Identifier"].Value<string>();
-//			selctorPayload.TypeofJqueryUndefinedInputTypePasswordAttrAriaInvalid = response.Response["TypeofJqueryUndefinedInputTypePasswordAttrAriaInvalid"].Value<string>();
-//			selctorPayload.SigninV2SlPwd = response.Response["SigninV2SlPwd"].Value<string>();
+
 			return dto;
 		}
 
@@ -87,7 +74,6 @@ namespace TubeSniper.Infrastructure.Services
 			}
 			catch (InternetException)
 			{
-				// TODO: Do failsafe checks.
 				return CheckNewActivationCode.InternetException;
 				//System.Windows.Forms.MessageBox.Show("Unable to reach activation servers. Please check your internet connection and try again.", "", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 			}

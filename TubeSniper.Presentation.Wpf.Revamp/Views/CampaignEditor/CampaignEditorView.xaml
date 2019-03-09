@@ -76,8 +76,6 @@
 
                 <TextBlock Grid.Row="7" Grid.Column="0" Text="Accounts:" FontSize="16" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="3 6 3 3" />
                 <ListView Grid.Row="7" Grid.Column="1" BorderBrush="#cccccc" BorderThickness="1"  ItemsSource="{Binding Accounts}" behaviors:MultiSelectorBehaviours.SynchronizedSelectedItems="{Binding SelectedAccounts}" SelectionMode="Multiple" Height="150" Margin="3" />
-                <Image HorizontalAlignment="Left" Height="16" Margin="122,9,0,0" Grid.Row="7" Grid.Column="0" VerticalAlignment="Top" Width="16" RenderTransformOrigin="0.729,-1.604" Source="/TubeSniper.Presentation.Wpf;component/Resources/exclamation-triangle.png" Visibility="Hidden"/>
-                <Image x:Name="ProxyErrorImg" HorizontalAlignment="Left" Height="16" Margin="122,9,0,0" Grid.Row="6" Grid.Column="0" VerticalAlignment="Top" Width="16" RenderTransformOrigin="0.729,-1.604" Source="/TubeSniper.Presentation.Wpf;component/Resources/exclamation-triangle.png" Visibility="Hidden"/>
                 <Button Style="{StaticResource Global.Buttons.ActionButton}"  Grid.Column="0" Content="Select/Deselect All" HorizontalAlignment="Left" Margin="3,27,0,0" Grid.Row="6" VerticalAlignment="Top" Padding="7"
                         Command="{Binding SelectAllProxiesCommand}"/>
                 <Button Style="{StaticResource Global.Buttons.ActionButton}" Grid.Column="0" Content="Select/Deselect All" HorizontalAlignment="Left" Margin="3,27,0,0" Grid.Row="7" VerticalAlignment="Top" Padding="7"

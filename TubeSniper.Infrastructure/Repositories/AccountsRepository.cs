@@ -1,19 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using LiteDB;
-using TubeSniper.Core.Application.Accounts;
-using TubeSniper.Core.Domain.Youtube;
-using TubeSniper.Core.Interfaces.Persistence;
+using TubeSniper.Application.Accounts;
+using TubeSniper.Domain.Interfaces.Persistence;
+using TubeSniper.Domain.Youtube;
 
 namespace TubeSniper.Infrastructure.Repositories
 {
 	public class AccountsRepository : IAccountsRepository
 	{
-		private LiteDatabase _database = new LiteDatabase(@"data\core.dat");
-
-		public AccountsRepository()
-		{
-		}
+		private readonly LiteDatabase _database = new LiteDatabase(@"data\core.dat");
 
 		public void Insert(YoutubeAccount account)
 		{

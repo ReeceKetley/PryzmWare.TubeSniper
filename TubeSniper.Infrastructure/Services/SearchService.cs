@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using Com.CloudRail.SI.Types;
-using TubeSniper.Core.Domain.Youtube;
-using TubeSniper.Core.Interfaces;
+using TubeSniper.Domain.Interfaces;
+using TubeSniper.Domain.Youtube;
 using TubeSniper.Infrastructure.Common;
 
 namespace TubeSniper.Infrastructure.Services
@@ -19,12 +19,12 @@ namespace TubeSniper.Infrastructure.Services
 			var videos = new List<VideoMetaData>();
 
 			var offset = 0;
-			for (; ; )
+			for (;;)
 			{
-				List<VideoMetaData> vids;
+				List<VideoMetaData> result;
 				try
 				{
-					vids = YouTubeApi.YouTubeClient.SearchVideos(query, offset, maxResults);
+					result = YouTubeApi.YouTubeClient.SearchVideos(query, offset, maxResults);
 				}
 				catch (Exception e)
 				{
@@ -32,22 +32,25 @@ namespace TubeSniper.Infrastructure.Services
 					throw;
 				}
 
-				if (vids == null || vids.Count < 1)
+				if (result == null || result.Count < 1)
 				{
 					break;
 				}
-				offset += vids.Count;
-				videos.AddRange(vids);
+
+				offset += result.Count;
+				videos.AddRange(result);
 				if (videos.Count >= maxResults)
 				{
 					break;
 				}
 			}
+
 			var youtubeVideos = new List<YoutubeVideo>();
 			foreach (var videoMetaData in videos)
 			{
 				youtubeVideos.Add(new YoutubeVideo(videoMetaData.GetId(), videoMetaData.GetTitle(), videoMetaData.GetThumbnailUrl(), videoMetaData.GetChannelId()));
 			}
+
 			return youtubeVideos;
 		}
 

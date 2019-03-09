@@ -1,4 +1,4 @@
-﻿using TubeSniper.Core.Common;
+﻿using TubeSniper.Domain.Common;
 using TubeSniper.Presentation.Wpf.Accounts.ViewModels;
 using TubeSniper.Presentation.Wpf.ViewModels.Auth;
 using TubeSniper.Presentation.Wpf.ViewModels.CampaignEditor;

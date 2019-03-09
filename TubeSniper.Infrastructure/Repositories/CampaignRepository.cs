@@ -1,20 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
 using LiteDB;
-using TubeSniper.Core.Application.Campaigns;
-using TubeSniper.Core.Domain.Campaigns;
-using TubeSniper.Core.Interfaces.Persistence;
+using TubeSniper.Application.Campaigns;
+using TubeSniper.Domain.Campaigns;
+using TubeSniper.Domain.Interfaces.Persistence;
 
 namespace TubeSniper.Infrastructure.Repositories
 {
 	public class CampaignRepository : ICampaignRepository
 	{
-		private readonly ICampaignMappper _campaignMappper;
-		private LiteDatabase _database = new LiteDatabase(@"data\core.dat");
+		private readonly ICampaignMapper _campaignMapper;
+		private readonly LiteDatabase _database = new LiteDatabase(@"data\core.dat");
 
-		public CampaignRepository(ICampaignMappper campaignMappper)
+		public CampaignRepository(ICampaignMapper campaignMapper)
 		{
-			_campaignMappper = campaignMappper;
+			_campaignMapper = campaignMapper;
 		}
 
 		public void Insert(Campaign campaign)
@@ -24,21 +24,21 @@ namespace TubeSniper.Infrastructure.Repositories
 				campaign.Id = Guid.NewGuid();
 			}
 
-			var campaignDto = _campaignMappper.Map(campaign);
+			var campaignDto = _campaignMapper.Map(campaign);
 			var collection = _database.GetCollection<CampaignDto>("campaigns");
 			collection.Insert(campaignDto);
 		}
 
 		public void Delete(Campaign campaign)
 		{
-			var campaignDto = _campaignMappper.Map(campaign);
+			var campaignDto = _campaignMapper.Map(campaign);
 			var collection = _database.GetCollection<CampaignDto>("campaigns");
 			collection.Delete(campaignDto.Id);
 		}
 
 		public void Update(Campaign campaign)
 		{
-			var campaignDto = _campaignMappper.Map(campaign);
+			var campaignDto = _campaignMapper.Map(campaign);
 			var collection = _database.GetCollection<CampaignDto>("campaigns");
 			collection.Update(campaignDto);
 		}
@@ -49,7 +49,7 @@ namespace TubeSniper.Infrastructure.Repositories
 			var list = new List<Campaign>();
 			foreach (var campaignDto in collection.FindAll())
 			{
-				var campaign = _campaignMappper.Map(campaignDto);
+				var campaign = _campaignMapper.Map(campaignDto);
 				list.Add(campaign);
 			}
 
@@ -60,14 +60,14 @@ namespace TubeSniper.Infrastructure.Repositories
 		{
 			var collection = _database.GetCollection<CampaignDto>("campaigns");
 			var campaignDto = collection.FindOne(x => x.Id == id);
-			return _campaignMappper.Map(campaignDto);
+			return _campaignMapper.Map(campaignDto);
 		}
 
 		public Campaign GetByIdOrDefault(Guid id)
 		{
 			var collection = _database.GetCollection<CampaignDto>("campaigns");
 			var campaignDto = collection.FindOne(x => x.Id == id);
-			return _campaignMappper.Map(campaignDto);
+			return _campaignMapper.Map(campaignDto);
 		}
 	}
 }

@@ -1,5 +1,4 @@
-﻿using System.Security.Principal;
-using System.Windows;
+﻿using System.Windows;
 using TubeSniper.Presentation.Wpf.Common;
 
 namespace TubeSniper.Presentation.Wpf.Views.MainWindow

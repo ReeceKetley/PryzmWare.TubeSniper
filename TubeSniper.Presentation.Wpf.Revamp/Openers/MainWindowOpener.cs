@@ -2,10 +2,9 @@
 using System.IO;
 using System.Windows;
 using System.Windows.Forms;
-using TubeSniper.Core.Domain.Auth;
+using TubeSniper.Domain.Auth;
 using TubeSniper.Presentation.Wpf.Common;
 using TubeSniper.Presentation.Wpf.ViewModels.Auth;
-using Application = System.Windows.Application;
 using AuthLoadingView = TubeSniper.Presentation.Wpf.Views.Auth.AuthLoadingView;
 using AuthView = TubeSniper.Presentation.Wpf.Views.Auth.AuthView;
 
@@ -14,7 +13,7 @@ namespace TubeSniper.Presentation.Wpf.Openers
 	public class MainWindowOpener
 	{
 		private readonly IAuthService _authService;
-		private Application _app;
+		private System.Windows.Application _app;
 
 		public MainWindowOpener(IAuthService authService)
 		{
@@ -27,7 +26,7 @@ namespace TubeSniper.Presentation.Wpf.Openers
 			{
 				Directory.CreateDirectory(Path.Combine(Environment.CurrentDirectory, "data"));
 			}
-			var app = new Application();
+			var app = new System.Windows.Application();
 			app.ShutdownMode = ShutdownMode.OnExplicitShutdown;
 			_app = app;
 

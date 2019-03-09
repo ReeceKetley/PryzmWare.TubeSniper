@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Input;
-using TubeSniper.Core.Application.Proxies;
-using TubeSniper.Core.Domain.Proxies;
+using TubeSniper.Application.Proxies;
+using TubeSniper.Domain.Proxies;
 using TubeSniper.Presentation.Wpf.Commands;
 
 namespace TubeSniper.Presentation.Wpf.ViewModels.ProxyEditor

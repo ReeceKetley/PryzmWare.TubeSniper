@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
-using TubeSniper.Core.Domain;
-using TubeSniper.Core.Domain.Auth;
+using TubeSniper.Domain;
+using TubeSniper.Domain.Auth;
 
 namespace TubeSniper.Presentation.Wpf.ViewModels.Auth
 {

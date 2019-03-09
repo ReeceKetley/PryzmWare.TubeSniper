@@ -4,11 +4,12 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Windows.Input;
-using TubeSniper.Core.Domain.Campaigns;
-using TubeSniper.Core.Domain.Proxies;
-using TubeSniper.Core.Domain.Youtube;
-using TubeSniper.Core.Interfaces;
-using TubeSniper.Core.Interfaces.Persistence;
+using TubeSniper.Domain.Campaigns;
+using TubeSniper.Domain.Interfaces;
+using TubeSniper.Domain.Interfaces.Persistence;
+using TubeSniper.Domain.Proxies;
+using TubeSniper.Domain.Services;
+using TubeSniper.Domain.Youtube;
 using TubeSniper.Presentation.Wpf.Commands;
 using TubeSniper.Presentation.Wpf.Validators.CampaignEditor;
 
@@ -19,6 +20,8 @@ namespace TubeSniper.Presentation.Wpf.ViewModels.CampaignEditor
 		private readonly IAccountsRepository _accountsRepository;
 		private readonly ICampaignService _campaignService;
 		private readonly ISearchService _searchService;
+		private readonly ICaptchaService _captchaService;
+		private readonly IProxyTestService _proxyTestService;
 		private readonly IProxyRepository _proxyRepository;
 		private readonly CampaignEditorViewModelValidator _validator;
 		private Guid _campaignId;
@@ -26,13 +29,15 @@ namespace TubeSniper.Presentation.Wpf.ViewModels.CampaignEditor
 		private ICommand _selectAllAccountsCommand;
 		private ICommand _selectAllProxiesCommand;
 
-		public CampaignEditorViewModel(IAccountsRepository accountsRepository, IProxyRepository proxyRepository, ICampaignService campaignService, ISearchService searchService)
+		public CampaignEditorViewModel(IAccountsRepository accountsRepository, IProxyRepository proxyRepository, ICampaignService campaignService, ISearchService searchService, ICaptchaService captchaService, IProxyTestService proxyTestService)
 		{
 			//SelectedProxies.CollectionChanged += SelectedProxies_CollectionChanged;
 			_accountsRepository = accountsRepository;
 			_proxyRepository = proxyRepository;
 			_campaignService = campaignService;
 			_searchService = searchService;
+			_captchaService = captchaService;
+			_proxyTestService = proxyTestService;
 
 			_validator = new CampaignEditorViewModelValidator();
 
@@ -185,10 +190,9 @@ namespace TubeSniper.Presentation.Wpf.ViewModels.CampaignEditor
 				proxies.AddRange(_proxyRepository.GetAll().Where(proxyEntry => proxyEntry.Proxy.Address.Host + ":" + proxyEntry.Proxy.Address.Port == proxy));
 			}
 
-			var proxyRegister = new ProxyRegister(proxies);
-			campaignMeta.ProxyRegister = proxyRegister;
+			var proxyRegister = new ProxyCollection(proxies);
 			campaignMeta.Accounts = accounts;
-			var campaign = new Campaign(campaignMeta, new StandardAccountRegister(accounts), SearchKeyword, Comment, new Dictionary<string, string>(), PostAsReply, _searchService);
+			var campaign = new Campaign(proxyRegister, campaignMeta, new StandardAccountRegister(accounts), SearchKeyword, new CommentGenerator(new CommentTemplate(Comment)), PostAsReply, _searchService, _captchaService, _proxyTestService);
 			campaign.Id = _campaignId; // Not sure if this the error TODO: Check this.
 			return campaign;
 		}
@@ -205,9 +209,9 @@ namespace TubeSniper.Presentation.Wpf.ViewModels.CampaignEditor
 		{
 			Console.WriteLine(campaign.Id);
 			_campaignId = campaign.Id;
-			Title = campaign.CampaignMeta.Title;
-			SearchKeyword = campaign.CampaignMeta.SearchTerm;
-			Comment = campaign.BaseComment;
+			Title = campaign.Meta.Title;
+			SearchKeyword = campaign.Meta.SearchTerm;
+			Comment = campaign.Comment;
 			WorkersCount = campaign.Workers;
 			MaxResults = campaign.MaxResults;
 			PostAsReply = campaign.AsReply;

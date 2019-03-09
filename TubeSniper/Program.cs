@@ -1,8 +1,7 @@
 ﻿using System;
-using System.Windows.Forms;
-using TubeSniper.Core.Domain;
-using TubeSniper.Core.Domain.Browser;
 using TubeSniper.DependencyResolution;
+using TubeSniper.Domain;
+using TubeSniper.Domain.Browser;
 using TubeSniper.Infrastructure.Services;
 
 namespace TubeSniper
@@ -21,9 +20,9 @@ namespace TubeSniper
 		{
 			var authService = new AuthService();
 			Globals.SelectorPayload = authService.GetSelectorPayload("MSF2-459S-WEBA-I2GM-QUZF-CTF7-Z6TA");
-			Application.EnableVisualStyles();
-			Application.SetCompatibleTextRenderingDefault(false);
-			Application.Run(new DebugView());
+			System.Windows.Forms.Application.EnableVisualStyles();
+			System.Windows.Forms.Application.SetCompatibleTextRenderingDefault(false);
+			System.Windows.Forms.Application.Run(new DebugView());
 		}
 	}
 }

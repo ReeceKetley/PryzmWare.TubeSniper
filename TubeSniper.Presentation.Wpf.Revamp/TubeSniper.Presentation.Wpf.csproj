@@ -71,26 +71,23 @@
     <Reference Include="ControlzEx, Version=3.0.2.4, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\ControlzEx.3.0.2.4\lib\net45\ControlzEx.dll</HintPath>
     </Reference>
-    <Reference Include="CSharpFunctionalExtensions, Version=1.16.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\CSharpFunctionalExtensions.1.16.1\lib\net45\CSharpFunctionalExtensions.dll</HintPath>
+    <Reference Include="CSharpFunctionalExtensions, Version=1.17.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\CSharpFunctionalExtensions.1.17.0\lib\net45\CSharpFunctionalExtensions.dll</HintPath>
     </Reference>
-    <Reference Include="EO.Base, Version=19.0.56.0, Culture=neutral, PublicKeyToken=e92353a6bf73fffc, processorArchitecture=MSIL">
-      <HintPath>..\packages\EO.WebBrowser.19.0.56\lib\EO.Base.dll</HintPath>
+    <Reference Include="EO.Base, Version=19.0.69.0, Culture=neutral, PublicKeyToken=e92353a6bf73fffc, processorArchitecture=MSIL">
+      <HintPath>..\packages\EO.WebBrowser.19.0.69\lib\EO.Base.dll</HintPath>
     </Reference>
-    <Reference Include="EO.WebBrowser, Version=19.0.56.0, Culture=neutral, PublicKeyToken=e92353a6bf73fffc, processorArchitecture=MSIL">
-      <HintPath>..\packages\EO.WebBrowser.19.0.56\lib\EO.WebBrowser.dll</HintPath>
+    <Reference Include="EO.WebBrowser, Version=19.0.69.0, Culture=neutral, PublicKeyToken=e92353a6bf73fffc, processorArchitecture=MSIL">
+      <HintPath>..\packages\EO.WebBrowser.19.0.69\lib\EO.WebBrowser.dll</HintPath>
     </Reference>
-    <Reference Include="EO.WebEngine, Version=19.0.56.0, Culture=neutral, PublicKeyToken=e92353a6bf73fffc, processorArchitecture=MSIL">
-      <HintPath>..\packages\EO.WebBrowser.19.0.56\lib\EO.WebEngine.dll</HintPath>
+    <Reference Include="EO.WebEngine, Version=19.0.69.0, Culture=neutral, PublicKeyToken=e92353a6bf73fffc, processorArchitecture=MSIL">
+      <HintPath>..\packages\EO.WebBrowser.19.0.69\lib\EO.WebEngine.dll</HintPath>
     </Reference>
     <Reference Include="EO.Wpf">
       <HintPath>C:\Program Files (x86)\Essential Objects\EO.Total 2018\EO.Wpf.dll</HintPath>
     </Reference>
     <Reference Include="FluentValidation, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7de548da2fbae0f0, processorArchitecture=MSIL">
       <HintPath>..\packages\FluentValidation.8.1.3\lib\net45\FluentValidation.dll</HintPath>
-    </Reference>
-    <Reference Include="FontAwesome.Sharp, Version=5.2.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\FontAwesome.Sharp.5.2.0\lib\net40\FontAwesome.Sharp.dll</HintPath>
     </Reference>
     <Reference Include="LoadingIndicators.WPF, Version=0.0.1.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\LoadingIndicators.WPF.0.0.1\lib\LoadingIndicators.WPF.dll</HintPath>
@@ -178,9 +175,6 @@
     <Compile Include="Common\ViewModelLocator.cs" />
     <Compile Include="Controls\ProxyListItemControl.cs" />
     <Compile Include="Converters\BoolInverterConverter.cs" />
-    <Compile Include="MessageBox\MessageBox.xaml.cs">
-      <DependentUpon>MessageBox.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Views\MainWindow\MenuControl.xaml.cs">
       <DependentUpon>MenuControl.xaml</DependentUpon>
     </Compile>
@@ -323,10 +317,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="MessageBox\MessageBox.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Themes\MainWindow\SideMenu.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -401,9 +391,13 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\TubeSniper.Core\TubeSniper.Core.csproj">
-      <Project>{e8030fa3-c70f-4bf5-990a-e95ed5d9e571}</Project>
-      <Name>TubeSniper.Core</Name>
+    <ProjectReference Include="..\TubeSniper.Application\TubeSniper.Application.csproj">
+      <Project>{a8ee6192-6c29-4fe1-8052-7fb6d9272828}</Project>
+      <Name>TubeSniper.Application</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TubeSniper.Domain\TubeSniper.Domain.csproj">
+      <Project>{5fe2ae7c-0862-478d-bb37-3a14beca732e}</Project>
+      <Name>TubeSniper.Domain</Name>
     </ProjectReference>
     <ProjectReference Include="..\TubeSniper.Infrastructure\TubeSniper.Infrastructure.csproj">
       <Project>{15352A2D-C3C0-4A05-9B49-E6A3C2D74266}</Project>

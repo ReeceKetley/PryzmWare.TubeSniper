@@ -1,7 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using System.Windows.Data;
-using TubeSniper.Core;
-using TubeSniper.Core.Domain.Campaigns;
+using TubeSniper.Domain;
+using TubeSniper.Domain.Campaigns;
 using TubeSniper.Presentation.Wpf.Common;
 
 namespace TubeSniper.Presentation.Wpf.ViewModels.SuccessMonitor

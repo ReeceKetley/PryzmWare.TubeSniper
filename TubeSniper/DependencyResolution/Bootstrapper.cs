@@ -1,13 +1,15 @@
 ﻿using SimpleInjector;
-using TubeSniper.Core.Application.Accounts;
-using TubeSniper.Core.Application.Campaigns;
-using TubeSniper.Core.Application.Proxies;
-using TubeSniper.Core.Common;
-using TubeSniper.Core.Domain.Auth;
-using TubeSniper.Core.Domain.Proxies;
-using TubeSniper.Core.Interfaces;
-using TubeSniper.Core.Interfaces.Persistence;
-using TubeSniper.Core.Services;
+using TubeSniper.Application.Accounts;
+using TubeSniper.Application.Campaigns;
+using TubeSniper.Application.Proxies;
+using TubeSniper.Application.Services;
+using TubeSniper.Domain.Auth;
+using TubeSniper.Domain.Campaigns;
+using TubeSniper.Domain.Common;
+using TubeSniper.Domain.Interfaces;
+using TubeSniper.Domain.Interfaces.Persistence;
+using TubeSniper.Domain.Proxies;
+using TubeSniper.Domain.Services;
 using TubeSniper.Infrastructure.Repositories;
 using TubeSniper.Infrastructure.Services;
 using TubeSniper.Presentation.Wpf.Openers;
@@ -33,9 +35,12 @@ namespace TubeSniper.DependencyResolution
 			Container.Register<IProxyService, ProxyService>(Lifestyle.Singleton);
 			Container.Register<IHttpProxyMapper, HttpProxyMapper>(Lifestyle.Singleton);
 			Container.Register<IProxyPortationMapper, ProxyPortationMapper>(Lifestyle.Singleton);
-			Container.Register<ICampaignMappper, CampaignMappper>(Lifestyle.Singleton);
+			Container.Register<ICampaignMapper, CampaignMapper>(Lifestyle.Singleton);
 			Container.Register<IAuthService, AuthService>(Lifestyle.Singleton);
 			Container.Register<ISearchService, SearchService>(Lifestyle.Singleton);
+			Container.Register<ICaptchaService, CaptchaService>(Lifestyle.Singleton);
+			Container.Register<IProxyTestService, ProxyTestService>(Lifestyle.Singleton);
+			//Container.Register<IVirtualBrowser, VirtualBrowser>(Lifestyle.Singleton);
 			Container.Register<MainWindowOpener>();
 
 			Container.Register<IDialogService, DialogService>(Lifestyle.Singleton);

@@ -3,13 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27130.2024
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TubeSniper.Core", "TubeSniper.Core\TubeSniper.Core.csproj", "{E8030FA3-C70F-4BF5-990A-E95ED5D9E571}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TubeSniper", "TubeSniper\TubeSniper.csproj", "{092FDC0B-9A48-4EFD-BC83-5A7F4ADE7D2F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TubeSniper.Infrastructure", "TubeSniper.Infrastructure\TubeSniper.Infrastructure.csproj", "{15352A2D-C3C0-4A05-9B49-E6A3C2D74266}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TubeSniper.Presentation.Wpf", "TubeSniper.Presentation.Wpf.Revamp\TubeSniper.Presentation.Wpf.csproj", "{5A19193C-FF5B-4374-A1EB-0D59D8BAE312}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TubeSniper.Application", "TubeSniper.Application\TubeSniper.Application.csproj", "{A8EE6192-6C29-4FE1-8052-7FB6D9272828}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TubeSniper.Domain", "TubeSniper.Domain\TubeSniper.Domain.csproj", "{5FE2AE7C-0862-478D-BB37-3A14BECA732E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -19,14 +21,6 @@ Global
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{E8030FA3-C70F-4BF5-990A-E95ED5D9E571}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E8030FA3-C70F-4BF5-990A-E95ED5D9E571}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E8030FA3-C70F-4BF5-990A-E95ED5D9E571}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{E8030FA3-C70F-4BF5-990A-E95ED5D9E571}.Debug|x86.Build.0 = Debug|Any CPU
-		{E8030FA3-C70F-4BF5-990A-E95ED5D9E571}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E8030FA3-C70F-4BF5-990A-E95ED5D9E571}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E8030FA3-C70F-4BF5-990A-E95ED5D9E571}.Release|x86.ActiveCfg = Release|Any CPU
-		{E8030FA3-C70F-4BF5-990A-E95ED5D9E571}.Release|x86.Build.0 = Release|Any CPU
 		{092FDC0B-9A48-4EFD-BC83-5A7F4ADE7D2F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{092FDC0B-9A48-4EFD-BC83-5A7F4ADE7D2F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{092FDC0B-9A48-4EFD-BC83-5A7F4ADE7D2F}.Debug|x86.ActiveCfg = Debug|Any CPU
@@ -51,6 +45,22 @@ Global
 		{5A19193C-FF5B-4374-A1EB-0D59D8BAE312}.Release|Any CPU.Build.0 = Release|Any CPU
 		{5A19193C-FF5B-4374-A1EB-0D59D8BAE312}.Release|x86.ActiveCfg = Release|Any CPU
 		{5A19193C-FF5B-4374-A1EB-0D59D8BAE312}.Release|x86.Build.0 = Release|Any CPU
+		{A8EE6192-6C29-4FE1-8052-7FB6D9272828}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A8EE6192-6C29-4FE1-8052-7FB6D9272828}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A8EE6192-6C29-4FE1-8052-7FB6D9272828}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{A8EE6192-6C29-4FE1-8052-7FB6D9272828}.Debug|x86.Build.0 = Debug|Any CPU
+		{A8EE6192-6C29-4FE1-8052-7FB6D9272828}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A8EE6192-6C29-4FE1-8052-7FB6D9272828}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A8EE6192-6C29-4FE1-8052-7FB6D9272828}.Release|x86.ActiveCfg = Release|Any CPU
+		{A8EE6192-6C29-4FE1-8052-7FB6D9272828}.Release|x86.Build.0 = Release|Any CPU
+		{5FE2AE7C-0862-478D-BB37-3A14BECA732E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5FE2AE7C-0862-478D-BB37-3A14BECA732E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5FE2AE7C-0862-478D-BB37-3A14BECA732E}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{5FE2AE7C-0862-478D-BB37-3A14BECA732E}.Debug|x86.Build.0 = Debug|Any CPU
+		{5FE2AE7C-0862-478D-BB37-3A14BECA732E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5FE2AE7C-0862-478D-BB37-3A14BECA732E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5FE2AE7C-0862-478D-BB37-3A14BECA732E}.Release|x86.ActiveCfg = Release|Any CPU
+		{5FE2AE7C-0862-478D-BB37-3A14BECA732E}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

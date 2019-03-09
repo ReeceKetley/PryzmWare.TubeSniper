@@ -19,6 +19,8 @@
         <Setter Property="FontFamily" Value="{StaticResource Montserrat-Regular}" />
         <Setter Property="mah:ControlsHelper.ContentCharacterCasing" Value="Normal" />
         <Setter Property="FontSize" Value="10"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="BorderBrush" Value="Black"/>
     </Style>
 
     <Style TargetType="{x:Type GroupBox}" BasedOn="{StaticResource MetroGroupBox}">

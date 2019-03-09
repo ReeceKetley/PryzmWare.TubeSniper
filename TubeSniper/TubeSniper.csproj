@@ -68,9 +68,13 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\TubeSniper.Core\TubeSniper.Core.csproj">
-      <Project>{e8030fa3-c70f-4bf5-990a-e95ed5d9e571}</Project>
-      <Name>TubeSniper.Core</Name>
+    <ProjectReference Include="..\TubeSniper.Application\TubeSniper.Application.csproj">
+      <Project>{a8ee6192-6c29-4fe1-8052-7fb6d9272828}</Project>
+      <Name>TubeSniper.Application</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TubeSniper.Domain\TubeSniper.Domain.csproj">
+      <Project>{5fe2ae7c-0862-478d-bb37-3a14beca732e}</Project>
+      <Name>TubeSniper.Domain</Name>
     </ProjectReference>
     <ProjectReference Include="..\TubeSniper.Infrastructure\TubeSniper.Infrastructure.csproj">
       <Project>{15352a2d-c3c0-4a05-9b49-e6a3c2d74266}</Project>

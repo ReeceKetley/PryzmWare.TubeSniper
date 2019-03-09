@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 using System.Text;
+// ReSharper disable IdentifierTypo
+// ReSharper disable StringLiteralTypo
 
 namespace TubeSniper.Infrastructure.Common
 {

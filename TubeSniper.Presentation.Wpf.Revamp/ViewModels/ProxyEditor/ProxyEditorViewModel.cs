@@ -1,11 +1,10 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Linq;
-using System.Net;
 using System.Windows.Input;
 using System.Windows.Markup;
-using TubeSniper.Core.Application.Proxies;
-using TubeSniper.Core.Domain.Proxies;
+using TubeSniper.Application.Proxies;
+using TubeSniper.Domain.Proxies;
 using TubeSniper.Presentation.Wpf.Commands;
 using TubeSniper.Presentation.Wpf.Validators.ProxyEditor;
 

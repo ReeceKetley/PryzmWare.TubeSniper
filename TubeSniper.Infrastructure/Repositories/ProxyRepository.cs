@@ -1,15 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using LiteDB;
-using TubeSniper.Core.Application.Proxies;
-using TubeSniper.Core.Domain.Proxies;
+using TubeSniper.Application.Proxies;
+using TubeSniper.Domain.Proxies;
 
 namespace TubeSniper.Infrastructure.Repositories
 {
 	public class ProxyRepository : IProxyRepository
 	{
 		private readonly IProxyEntryMapper _proxyEntryMapper;
-		private LiteDatabase _database = new LiteDatabase(@"data\core.dat");
+		private readonly LiteDatabase _database = new LiteDatabase(@"data\core.dat");
 
 		public ProxyRepository(IProxyEntryMapper proxyEntryMapper)
 		{

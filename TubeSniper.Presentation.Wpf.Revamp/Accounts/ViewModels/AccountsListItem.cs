@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Input;
-using TubeSniper.Core.Application.Accounts;
-using TubeSniper.Core.Domain.Youtube;
+using TubeSniper.Application.Accounts;
+using TubeSniper.Domain.Youtube;
 using TubeSniper.Presentation.Wpf.Commands;
 using TubeSniper.Presentation.Wpf.ViewModels;
 

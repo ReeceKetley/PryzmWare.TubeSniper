@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Input;
+﻿using System.Windows.Input;
 using TubeSniper.Infrastructure.Services;
 using TubeSniper.Presentation.Wpf.Commands;
 
@@ -28,7 +22,7 @@ namespace TubeSniper.Presentation.Wpf.ViewModels.SettingsEditor
 	    {
 		    _authService.DeactiveKey();
 		    System.Windows.MessageBox.Show("System Deactivated");
-			Application.Current.Shutdown(0);
+		    System.Windows.Application.Current.Shutdown(0);
 	    }
     }
 }

@@ -3,8 +3,7 @@ using System.IO;
 using Com.CloudRail.SI;
 using Com.CloudRail.SI.ServiceCode.Commands.CodeRedirect;
 using Com.CloudRail.SI.Services;
-using TubeSniper.Core.Domain;
-using TubeSniper.Core.Domain.Auth;
+using TubeSniper.Domain;
 
 namespace TubeSniper.Infrastructure.Common
 {
@@ -68,14 +67,5 @@ namespace TubeSniper.Infrastructure.Common
 
 			return true;
 		}
-
-		public static bool CheckCommentGhostStatus(string commentId)
-		{
-			//            var request = new AdvancedRequestSpecification("https://www.googleapis.com/youtube/v3/comments?part=snippet&id={COMMENT_ID}&textFormat=html&key={YOUR_API_KEY");
-			//            request.
-			//            YouTubeClient.AdvancedRequest()
-			return false;
-		}
-
 	}
 }

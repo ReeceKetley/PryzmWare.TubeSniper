@@ -1,9 +1,9 @@
 ﻿using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Input;
-using TubeSniper.Core.Application.Accounts;
-using TubeSniper.Core.Application.Events.Accounts;
-using TubeSniper.Core.Interfaces.Persistence;
+using TubeSniper.Application.Accounts;
+using TubeSniper.Application.Events.Accounts;
+using TubeSniper.Domain.Interfaces.Persistence;
 using TubeSniper.Presentation.Wpf.Accounts.Views;
 using TubeSniper.Presentation.Wpf.Commands;
 using TubeSniper.Presentation.Wpf.Common;

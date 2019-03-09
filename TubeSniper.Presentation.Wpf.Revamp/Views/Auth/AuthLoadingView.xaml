@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:wpf="clr-namespace:LoadingIndicators.WPF;assembly=LoadingIndicators.WPF"
         mc:Ignorable="d"
         Title="AuthLoadingView" WindowStyle="None"  SizeToContent="WidthAndHeight" Background="#111926" WindowStartupLocation="CenterScreen" ShowInTaskbar="False" >
     <Window.Resources>
@@ -17,9 +18,9 @@
 
     <Grid>
         <StackPanel Margin="30">
-            <Image Width="250" Source="{StaticResource Auth.Images.Logo}"/>
+            <Image Width="300" Source="{StaticResource Auth.Images.Logo}"/>
             <StackPanel Margin="0,25,0,0">
-                <ProgressBar HorizontalAlignment="Left" Height="25" BorderThickness="2" BorderBrush="#684DA0" VerticalAlignment="Top" Width="348" Background="Transparent" Foreground="#684DA0" Value="50" IsIndeterminate="True"/>
+                <wpf:LoadingIndicator  Foreground="#684DA0" SpeedRatio="{Binding SpeedRatio}" IsActive="{Binding IsThreeDotsActive}" Style="{DynamicResource LoadingIndicatorThreeDotsStyle}"/>
             </StackPanel>
         </StackPanel>
     </Grid>
