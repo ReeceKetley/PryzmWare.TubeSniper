@@ -1,52 +1,52 @@
 ﻿using System;
+using System.IO;
 using TubeSniper.Domain.Campaigns;
+using TubeSniper.Domain.Common.Helpers;
 using TubeSniper.Domain.Proxies;
 using TubeSniper.Domain.Services;
+using TubeSniper.Domain.Youtube.VirtualBrowser;
 
 namespace TubeSniper.Domain.Youtube
 {
 	public class YoutubeBot
 	{
-		private readonly YoutubeAccount _account;
-		private readonly YoutubeVideo _video;
-		private readonly string _comment;
-		private readonly CommentMethod _commentMethod;
+		private readonly CommentJob _commentJob;
 		private readonly ICaptchaService _captchaService;
+		private readonly IYoutubeCommentBotFactory _botFactory;
 		public readonly VirtualBrowser.VirtualBrowser Browser;
 		public event EventHandler<FatalErrorEventArgs> Error;
 		public event EventHandler<StatusChangedEventArgs> StatusChanged;
 		public event EventHandler<VideoProcessedEventArgs> VideoProcessed;
 
-		public YoutubeBot(YoutubeAccount account, HttpProxy proxy, YoutubeVideo video, string comment, bool useCache, bool asReply, ICaptchaService captchaService)
+		public YoutubeBot(CommentJob commentJob, ICaptchaService captchaService, IYoutubeCommentBotFactory botFactory)
 		{
-			_account = account;
-			_video = video;
-			_comment = comment;
-			_commentMethod = asReply ? CommentMethod.Reply : CommentMethod.Comment;
+			_commentJob = commentJob;
 			_captchaService = captchaService;
-			Proxy = proxy;
-			Browser = VirtualBrowser.VirtualBrowser.Create(proxy.ToWebProxy(), account, useCache);
+			_botFactory = botFactory;
+			var cacheId = GetCacheId();
+			Browser = VirtualBrowser.VirtualBrowser.Create(commentJob.Proxy.ToWebProxy(), cacheId);
+		}
+
+		private CacheId GetCacheId()
+		{
+			return new CacheId(GeneralHelpers.MakeValidFileName(_commentJob.Account.Credentials.Email) + "-" + (_commentJob.Proxy != null ? GeneralHelpers.MakeValidFileName(_commentJob.Proxy.Address.ToString()) : null));
 		}
 
 		public HttpProxy Proxy { get; set; }
 
 		public void Run()
 		{
-			if (_account == null)
-			{
-				return;
-			}
-			UpdateStatus("Logging in: " + _account.Credentials.Email);
+			UpdateStatus("Logging in: " + _commentJob.Account.Credentials.Email);
 			var loginResult = Login().Code;
 			if (loginResult != LoginResultCode.Success)
 			{
-				ThrowErrorEvent("Failed to login to account: + " + _account.Credentials.Email + ". (" + loginResult + ")");
+				ThrowErrorEvent("Failed to login to account: + " + _commentJob.Account.Credentials.Email + ". (" + loginResult + ")");
 			}
 
-			UpdateStatus("Logged in: " + _account.Credentials.Email);
-			UpdateStatus("Posting Comment: " + _video);
+			UpdateStatus("Logged in: " + _commentJob.Account.Credentials.Email);
+			UpdateStatus("Posting Comment: " + _commentJob.Video.Title);
 
-			var commentPostedResult = Browser_postComment(Browser, _video, _comment);
+			var commentPostedResult = Browser_postComment();
 			if (commentPostedResult.Code != CommentPostedResultCode.Success)
 			{
 				ThrowErrorEvent("Comment post failure");
@@ -54,12 +54,12 @@ namespace TubeSniper.Domain.Youtube
 			}
 
 			Browser.Reset();
-			OnVideoProcessed(new VideoProcessedEventArgs(commentPostedResult.Video, _comment));
+			OnVideoProcessed(new VideoProcessedEventArgs(commentPostedResult.Video, commentPostedResult.Comment));
 		}
 
 		public LoginResult Login()
 		{
-			var loginBot = new YoutubeLoginBotV1(this, _account, _captchaService);
+			var loginBot = new YoutubeLoginBotV1(this, _commentJob.Account, _captchaService);
 			var loginResult = loginBot.Run();
 			Console.WriteLine(loginResult.Code);
 			if (loginResult.Code != LoginResultCode.Success)
@@ -121,15 +121,15 @@ namespace TubeSniper.Domain.Youtube
 
 
 
-		public CommentPostedResult Browser_postComment(VirtualBrowser.VirtualBrowser browser, YoutubeVideo video, string comment)
+		public CommentPostedResult Browser_postComment()
 		{
-			var _commentBot = new YoutubeCommentBot(browser);
-			if (_commentBot.PostComment(video, comment, _commentMethod, 5).Code != PostCommentResultCode.Success)
+			var _commentBot = _botFactory.Create(Browser);
+			if (_commentBot.PostComment(_commentJob, 5).Code != PostCommentResultCode.Success)
 			{
 				return null;
 			}
 
-			return new CommentPostedResult(video, comment, CommentPostedResultCode.Success);
+			return new CommentPostedResult(_commentJob.Video, _commentJob.Comment.Value, CommentPostedResultCode.Success);
 		}
 	}
 }

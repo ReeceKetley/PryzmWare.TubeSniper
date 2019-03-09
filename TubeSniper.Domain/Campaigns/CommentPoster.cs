@@ -5,16 +5,21 @@ using TubeSniper.Domain.Youtube;
 
 namespace TubeSniper.Domain.Campaigns
 {
-	public class CommentPoster : ICommentPoster
+	public class CommentPoster
 	{
-		private YoutubeAccount _account;
-		private HttpProxy _proxy;
+		private readonly ICaptchaService _captchaService;
+		private readonly IYoutubeCommentBotFactory _botFactory;
 
-		public void Run(YoutubeAccount account, HttpProxy proxy, YoutubeVideo video, CommentGenerator comment, bool asReply, ICaptchaService captchaService)
+		public CommentPoster(ICaptchaService captchaService, IYoutubeCommentBotFactory botFactory)
 		{
-			_account = account;
-			_proxy = proxy;
-			var bot = new YoutubeBot(account, proxy, video, comment.Generate(), true, asReply, captchaService);
+			_captchaService = captchaService;
+			_botFactory = botFactory;
+		}
+
+
+		public void Run(CommentJob commentJob)
+		{
+			var bot = new YoutubeBot(commentJob, _captchaService, _botFactory);
 			bot.StatusChanged += Bot_StatusChanged;
 			bot.Error += Bot_Error;
 			bot.VideoProcessed += Bot_VideoProcessed;
@@ -22,20 +27,13 @@ namespace TubeSniper.Domain.Campaigns
 		}
 
 		public event EventHandler<FatalErrorEventArgs> FatalError;
+
 		public event EventHandler<StatusChangedEventArgs> StatusChanged;
+
 		public event EventHandler<VideoProcessedEventArgs> VideoProcessed;
 
 		private void Bot_VideoProcessed(object sender, VideoProcessedEventArgs e)
 		{
-			var comment = new SuccessComment();
-			comment.Proxy = "N/A";
-			if (_proxy != null)
-			{
-				comment.Proxy = _proxy.Address.Host + ":" + _proxy.Address.Port;
-			}
-
-			comment.Comment = e.Comment;
-			comment.Email = _account.Credentials.Email;
 			OnVideoProcessed(e);
 		}
 

@@ -10,6 +10,7 @@ using TubeSniper.Domain.Interfaces;
 using TubeSniper.Domain.Interfaces.Persistence;
 using TubeSniper.Domain.Proxies;
 using TubeSniper.Domain.Services;
+using TubeSniper.Domain.Youtube;
 using TubeSniper.Infrastructure.Repositories;
 using TubeSniper.Infrastructure.Services;
 using TubeSniper.Presentation.Wpf.Openers;
@@ -40,6 +41,7 @@ namespace TubeSniper.DependencyResolution
 			Container.Register<ISearchService, SearchService>(Lifestyle.Singleton);
 			Container.Register<ICaptchaService, CaptchaService>(Lifestyle.Singleton);
 			Container.Register<IProxyTestService, ProxyTestService>(Lifestyle.Singleton);
+			Container.Register<IYoutubeCommentBotFactory, YoutubeCommentBotFactory>(Lifestyle.Singleton);
 			//Container.Register<IVirtualBrowser, VirtualBrowser>(Lifestyle.Singleton);
 			Container.Register<MainWindowOpener>();
 

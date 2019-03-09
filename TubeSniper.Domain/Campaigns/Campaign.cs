@@ -12,10 +12,11 @@ namespace TubeSniper.Domain.Campaigns
 	public class Campaign
 	{
 		private readonly IAccountRegister _accountRegister;
-		private readonly CommentGenerator _commentGenerator;
-		private readonly ISearchService _searchService;
+		private readonly IYoutubeCommentBotFactory _botFactory;
 		private readonly ICaptchaService _captchaService;
+		private readonly CommentGenerator _commentGenerator;
 		private readonly IProxyTestService _proxyTestService;
+		private readonly ISearchService _searchService;
 		private ThreadSafeVideoStack _videoStack;
 
 		private IEnumerable<CampaignWorker> _workers;
@@ -29,7 +30,7 @@ namespace TubeSniper.Domain.Campaigns
 			}
 		}
 
-		public Campaign(ProxyCollection proxyCollection, CampaignMeta meta, IAccountRegister accountRegister, string searchTerm, CommentGenerator commentGenerator, bool asReply, ISearchService searchService, ICaptchaService captchaService, IProxyTestService proxyTestService)
+		public Campaign(ProxyCollection proxyCollection, CampaignMeta meta, IAccountRegister accountRegister, string searchTerm, CommentGenerator commentGenerator, bool asReply, ISearchService searchService, ICaptchaService captchaService, IProxyTestService proxyTestService, IYoutubeCommentBotFactory botFactory)
 		{
 			ProxyCollection = proxyCollection;
 			meta.SearchTerm = searchTerm;
@@ -39,6 +40,7 @@ namespace TubeSniper.Domain.Campaigns
 			_searchService = searchService;
 			_captchaService = captchaService;
 			_proxyTestService = proxyTestService;
+			_botFactory = botFactory;
 		}
 
 		public bool AsReply { get; set; }
@@ -60,6 +62,53 @@ namespace TubeSniper.Domain.Campaigns
 		public event EventHandler<StatusChangedEventArgs> StatusChanged;
 		public event EventHandler<VideoProcessedEventArgs> VideoProcessed;
 
+		public void Start()
+		{
+			_searchService.Init();
+			var videos = _searchService.SearchVideos(Meta.SearchTerm, MaxResults);
+			var posters = CreatePosters(videos);
+			_videoStack = new ThreadSafeVideoStack(videos.Randomize());
+			_workers = CreateWorkers(Workers);
+			foreach (var campaignWorker in _workers)
+			{
+				campaignWorker.Start();
+			}
+
+			OnCampaignStarted();
+			Editable = false;
+		}
+
+		public void Stop()
+		{
+			foreach (var campaignWorker in _workers)
+			{
+				campaignWorker.Stop();
+			}
+
+			OnCampaignStopped();
+			Editable = true;
+		}
+
+		private IEnumerable<CommentPoster> CreatePosters(List<YoutubeAccount> accounts, List<YoutubeVideo> videos)
+		{
+			foreach (var youtubeVideo in videos)
+			{
+				new CommentPoster(null, )
+			}
+		}
+
+		private IEnumerable<CampaignWorker> CreateWorkers(int workerCount)
+		{
+			var workers = new List<CampaignWorker>();
+			for (int i = 0; i < workerCount; i++)
+			{
+				var worker = new CampaignWorker();
+				workers.Add(worker);
+			}
+
+			return workers;
+		}
+
 		private void CampaignWorker_FatalError(object sender, FatalErrorEventArgs e)
 		{
 			OnFatalError(e);
@@ -77,18 +126,6 @@ namespace TubeSniper.Domain.Campaigns
 			VideoMeta = e.Video;
 			OnVideoProcessed(e);
 			SharedData.OnCampaignProcessed(new CampaignProcessedEventArgs(e.Video, e.Comment, Meta));
-		}
-
-		private IEnumerable<CampaignWorker> CreateWorkers(int workerCount)
-		{
-			var workers = new List<CampaignWorker>();
-			for (int i = 0; i < workerCount; i++)
-			{
-				var worker = new CampaignWorker(_accountRegister, _videoStack, _commentGenerator, AsReply, _captchaService, _proxyTestService ,this.ProxyCollection);
-				workers.Add(worker);
-			}
-
-			return workers;
 		}
 
 		protected virtual void OnCampaignStarted()
@@ -111,38 +148,37 @@ namespace TubeSniper.Domain.Campaigns
 			StatusChanged?.Invoke(this, e);
 		}
 
+
 		protected virtual void OnVideoProcessed(VideoProcessedEventArgs e)
 		{
 			VideoProcessed?.Invoke(this, e);
 		}
 
-		public void Start()
+		private CommentPoster CreateJob()
 		{
-			_searchService.Init();
-			var videos = _searchService.SearchVideos(Meta.SearchTerm, MaxResults);
-			_videoStack = new ThreadSafeVideoStack(videos.Randomize());
-			_workers = CreateWorkers(Workers);
-			foreach (var campaignWorker in _workers)
-			{
-				campaignWorker.FatalError += CampaignWorker_FatalError;
-				campaignWorker.StatusChanged += CampaignWorker_StatusChanged;
-				campaignWorker.VideoProcessed += CampaignWorker_VideoProcessed;
-				campaignWorker.Start();
-			}
-
-			OnCampaignStarted();
-			Editable = false;
+			var job = new CommentPoster();
+			job.FatalError += (sender, args) => OnFatalError(args);
+			job.StatusChanged += (sender, args) => OnStatusChanged(args);
+			job.VideoProcessed += (sender, args) => OnVideoProcessed(args);
+			return job;
 		}
+	}
 
-		public void Stop()
+	public class CommentJob
+	{
+		public YoutubeAccount Account { get; }
+		public HttpProxy Proxy { get; }
+		public YoutubeVideo Video { get; }
+		public Comment Comment { get; }
+		public CommentMethod CommentMethod { get; }
+
+		public CommentJob(YoutubeAccount account, HttpProxy proxy, YoutubeVideo video, Comment comment, CommentMethod commentMethod)
 		{
-			foreach (var campaignWorker in _workers)
-			{
-				campaignWorker.Stop();
-			}
-
-			OnCampaignStopped();
-			Editable = true;
+			Account = account;
+			Proxy = proxy;
+			Video = video;
+			Comment = comment;
+			CommentMethod = commentMethod;
 		}
 	}
 }

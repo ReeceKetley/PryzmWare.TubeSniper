@@ -12,13 +12,15 @@ namespace TubeSniper.Application.Campaigns
 	{
 		private readonly ICaptchaService _captchaService;
 		private readonly IProxyTestService _proxyTestService;
+		private readonly IYoutubeCommentBotFactory _botFactory;
 		private readonly ISearchService _searchService;
 
-		public CampaignMapper(ISearchService searchService, ICaptchaService captchaService, IProxyTestService proxyTestService)
+		public CampaignMapper(ISearchService searchService, ICaptchaService captchaService, IProxyTestService proxyTestService, IYoutubeCommentBotFactory botFactory)
 		{
 			_searchService = searchService;
 			_captchaService = captchaService;
 			_proxyTestService = proxyTestService;
+			_botFactory = botFactory;
 		}
 
 		public CampaignDto Map(Campaign campaign)
@@ -59,7 +61,7 @@ namespace TubeSniper.Application.Campaigns
 
 			meta.Accounts = accounts;
 			meta.VideoProccesed = campaignDto.ProcessedIds;
-			var campaign = new Campaign(new ProxyCollection(campaignDto.Proxies), meta, new StandardAccountRegister(accounts), campaignDto.Keyword, new CommentGenerator(new CommentTemplate(campaignDto.Comment)), campaignDto.AsReply, _searchService, _captchaService, _proxyTestService);
+			var campaign = new Campaign(new ProxyCollection(campaignDto.Proxies), meta, new StandardAccountRegister(accounts), campaignDto.Keyword, new CommentGenerator(new CommentTemplate(campaignDto.Comment)), campaignDto.AsReply, _searchService, _captchaService, _proxyTestService, _botFactory);
 			campaign.Id = campaignDto.Id;
 			return campaign;
 		}

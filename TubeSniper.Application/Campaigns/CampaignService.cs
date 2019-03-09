@@ -3,18 +3,21 @@ using System.Collections.Generic;
 using TubeSniper.Application.Events.Campaigns;
 using TubeSniper.Domain.Campaigns;
 using TubeSniper.Domain.Interfaces.Persistence;
+using TubeSniper.Domain.Youtube;
 
 namespace TubeSniper.Application.Campaigns
 {
 	public class CampaignService : ICampaignService
 	{
 		private readonly ICampaignMapper _campaignMapper;
+		private readonly IYoutubeCommentBot _commentBot;
 		private readonly ICampaignRepository _campaignRepository;
 
-		public CampaignService(ICampaignRepository campaignRepository, ICampaignMapper campaignMapper)
+		public CampaignService(ICampaignRepository campaignRepository, ICampaignMapper campaignMapper, IYoutubeCommentBot commentBot)
 		{
 			_campaignRepository = campaignRepository;
 			_campaignMapper = campaignMapper;
+			_commentBot = commentBot;
 		}
 
 		public void Add(Campaign campaign)
@@ -75,6 +78,11 @@ namespace TubeSniper.Application.Campaigns
 			var copy = _campaignMapper.Map(dto);
 			_campaignRepository.Update(campaign);
 			CampaignEvents.RaiseCampaignUpdated(new CampaignUpdated(copy));
+		}
+
+		public void Start(Campaign campaign)
+		{
+
 		}
 
 		public Campaign GetById(Guid id)

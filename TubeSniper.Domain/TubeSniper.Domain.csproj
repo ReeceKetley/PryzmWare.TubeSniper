@@ -57,6 +57,7 @@
   <ItemGroup>
     <Compile Include="Campaigns\Campaign.cs" />
     <Compile Include="Campaigns\CampaignEventArgs.cs" />
+    <Compile Include="Campaigns\Comment.cs" />
     <Compile Include="Campaigns\CurrentStepEventArgs.cs" />
     <Compile Include="Campaigns\EnumerableExtensions.cs" />
     <Compile Include="Common\Extensions\StringExenstions.cs" />
@@ -82,7 +83,6 @@
     <Compile Include="Campaigns\CampaignMeta.cs" />
     <Compile Include="Campaigns\CampaignProcessedEventArgs.cs" />
     <Compile Include="Campaigns\CampaignWorker.cs" />
-    <Compile Include="Campaigns\ICommentPoster.cs" />
     <Compile Include="Campaigns\CommentPoster.cs" />
     <Compile Include="Campaigns\ThreadSafeVideoStack.cs" />
     <Compile Include="Campaigns\VideoProcessedEventArgs.cs" />
@@ -136,6 +136,8 @@
     <Compile Include="Youtube\Extensions\EngineExtensions.cs" />
     <Compile Include="Youtube\Extensions\WebViewExtenstions.cs" />
     <Compile Include="Youtube\FatalErrorEventArgs.cs" />
+    <Compile Include="Youtube\IYoutubeCommentBot.cs" />
+    <Compile Include="Youtube\IYoutubeCommentBotFactory.cs" />
     <Compile Include="Youtube\LoadSignInResult.cs" />
     <Compile Include="Youtube\LoadSignInResultCode.cs" />
     <Compile Include="Youtube\LoginResult.cs" />
@@ -143,6 +145,7 @@
     <Compile Include="Youtube\StandardAccountRegister.cs" />
     <Compile Include="Youtube\StatusChangedEventArgs.cs" />
     <Compile Include="Youtube\VideoNaviagorResultCode.cs" />
+    <Compile Include="Youtube\VirtualBrowser\CacheId.cs" />
     <Compile Include="Youtube\VirtualBrowser\MoveToElementResult.cs" />
     <Compile Include="Youtube\VirtualBrowser\MoveToElementResultCode.cs" />
     <Compile Include="Youtube\VirtualBrowser\VirtualBrowser.cs" />
@@ -169,7 +172,6 @@
     <Compile Include="Services\SolveCaptchaCode.cs" />
     <Compile Include="Services\SubmitPasswordResultCode.cs" />
     <Compile Include="Services\SuccessfulCommentManager.cs" />
-    <Compile Include="Youtube\YoutubeCommentBot.cs" />
     <Compile Include="SharedData.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -179,6 +181,7 @@
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

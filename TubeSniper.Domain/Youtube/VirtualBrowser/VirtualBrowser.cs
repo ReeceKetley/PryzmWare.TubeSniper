@@ -55,7 +55,7 @@ namespace TubeSniper.Domain.Youtube.VirtualBrowser
 		}
 
 
-		public static VirtualBrowser Create(WebProxy proxy, YoutubeAccount youtubeAccount, bool useCache)
+		public static VirtualBrowser Create(WebProxy proxy, CacheId cacheId)
 		{
 			Runtime.SetDefaultBrowserOptions(new BrowserOptions
 			{
@@ -63,23 +63,17 @@ namespace TubeSniper.Domain.Youtube.VirtualBrowser
 				AllowPlugins = true,
 				AllowZooming = false,
 			});
-			var engine = CreateEngine(proxy, youtubeAccount);
+			var engine = CreateEngine(proxy, cacheId);
 			var threadRunner = CreateThreadRunner(engine);
 			var webView = CreateView(threadRunner); // use null for debug
 			return new VirtualBrowser(webView, new VirtualMouse(webView), new VirtualKeyboard(webView), proxy);
 		}
 
 
-		private static Engine CreateEngine(WebProxy proxy, YoutubeAccount youtubeAccount)
+		private static Engine CreateEngine(WebProxy proxy, CacheId cacheId)
 		{
 			var currentDirectory = Path.GetDirectoryName(System.Windows.Forms.Application.ExecutablePath);
-			var cachePath = Path.Combine(currentDirectory ?? throw new InvalidOperationException(), "cache", GeneralHelpers.MakeValidFileName(youtubeAccount.Credentials.Email));
-			// TODO: Hash username
-			if (proxy != null)
-			{
-				cachePath = Path.Combine(cachePath, GeneralHelpers.MakeValidFileName(proxy.Address.ToString()));
-			}
-
+			var cachePath = Path.Combine(currentDirectory, "cache", cacheId.Value);
 			var engine = Engine.Create("ts-" + Environment.TickCount);
 			engine.Options.CachePath = cachePath;
 			if (proxy != null)

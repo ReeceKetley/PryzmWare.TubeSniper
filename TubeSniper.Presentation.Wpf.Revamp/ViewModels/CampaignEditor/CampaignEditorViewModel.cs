@@ -22,6 +22,7 @@ namespace TubeSniper.Presentation.Wpf.ViewModels.CampaignEditor
 		private readonly ISearchService _searchService;
 		private readonly ICaptchaService _captchaService;
 		private readonly IProxyTestService _proxyTestService;
+		private readonly IYoutubeCommentBotFactory _botFactory;
 		private readonly IProxyRepository _proxyRepository;
 		private readonly CampaignEditorViewModelValidator _validator;
 		private Guid _campaignId;
@@ -29,7 +30,7 @@ namespace TubeSniper.Presentation.Wpf.ViewModels.CampaignEditor
 		private ICommand _selectAllAccountsCommand;
 		private ICommand _selectAllProxiesCommand;
 
-		public CampaignEditorViewModel(IAccountsRepository accountsRepository, IProxyRepository proxyRepository, ICampaignService campaignService, ISearchService searchService, ICaptchaService captchaService, IProxyTestService proxyTestService)
+		public CampaignEditorViewModel(IAccountsRepository accountsRepository, IProxyRepository proxyRepository, ICampaignService campaignService, ISearchService searchService, ICaptchaService captchaService, IProxyTestService proxyTestService, IYoutubeCommentBotFactory botFactory)
 		{
 			//SelectedProxies.CollectionChanged += SelectedProxies_CollectionChanged;
 			_accountsRepository = accountsRepository;
@@ -38,6 +39,7 @@ namespace TubeSniper.Presentation.Wpf.ViewModels.CampaignEditor
 			_searchService = searchService;
 			_captchaService = captchaService;
 			_proxyTestService = proxyTestService;
+			_botFactory = botFactory;
 
 			_validator = new CampaignEditorViewModelValidator();
 
@@ -192,7 +194,7 @@ namespace TubeSniper.Presentation.Wpf.ViewModels.CampaignEditor
 
 			var proxyRegister = new ProxyCollection(proxies);
 			campaignMeta.Accounts = accounts;
-			var campaign = new Campaign(proxyRegister, campaignMeta, new StandardAccountRegister(accounts), SearchKeyword, new CommentGenerator(new CommentTemplate(Comment)), PostAsReply, _searchService, _captchaService, _proxyTestService);
+			var campaign = new Campaign(proxyRegister, campaignMeta, new StandardAccountRegister(accounts), SearchKeyword, new CommentGenerator(new CommentTemplate(Comment)), PostAsReply, _searchService, _captchaService, _proxyTestService, _botFactory);
 			campaign.Id = _campaignId; // Not sure if this the error TODO: Check this.
 			return campaign;
 		}
