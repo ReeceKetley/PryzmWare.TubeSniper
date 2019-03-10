@@ -1,67 +1,27 @@
-﻿using System;
-using TubeSniper.Domain.Proxies;
-using TubeSniper.Domain.Services;
-using TubeSniper.Domain.Youtube;
-
-namespace TubeSniper.Domain.Campaigns
+﻿namespace TubeSniper.Domain.Campaigns
 {
 	public class CommentPoster
 	{
-		private readonly ICaptchaService _captchaService;
-		private readonly IYoutubeCommentBotFactory _botFactory;
+		private readonly Campaign _campaign;
 
-		public CommentPoster(ICaptchaService captchaService, IYoutubeCommentBotFactory botFactory)
+		public CommentPoster(Campaign campaign)
 		{
-			_captchaService = captchaService;
-			_botFactory = botFactory;
+			_campaign = campaign;
 		}
 
-
-		public void Run(CommentJob commentJob)
+		public CommentPosterCommand Next()
 		{
-			var bot = new YoutubeBot(commentJob, _captchaService, _botFactory);
-			bot.StatusChanged += Bot_StatusChanged;
-			bot.Error += Bot_Error;
-			bot.VideoProcessed += Bot_VideoProcessed;
-			bot.Run();
+			if (!_campaign.IsRunning)
+			{
+				return CommentPosterCommand.None();
+			}
+
+			return CommentPosterCommand.Post(_campaign.NextJob());
 		}
 
-		public event EventHandler<FatalErrorEventArgs> FatalError;
-
-		public event EventHandler<StatusChangedEventArgs> StatusChanged;
-
-		public event EventHandler<VideoProcessedEventArgs> VideoProcessed;
-
-		private void Bot_VideoProcessed(object sender, VideoProcessedEventArgs e)
+		public void Process(CommentPostedEvent commentPostedEvent)
 		{
-			OnVideoProcessed(e);
-		}
-
-		private void Bot_Error(object sender, FatalErrorEventArgs e)
-		{
-			Console.WriteLine("Job: [Error Event] : {0}", e.Error);
-			OnFatalError(e);
-		}
-
-		private void Bot_StatusChanged(object sender, StatusChangedEventArgs e)
-		{
-			Console.WriteLine("Job: [Status Event] : {0}", e.Status);
-			OnStatusChanged(e);
-		}
-
-		protected virtual void OnFatalError(FatalErrorEventArgs e)
-		{
-			FatalError?.Invoke(this, e);
-		}
-
-		protected virtual void OnStatusChanged(StatusChangedEventArgs e)
-		{
-			StatusChanged?.Invoke(this, e);
-		}
-
-		protected virtual void OnVideoProcessed(VideoProcessedEventArgs e)
-		{
-			VideoProcessed?.Invoke(this, e);
+			_campaign.Process(commentPostedEvent);
 		}
 	}
 }

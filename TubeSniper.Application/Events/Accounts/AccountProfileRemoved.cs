@@ -1,15 +1,15 @@
 ﻿using System;
-using TubeSniper.Domain.Youtube;
+using TubeSniper.Domain.Accounts;
 
 namespace TubeSniper.Application.Events.Accounts
 {
 	public class AccountProfileRemoved : EventArgs
 	{
-		public AccountProfileRemoved(YoutubeAccount account)
+		public AccountProfileRemoved(AccountEntry accountEntry)
 		{
-			Account = account;
+			AccountEntry = accountEntry;
 		}
 
-		public YoutubeAccount Account { get; }
+		public AccountEntry AccountEntry { get; }
 	}
 }

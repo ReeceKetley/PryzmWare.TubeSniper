@@ -3,6 +3,7 @@ using TubeSniper.Application.Accounts;
 using TubeSniper.Application.Campaigns;
 using TubeSniper.Application.Proxies;
 using TubeSniper.Application.Services;
+using TubeSniper.Application.Youtube;
 using TubeSniper.Domain.Auth;
 using TubeSniper.Domain.Campaigns;
 using TubeSniper.Domain.Common;
@@ -10,7 +11,6 @@ using TubeSniper.Domain.Interfaces;
 using TubeSniper.Domain.Interfaces.Persistence;
 using TubeSniper.Domain.Proxies;
 using TubeSniper.Domain.Services;
-using TubeSniper.Domain.Youtube;
 using TubeSniper.Infrastructure.Repositories;
 using TubeSniper.Infrastructure.Services;
 using TubeSniper.Presentation.Wpf.Openers;
@@ -29,9 +29,9 @@ namespace TubeSniper.DependencyResolution
 			//Container.Register<EntryPoint>();
 			Container.Register<ICampaignService, CampaignService>(Lifestyle.Singleton);
 			Container.Register<ICampaignRepository, CampaignRepository>(Lifestyle.Singleton);
-			Container.Register<IAccountsRepository, AccountsRepository>(Lifestyle.Singleton);
+			Container.Register<IAccountEntryRepository, AccountEntryRepository>(Lifestyle.Singleton);
 			Container.Register<IAccountService, AccountService>(Lifestyle.Singleton);
-			Container.Register<IProxyRepository, ProxyRepository>(Lifestyle.Singleton);
+			Container.Register<IProxyEntryRepository, ProxyEntryRepository>(Lifestyle.Singleton);
 			Container.Register<IProxyEntryMapper, ProxyEntryMapper>(Lifestyle.Singleton);
 			Container.Register<IProxyService, ProxyService>(Lifestyle.Singleton);
 			Container.Register<IHttpProxyMapper, HttpProxyMapper>(Lifestyle.Singleton);
@@ -41,7 +41,8 @@ namespace TubeSniper.DependencyResolution
 			Container.Register<ISearchService, SearchService>(Lifestyle.Singleton);
 			Container.Register<ICaptchaService, CaptchaService>(Lifestyle.Singleton);
 			Container.Register<IProxyTestService, ProxyTestService>(Lifestyle.Singleton);
-			Container.Register<IYoutubeCommentBotFactory, YoutubeCommentBotFactory>(Lifestyle.Singleton);
+			Container.Register<ICommentService, CommentService>(Lifestyle.Singleton);
+			Container.Register<IAccountEntryMapper, AccountEntryMapper>(Lifestyle.Singleton);
 			//Container.Register<IVirtualBrowser, VirtualBrowser>(Lifestyle.Singleton);
 			Container.Register<MainWindowOpener>();
 

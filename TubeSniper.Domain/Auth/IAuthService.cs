@@ -9,7 +9,7 @@
 		bool SaveLicenseKey(ProductKey productKey);
 		bool IsStoredKeyValid();
 		IsActivatedResult IsActivated();
-		SelectorPayload GetSelectorPayload(string key);
+		byte[] GetYoutubeBotData(string key);
 		void DeactiveKey();
 	}
 }

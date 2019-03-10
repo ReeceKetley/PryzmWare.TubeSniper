@@ -12,14 +12,14 @@ namespace TubeSniper.Presentation.Wpf.ViewModels.SuccessMonitor
 		public string Comment { get; set; }
 		public string SearchTerm { get; set; }
 
-		public void SetVideo(YoutubeVideo video, CampaignMeta campaignMeta, string comment)
+		public void SetVideo(YoutubeVideo video,  Keyword keyword, Comment comment)
 		{
 			CampaignTitle = video.Title;
 			Url = "https://www.youtube.com/watch?v=" + video.Id;
-			Comment = comment;
+			Comment = comment.Value;
 			VideoTitle = video.Title;
 			ImageSource = video.ThumbnailUrl;
-			SearchTerm = campaignMeta.SearchTerm;
+			SearchTerm = keyword.Value;
 		}
 	}
 }

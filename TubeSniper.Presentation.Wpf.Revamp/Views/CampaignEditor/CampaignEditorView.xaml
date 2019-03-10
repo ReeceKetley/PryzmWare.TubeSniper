@@ -71,11 +71,11 @@
                 <TextBox Grid.Row="5" Grid.Column="1" Text="{Binding Comment, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"/>
 
                 <TextBlock Grid.Row="6" Grid.Column="0" Text="Proxies:" FontSize="16" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="3 6 3 3" />
-                <ListView Grid.Row="6" Grid.Column="1" BorderBrush="#cccccc" BorderThickness="1" ItemsSource="{Binding Proxies}" SelectionMode="Multiple" behaviors:MultiSelectorBehaviours.SynchronizedSelectedItems="{Binding SelectedProxies}"  Height="150" Margin="3"/>
+                <ListView Grid.Row="6" Grid.Column="1" BorderBrush="#cccccc" BorderThickness="1" ItemsSource="{Binding Proxies}" SelectionMode="Multiple" behaviors:MultiSelectorBehaviours.SynchronizedSelectedItems="{Binding SelectedProxies}" DisplayMemberPath="Value" SelectedValuePath="Key"  Height="150" Margin="3"/>
 
 
                 <TextBlock Grid.Row="7" Grid.Column="0" Text="Accounts:" FontSize="16" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="3 6 3 3" />
-                <ListView Grid.Row="7" Grid.Column="1" BorderBrush="#cccccc" BorderThickness="1"  ItemsSource="{Binding Accounts}" behaviors:MultiSelectorBehaviours.SynchronizedSelectedItems="{Binding SelectedAccounts}" SelectionMode="Multiple" Height="150" Margin="3" />
+                <ListView Grid.Row="7" Grid.Column="1" BorderBrush="#cccccc" BorderThickness="1"  ItemsSource="{Binding Accounts}" behaviors:MultiSelectorBehaviours.SynchronizedSelectedItems="{Binding SelectedAccounts}" DisplayMemberPath="Value" SelectedValuePath="Key" SelectionMode="Multiple" Height="150" Margin="3" />
                 <Button Style="{StaticResource Global.Buttons.ActionButton}"  Grid.Column="0" Content="Select/Deselect All" HorizontalAlignment="Left" Margin="3,27,0,0" Grid.Row="6" VerticalAlignment="Top" Padding="7"
                         Command="{Binding SelectAllProxiesCommand}"/>
                 <Button Style="{StaticResource Global.Buttons.ActionButton}" Grid.Column="0" Content="Select/Deselect All" HorizontalAlignment="Left" Margin="3,27,0,0" Grid.Row="7" VerticalAlignment="Top" Padding="7"

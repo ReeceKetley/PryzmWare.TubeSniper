@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Specialized;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -37,24 +36,18 @@ namespace TubeSniper.Presentation.Wpf.Views.Campaigns
 				return;
 			}
 
-			viewModel.StatusLog.CollectionChanged += StatusLogOnCollectionChanged;
-			viewModel.WarningFired += ViewModel_WarningFired;
-			viewModel.VideoProcessed += ViewModel_VideoProcessed;
+			viewModel.CommentPosted += ViewModel_CommentPosted;
+			viewModel.ErrorFired += ViewModel_ErrorFired;
 		}
 
-		private void ViewModel_VideoProcessed(object sender, EventArgs e)
+		private void ViewModel_CommentPosted(object sender, EventArgs e)
 		{
 			ChangeControlColour(System.Drawing.Color.DarkSeaGreen, System.Drawing.Color.CornflowerBlue);
 		}
 
-		private void ViewModel_WarningFired(object sender, EventArgs e)
+		private void ViewModel_ErrorFired(object sender, EventArgs e)
 		{
 			ChangeControlColour(System.Drawing.Color.Orange, System.Drawing.Color.DarkSeaGreen);
-		}
-
-		private void StatusLogOnCollectionChanged(object sender, NotifyCollectionChangedEventArgs notifyCollectionChangedEventArgs)
-		{
-
 		}
 
 

@@ -3,7 +3,6 @@ using System.IO;
 using Com.CloudRail.SI;
 using Com.CloudRail.SI.ServiceCode.Commands.CodeRedirect;
 using Com.CloudRail.SI.Services;
-using TubeSniper.Domain;
 
 namespace TubeSniper.Infrastructure.Common
 {
@@ -33,8 +32,8 @@ namespace TubeSniper.Infrastructure.Common
 
 		public static bool VerifyApi()
 		{
-			CloudRail.AppKey = Globals.SelectorPayload.CloudRailKey;
-			var clientSecret = Globals.SelectorPayload.CloudRailSecret;
+			CloudRail.AppKey = "5b378e4f46efc927250250a5";
+			var clientSecret = "DjxFwXZS3jvIoP8ioWrgZf6k";
 			YouTubeClient = new YouTube(new LocalReceiver(8082), "162177487375-21r26tqtreha3pra444av9h2ofeogmg8.apps.googleusercontent.com", clientSecret, "http://localhost:8082/auth", "someState");
 			try
 			{

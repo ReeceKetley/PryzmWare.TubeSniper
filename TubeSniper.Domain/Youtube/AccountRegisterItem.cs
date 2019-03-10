@@ -1,14 +1,16 @@
-﻿namespace TubeSniper.Domain.Youtube
+﻿using TubeSniper.Domain.Accounts;
+
+namespace TubeSniper.Domain.Youtube
 {
 	public class AccountRegisterItem
 	{
-		public YoutubeAccount Account { get; }
+		public AccountRegisterItem(AccountEntry accountEntry)
+		{
+			AccountEntry = accountEntry;
+		}
+
+		public AccountEntry AccountEntry { get; }
 		public int UseCount { get; set; }
 		public bool InUse { get; set; }
-
-		public AccountRegisterItem(YoutubeAccount account)
-		{
-			Account = account;
-		}
 	}
 }

@@ -1,23 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using TubeSniper.Application.Events.Campaigns;
+using TubeSniper.Domain.Accounts;
 using TubeSniper.Domain.Campaigns;
 using TubeSniper.Domain.Interfaces.Persistence;
-using TubeSniper.Domain.Youtube;
 
 namespace TubeSniper.Application.Campaigns
 {
 	public class CampaignService : ICampaignService
 	{
 		private readonly ICampaignMapper _campaignMapper;
-		private readonly IYoutubeCommentBot _commentBot;
 		private readonly ICampaignRepository _campaignRepository;
 
-		public CampaignService(ICampaignRepository campaignRepository, ICampaignMapper campaignMapper, IYoutubeCommentBot commentBot)
+		public CampaignService(ICampaignRepository campaignRepository, ICampaignMapper campaignMapper)
 		{
 			_campaignRepository = campaignRepository;
 			_campaignMapper = campaignMapper;
-			_commentBot = commentBot;
 		}
 
 		public void Add(Campaign campaign)
@@ -80,11 +79,6 @@ namespace TubeSniper.Application.Campaigns
 			CampaignEvents.RaiseCampaignUpdated(new CampaignUpdated(copy));
 		}
 
-		public void Start(Campaign campaign)
-		{
-
-		}
-
 		public Campaign GetById(Guid id)
 		{
 			var campaign = _campaignRepository.GetByIdOrDefault(id);
@@ -98,9 +92,26 @@ namespace TubeSniper.Application.Campaigns
 			return copy;
 		}
 
+		public void HandleAccountDeletion(AccountEntry account)
+		{
+			var campaigns = _campaignRepository.GetAll();
+			foreach (var campaign in campaigns)
+			{
+				var numRemove = campaign.Accounts.RemoveAll(x => x.Id == account.Id);
+				if (numRemove > 0)
+				{
+					Update(campaign);
+				}
+			}
+		}
+
 		public IEnumerable<Campaign> GetAll()
 		{
 			return _campaignRepository.GetAll();
+		}
+
+		public void Start(Campaign campaign)
+		{
 		}
 	}
 }

@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TubeSniper.Application", "T
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TubeSniper.Domain", "TubeSniper.Domain\TubeSniper.Domain.csproj", "{5FE2AE7C-0862-478D-BB37-3A14BECA732E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TubeSniper.YouTubeBot", "TubeSniper.YouTubeBot\TubeSniper.YouTubeBot.csproj", "{C6158AF1-F139-4B0E-8E7A-5CDA9A8721E3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -61,6 +63,14 @@ Global
 		{5FE2AE7C-0862-478D-BB37-3A14BECA732E}.Release|Any CPU.Build.0 = Release|Any CPU
 		{5FE2AE7C-0862-478D-BB37-3A14BECA732E}.Release|x86.ActiveCfg = Release|Any CPU
 		{5FE2AE7C-0862-478D-BB37-3A14BECA732E}.Release|x86.Build.0 = Release|Any CPU
+		{C6158AF1-F139-4B0E-8E7A-5CDA9A8721E3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C6158AF1-F139-4B0E-8E7A-5CDA9A8721E3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C6158AF1-F139-4B0E-8E7A-5CDA9A8721E3}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{C6158AF1-F139-4B0E-8E7A-5CDA9A8721E3}.Debug|x86.Build.0 = Debug|Any CPU
+		{C6158AF1-F139-4B0E-8E7A-5CDA9A8721E3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C6158AF1-F139-4B0E-8E7A-5CDA9A8721E3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C6158AF1-F139-4B0E-8E7A-5CDA9A8721E3}.Release|x86.ActiveCfg = Release|Any CPU
+		{C6158AF1-F139-4B0E-8E7A-5CDA9A8721E3}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

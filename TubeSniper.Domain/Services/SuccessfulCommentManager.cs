@@ -13,7 +13,7 @@ namespace TubeSniper.Domain.Services
 		public Bitmap Thumbnail { get; set; }
 	}
 
-	public static class SuccessfulCommentManager 
+	public static class SuccessfulCommentManager
 	{
 		private static readonly List<SuccessComment> SuccessfulList = new List<SuccessComment>();
 		private static readonly object Mutex = new object();

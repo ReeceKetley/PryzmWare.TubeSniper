@@ -1,4 +1,3 @@
 ﻿namespace TubeSniper.Domain.Common
 {
-
 }

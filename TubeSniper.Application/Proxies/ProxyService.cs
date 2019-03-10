@@ -8,32 +8,32 @@ namespace TubeSniper.Application.Proxies
 {
 	public class ProxyService : IProxyService
 	{
+		private readonly IProxyEntryRepository _proxyEntryRepository;
 		private readonly IProxyPortationMapper _proxyPortationMapper;
-		private readonly IProxyRepository _proxyRepository;
 
-		public ProxyService(IProxyRepository proxyRepository, IProxyPortationMapper proxyPortationMapper)
+		public ProxyService(IProxyEntryRepository proxyEntryRepository, IProxyPortationMapper proxyPortationMapper)
 		{
-			_proxyRepository = proxyRepository;
+			_proxyEntryRepository = proxyEntryRepository;
 			_proxyPortationMapper = proxyPortationMapper;
 		}
 
 		public void Delete(Guid id)
 		{
-			var model = _proxyRepository.GetById(id);
-			_proxyRepository.Delete(model);
+			var model = _proxyEntryRepository.GetById(id);
+			_proxyEntryRepository.Delete(model);
 			ProxyEvents.RaiseProxyProfileRemoved(new ProxyProfileRemoved(model));
 		}
 
 		public void Insert(ProxyEntry proxyEntry)
 		{
-			_proxyRepository.Insert(proxyEntry);
+			_proxyEntryRepository.Insert(proxyEntry);
 			var clone = proxyEntry.DeepClone();
 			ProxyEvents.RaiseProxyProfileCreated(new ProxyProfileCreated(clone));
 		}
 
 		public void Update(ProxyEntry proxyEntry)
 		{
-			_proxyRepository.Update(proxyEntry);
+			_proxyEntryRepository.Update(proxyEntry);
 			ProxyEvents.RaiseProxyProfileUpdated(new ProxyProfileUpdated(proxyEntry.DeepClone()));
 		}
 

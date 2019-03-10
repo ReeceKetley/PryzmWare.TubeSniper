@@ -60,14 +60,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Accounts\AccountDto.cs" />
-    <Compile Include="Accounts\AccountDtoMapper.cs" />
+    <Compile Include="Accounts\AccountEntryDto.cs" />
+    <Compile Include="Accounts\AccountEntryMapper.cs" />
     <Compile Include="Accounts\AccountService.cs" />
+    <Compile Include="Accounts\IAccountEntryMapper.cs" />
     <Compile Include="Accounts\IAccountService.cs" />
     <Compile Include="Campaigns\CampaignDto.cs" />
-    <Compile Include="Campaigns\CampaignDtoMapper.cs" />
+    <Compile Include="Campaigns\CampaignMapper.cs" />
     <Compile Include="Campaigns\CampaignService.cs" />
     <Compile Include="Campaigns\ICampaignMapper.cs" />
+    <Compile Include="Campaigns\ThreadedCampaign.cs" />
+    <Compile Include="CommentServiceResult.cs" />
+    <Compile Include="CommentServiceResultArgs.cs" />
     <Compile Include="Events\Accounts\AccountEvents.cs" />
     <Compile Include="Events\Accounts\AccountProfileCreated.cs" />
     <Compile Include="Events\Accounts\AccountProfileRemoved.cs" />
@@ -98,10 +102,7 @@
     <Compile Include="Services\IDialogService.cs" />
     <Compile Include="Services\IMessageBoxService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Youtube\EngineExtensions.cs" />
-    <Compile Include="Youtube\WebViewExtenstions.cs" />
-    <Compile Include="Youtube\YoutubeCommentBot.cs" />
-    <Compile Include="Youtube\YoutubeCommentBotFactory.cs" />
+    <Compile Include="Youtube\ICommentService.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

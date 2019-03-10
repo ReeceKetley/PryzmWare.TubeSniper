@@ -1,7 +1,7 @@
 ﻿namespace TubeSniper.Domain.Interfaces
 {
-    public interface ITestViewOpener
-    {
-        void Open();
-    }
+	public interface ITestViewOpener
+	{
+		void Open();
+	}
 }

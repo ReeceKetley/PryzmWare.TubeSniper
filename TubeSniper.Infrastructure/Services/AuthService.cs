@@ -1,15 +1,15 @@
 ﻿using System;
-using Newtonsoft.Json;
 using TubeSniper.Domain.Auth;
 using TubeSniper.Infrastructure.Common;
-using TubeSniperApi.Client;
 
 namespace TubeSniper.Infrastructure.Services
 {
 	public class AuthService : IAuthService
 	{
-		public SelectorPayload GetSelectorPayload(string key)
+		public byte[] GetYoutubeBotData(string key)
 		{
+			return null;
+			/*
 			GetAuthPayloadResponse response = null;
 			var apiClient = new TubeSniperApiClient();
 			try
@@ -36,6 +36,7 @@ namespace TubeSniper.Infrastructure.Services
 			}
 
 			return dto;
+			*/
 		}
 
 		public void DeactiveKey()

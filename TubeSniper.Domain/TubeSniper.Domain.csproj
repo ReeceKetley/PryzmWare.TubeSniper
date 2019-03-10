@@ -34,15 +34,6 @@
     <Reference Include="CSharpFunctionalExtensions, Version=1.17.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\CSharpFunctionalExtensions.1.17.0\lib\net45\CSharpFunctionalExtensions.dll</HintPath>
     </Reference>
-    <Reference Include="EO.Base, Version=19.0.69.0, Culture=neutral, PublicKeyToken=e92353a6bf73fffc, processorArchitecture=MSIL">
-      <HintPath>..\packages\EO.WebBrowser.19.0.69\lib\EO.Base.dll</HintPath>
-    </Reference>
-    <Reference Include="EO.WebBrowser, Version=19.0.69.0, Culture=neutral, PublicKeyToken=e92353a6bf73fffc, processorArchitecture=MSIL">
-      <HintPath>..\packages\EO.WebBrowser.19.0.69\lib\EO.WebBrowser.dll</HintPath>
-    </Reference>
-    <Reference Include="EO.WebEngine, Version=19.0.69.0, Culture=neutral, PublicKeyToken=e92353a6bf73fffc, processorArchitecture=MSIL">
-      <HintPath>..\packages\EO.WebBrowser.19.0.69\lib\EO.WebEngine.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
@@ -55,16 +46,24 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Accounts\AccountEntry.cs" />
+    <Compile Include="Accounts\Email.cs" />
     <Compile Include="Campaigns\Campaign.cs" />
     <Compile Include="Campaigns\CampaignEventArgs.cs" />
+    <Compile Include="Campaigns\CampaignTitle.cs" />
     <Compile Include="Campaigns\Comment.cs" />
+    <Compile Include="Campaigns\CommentJob.cs" />
+    <Compile Include="Campaigns\CommentPostedEvent.cs" />
+    <Compile Include="Campaigns\CommentPoster.cs" />
+    <Compile Include="Campaigns\CommentPosterCommand.cs" />
     <Compile Include="Campaigns\CurrentStepEventArgs.cs" />
     <Compile Include="Campaigns\EnumerableExtensions.cs" />
+    <Compile Include="Campaigns\Keyword.cs" />
+    <Compile Include="Youtube\VideoId.cs" />
+    <Compile Include="Youtube\CommentMethod.cs" />
     <Compile Include="Common\Extensions\StringExenstions.cs" />
     <Compile Include="Common\GlobalContainer.cs" />
     <Compile Include="Common\Helpers\GeneralHelpers.cs" />
-    <Compile Include="Common\Helpers\TimeoutHelper.cs" />
-    <Compile Include="Common\Helpers\WaitCode.cs" />
     <Compile Include="Common\ViewModelLocator.cs" />
     <Compile Include="Config.cs" />
     <Compile Include="Auth\CheckNewActivationCode.cs" />
@@ -73,116 +72,35 @@
     <Compile Include="Auth\License.cs" />
     <Compile Include="Auth\MyIsGenuineResult.cs" />
     <Compile Include="Auth\ProductKey.cs" />
-    <Compile Include="Auth\SelectorPayload.cs" />
-    <Compile Include="Browser\DebugView.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Browser\DebugView.Designer.cs">
-      <DependentUpon>DebugView.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Campaigns\CampaignMeta.cs" />
-    <Compile Include="Campaigns\CampaignProcessedEventArgs.cs" />
-    <Compile Include="Campaigns\CampaignWorker.cs" />
-    <Compile Include="Campaigns\CommentPoster.cs" />
-    <Compile Include="Campaigns\ThreadSafeVideoStack.cs" />
-    <Compile Include="Campaigns\VideoProcessedEventArgs.cs" />
-    <Compile Include="Globals.cs" />
-    <Compile Include="Models\IAccountRegister.cs" />
-    <Compile Include="Models\ProxyAccountPair.cs" />
-    <Compile Include="Models\States\ExtractCatpchaResult.cs" />
-    <Compile Include="Models\States\ExtractCatpchaResultCode.cs" />
-    <Compile Include="Models\States\LoginState.cs" />
-    <Compile Include="Models\States\V0\CheckLoginStateCode.cs" />
-    <Compile Include="Models\States\V0\LoginAccountNotFound.cs" />
-    <Compile Include="Models\States\V0\LoginAccountSuspended.cs" />
-    <Compile Include="Models\States\V0\LoginCaptchaPage.cs" />
-    <Compile Include="Models\States\V0\LoginEmailPage.cs" />
-    <Compile Include="Models\States\V0\LoginPasswordPage.cs" />
-    <Compile Include="Models\States\V0\LoginPhoneVerifaction.cs" />
-    <Compile Include="Models\States\V0\LoginSelectRecoveryPage.cs" />
-    <Compile Include="Models\States\V0\LoginSubmitRecoveryPage.cs" />
-    <Compile Include="Models\States\V0\LoginYoutubeHomeState.cs" />
-    <Compile Include="Models\States\V1\LoginCaptchaPageV1.cs" />
-    <Compile Include="Models\States\V1\LoginEmailPageV1.cs" />
-    <Compile Include="Models\States\V1\LoginErrorPageV1.cs" />
-    <Compile Include="Models\States\V1\LoginFormErrorEnums.cs" />
-    <Compile Include="Models\States\V1\LoginPasswordPageV1.cs" />
-    <Compile Include="Models\States\V1\LoginProxyErrorV1.cs" />
-    <Compile Include="Models\States\V1\LoginSelectRecoveryPageV1.cs" />
-    <Compile Include="Models\States\V1\LoginSubmitRecoveryPageV1.cs" />
-    <Compile Include="Models\States\V1\LoginUpgradeBrowserPageV1.cs" />
-    <Compile Include="Models\States\V1\LoginYoutubeHomeStateV1.cs" />
-    <Compile Include="Properties\Resources.Designer.cs">
-      <DependentUpon>Resources.resx</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-    </Compile>
+    <Compile Include="Campaigns\VideoCollection.cs" />
     <Compile Include="Proxies\HttpProxy.cs" />
     <Compile Include="Proxies\HttpProxyAddress.cs" />
     <Compile Include="Proxies\HttpProxyCredentials.cs" />
-    <Compile Include="Proxies\IProxyRegister.cs" />
-    <Compile Include="Proxies\IProxyRepository.cs" />
+    <Compile Include="Proxies\IProxyEntryRepository.cs" />
     <Compile Include="Proxies\IProxyTestService.cs" />
     <Compile Include="Proxies\ProxyEntry.cs" />
-    <Compile Include="Proxies\ProxyCollection.cs" />
     <Compile Include="Proxies\ProxyTestResult.cs" />
     <Compile Include="Services\ICaptchaService.cs" />
     <Compile Include="Youtube\AccountRegisterItem.cs" />
-    <Compile Include="Youtube\CommentMethod.cs" />
-    <Compile Include="Youtube\CommentPostedResult.cs" />
-    <Compile Include="Youtube\CommentPostedResultCode.cs" />
     <Compile Include="Youtube\CommentGenerator.cs" />
     <Compile Include="Youtube\CommentTemplate.cs" />
-    <Compile Include="Youtube\Extensions\EngineExtensions.cs" />
-    <Compile Include="Youtube\Extensions\WebViewExtenstions.cs" />
-    <Compile Include="Youtube\FatalErrorEventArgs.cs" />
-    <Compile Include="Youtube\IYoutubeCommentBot.cs" />
-    <Compile Include="Youtube\IYoutubeCommentBotFactory.cs" />
-    <Compile Include="Youtube\LoadSignInResult.cs" />
-    <Compile Include="Youtube\LoadSignInResultCode.cs" />
-    <Compile Include="Youtube\LoginResult.cs" />
-    <Compile Include="Youtube\LoginResultCode.cs" />
     <Compile Include="Youtube\StandardAccountRegister.cs" />
-    <Compile Include="Youtube\StatusChangedEventArgs.cs" />
-    <Compile Include="Youtube\VideoNaviagorResultCode.cs" />
-    <Compile Include="Youtube\VirtualBrowser\CacheId.cs" />
-    <Compile Include="Youtube\VirtualBrowser\MoveToElementResult.cs" />
-    <Compile Include="Youtube\VirtualBrowser\MoveToElementResultCode.cs" />
-    <Compile Include="Youtube\VirtualBrowser\VirtualBrowser.cs" />
-    <Compile Include="Youtube\VirtualBrowser\VirtualKeyboard.cs" />
-    <Compile Include="Youtube\VirtualBrowser\VirtualMouse.cs" />
-    <Compile Include="Youtube\YoutubeAccount.cs" />
-    <Compile Include="Youtube\YoutubeBot.cs" />
-    <Compile Include="Youtube\YoutubeCredentials.cs" />
-    <Compile Include="Youtube\YoutubeLoginBotV1.cs" />
-    <Compile Include="Youtube\YoutubeVideo.cs" />
     <Compile Include="Campaigns\ICampaignService.cs" />
     <Compile Include="Interfaces\IContainer.cs" />
-    <Compile Include="Interfaces\ILoginService.cs" />
     <Compile Include="Interfaces\IMainViewOpener.cs" />
     <Compile Include="Interfaces\ISearchService.cs" />
     <Compile Include="Interfaces\ITestViewOpener.cs" />
-    <Compile Include="Interfaces\IVirtualBrowser.cs" />
-    <Compile Include="Interfaces\Persistence\IAccountsRepository.cs" />
+    <Compile Include="Interfaces\Persistence\IAccountEntryRepository.cs" />
     <Compile Include="Interfaces\Persistence\ICampaignRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\ISuccessfulCommentManager.cs" />
-    <Compile Include="Youtube\PostCommentResult.cs" />
-    <Compile Include="Youtube\PostCommentResultCode.cs" />
     <Compile Include="Services\SolveCaptchaCode.cs" />
     <Compile Include="Services\SubmitPasswordResultCode.cs" />
     <Compile Include="Services\SuccessfulCommentManager.cs" />
-    <Compile Include="SharedData.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Browser\DebugView.resx">
-      <DependentUpon>DebugView.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
+    <Compile Include="Youtube\YoutubeCredentials.cs" />
+    <Compile Include="Youtube\YoutubePassword.cs" />
+    <Compile Include="Youtube\YoutubeUsername.cs" />
+    <Compile Include="Youtube\YoutubeVideo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

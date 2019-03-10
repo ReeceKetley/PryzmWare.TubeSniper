@@ -2,24 +2,24 @@
 
 namespace TubeSniper.Domain.Proxies
 {
-    public class ProxyEntry
-    {
-	    public ProxyEntry(Guid id, HttpProxy proxy)
-	    {
-		    Id = id;
-		    Proxy = proxy;
-	    }
+	public class ProxyEntry
+	{
+		public ProxyEntry(Guid id, HttpProxy proxy)
+		{
+			Id = id;
+			Proxy = proxy;
+		}
 
-	    public ProxyEntry()
-	    {
-	    }
+		public ProxyEntry()
+		{
+		}
 
-	    public Guid Id { get; set; }
-	    public HttpProxy Proxy { get; set; }
+		public Guid Id { get; set; }
+		public HttpProxy Proxy { get; set; }
 
-	    public ProxyEntry DeepClone()
-	    {
-		    return (ProxyEntry) MemberwiseClone();
-	    }
-    }
+		public ProxyEntry DeepClone()
+		{
+			return (ProxyEntry) MemberwiseClone();
+		}
+	}
 }

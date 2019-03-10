@@ -2,8 +2,8 @@
 {
 	public class License
 	{
-		public bool IsGenuine;
 		public bool IsActivated;
+		public bool IsGenuine;
 		public ProductKey ProductKey;
 
 		public License(bool isGenuine, bool isActivated, ProductKey productKey)

@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
+using TubeSniper.Domain.Campaigns;
 
 namespace TubeSniper.Domain.Youtube
 {
 	public class CommentGenerator
 	{
-		private readonly CommentTemplate _template;
 		private readonly Random _random;
+		private readonly CommentTemplate _template;
 
 		public CommentGenerator(CommentTemplate template)
 		{
@@ -15,7 +16,7 @@ namespace TubeSniper.Domain.Youtube
 			_template = template;
 		}
 
-		public string Generate()
+		public Comment Generate()
 		{
 			var template = _template;
 			var matches = Regex.Matches(template.Value, @"\{(.*?)\}");
@@ -46,7 +47,7 @@ namespace TubeSniper.Domain.Youtube
 				message = message.Insert(token.Groups[0].Index, replacement);
 			}
 
-			return message;
+			return new Comment(message);
 		}
 	}
 }

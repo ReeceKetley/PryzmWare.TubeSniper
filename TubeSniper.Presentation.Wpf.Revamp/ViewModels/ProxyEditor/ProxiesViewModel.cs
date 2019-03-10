@@ -16,14 +16,14 @@ namespace TubeSniper.Presentation.Wpf.ViewModels.ProxyEditor
 		private readonly IDialogService _dialogService;
 		private readonly IMessageBoxService _messageBoxService;
 
-		private readonly IProxyRepository _proxyRepository;
+		private readonly IProxyEntryRepository _proxyEntryRepository;
 		private readonly IProxyService _proxyService;
 		private ICommand _createProxyCommand;
 		private ICommand _importProxyCommand;
 
-		public ProxiesViewModel(IProxyRepository proxyRepository, IProxyService proxyService, IDialogService dialogService, IMessageBoxService messageBoxService)
+		public ProxiesViewModel(IProxyEntryRepository proxyEntryRepository, IProxyService proxyService, IDialogService dialogService, IMessageBoxService messageBoxService)
 		{
-			_proxyRepository = proxyRepository;
+			_proxyEntryRepository = proxyEntryRepository;
 			_proxyService = proxyService;
 			_dialogService = dialogService;
 			_messageBoxService = messageBoxService;
@@ -38,7 +38,7 @@ namespace TubeSniper.Presentation.Wpf.ViewModels.ProxyEditor
 
 		private void Initialise()
 		{
-			foreach (var proxyEntry in _proxyRepository.GetAll())
+			foreach (var proxyEntry in _proxyEntryRepository.GetAll())
 			{
 				var viewModel = ViewModelLocator.Locate<ProxyListItem>();
 				viewModel.SetProxy(proxyEntry);

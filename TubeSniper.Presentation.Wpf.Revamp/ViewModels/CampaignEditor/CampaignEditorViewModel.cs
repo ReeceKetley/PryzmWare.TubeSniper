@@ -3,7 +3,10 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Input;
+using TubeSniper.Domain.Accounts;
 using TubeSniper.Domain.Campaigns;
 using TubeSniper.Domain.Interfaces;
 using TubeSniper.Domain.Interfaces.Persistence;
@@ -17,50 +20,39 @@ namespace TubeSniper.Presentation.Wpf.ViewModels.CampaignEditor
 {
 	public class CampaignEditorViewModel : ViewModelBase, IDataErrorInfo
 	{
-		private readonly IAccountsRepository _accountsRepository;
+		private readonly IAccountEntryRepository _accountEntryRepository;
 		private readonly ICampaignService _campaignService;
 		private readonly ISearchService _searchService;
 		private readonly ICaptchaService _captchaService;
 		private readonly IProxyTestService _proxyTestService;
-		private readonly IYoutubeCommentBotFactory _botFactory;
-		private readonly IProxyRepository _proxyRepository;
+		private readonly IProxyEntryRepository _proxyEntryRepository;
 		private readonly CampaignEditorViewModelValidator _validator;
 		private Guid _campaignId;
 		private ICommand _submitCommand;
 		private ICommand _selectAllAccountsCommand;
 		private ICommand _selectAllProxiesCommand;
+		private Campaign _campaign;
 
-		public CampaignEditorViewModel(IAccountsRepository accountsRepository, IProxyRepository proxyRepository, ICampaignService campaignService, ISearchService searchService, ICaptchaService captchaService, IProxyTestService proxyTestService, IYoutubeCommentBotFactory botFactory)
+		public CampaignEditorViewModel(IAccountEntryRepository accountEntryRepository, IProxyEntryRepository proxyEntryRepository, ICampaignService campaignService, ISearchService searchService, ICaptchaService captchaService, IProxyTestService proxyTestService)
 		{
 			//SelectedProxies.CollectionChanged += SelectedProxies_CollectionChanged;
-			_accountsRepository = accountsRepository;
-			_proxyRepository = proxyRepository;
+			_accountEntryRepository = accountEntryRepository;
+			_proxyEntryRepository = proxyEntryRepository;
 			_campaignService = campaignService;
 			_searchService = searchService;
 			_captchaService = captchaService;
 			_proxyTestService = proxyTestService;
-			_botFactory = botFactory;
 
 			_validator = new CampaignEditorViewModelValidator();
 
-			foreach (var account in accountsRepository.GetAll().ToList())
+			foreach (var account in accountEntryRepository.GetAll())
 			{
-				if (Accounts.Contains(account.Credentials.Email))
-				{
-					continue;
-				}
-
-				Accounts.Add(account.Credentials.Email);
+				Accounts.Add(account.Id, account.Credentials.Username.Value);
 			}
 
-			foreach (var proxyEntry in _proxyRepository.GetAll().ToList())
+			foreach (var proxyEntry in _proxyEntryRepository.GetAll())
 			{
-				if (Proxies.Contains(proxyEntry.Proxy.Address.Host + ":" + proxyEntry.Proxy.Address.Port))
-				{
-					continue;
-				}
-
-				Proxies.Add(proxyEntry.Proxy.Address.Host + ":" + proxyEntry.Proxy.Address.Port);
+				Proxies.Add(proxyEntry.Id, proxyEntry.Proxy.Address.ToString());
 			}
 		}
 
@@ -72,9 +64,9 @@ namespace TubeSniper.Presentation.Wpf.ViewModels.CampaignEditor
 
 		public Action CloseAction { get; set; }
 
-		public ObservableCollection<string> Accounts { get; } = new ObservableCollection<string>();
+		public Dictionary<Guid, string> Accounts { get; } = new Dictionary<Guid, string>();
 
-		public ObservableCollection<string> Proxies { get; } = new ObservableCollection<string>();
+		public Dictionary<Guid, string> Proxies { get; } = new Dictionary<Guid, string>();
 
 		public string Title { get; set; }
 
@@ -88,13 +80,11 @@ namespace TubeSniper.Presentation.Wpf.ViewModels.CampaignEditor
 
 		public bool PostAsReply { get; set; }
 
-		public ObservableCollection<string> SelectedAccounts { get; set; } = new ObservableCollection<string>();
+		public CommentMethod CommentMethod { get; set; }
 
-		public ObservableCollection<string> SelectedProxies { get; set; } = new ObservableCollection<string>();
+		public ObservableCollection<KeyValuePair<Guid, string>> SelectedAccounts { get; set; } = new ObservableCollection<KeyValuePair<Guid, string>>();
 
-		public ObservableCollection<string> SelectedProxyItem { get; set; }
-
-		public ObservableCollection<string> SelectedAccountItem { get; set; }
+		public ObservableCollection<KeyValuePair<Guid, string>> SelectedProxies { get; set; } = new ObservableCollection<KeyValuePair<Guid, string>>();
 
 		public string this[string columnName]
 		{
@@ -127,6 +117,7 @@ namespace TubeSniper.Presentation.Wpf.ViewModels.CampaignEditor
 
 		private void Submit(object obj)
 		{
+			CommentMethod = PostAsReply == false ? CommentMethod.Comment : CommentMethod.Reply;
 			var model = GetCampaign();
 			if (_campaignId == Guid.Empty)
 			{
@@ -177,27 +168,32 @@ namespace TubeSniper.Presentation.Wpf.ViewModels.CampaignEditor
 
 		private Campaign GetCampaign()
 		{
-			var campaignMeta = new CampaignMeta();
-			campaignMeta.Title = Title;
-			campaignMeta.SearchTerm = SearchKeyword;
-			var accounts = new List<YoutubeAccount>();
-			foreach (var account in SelectedAccounts)
+			var accounts = new List<AccountEntry>();
+			foreach (var pair in SelectedAccounts)
 			{
-				accounts.AddRange(_accountsRepository.GetAll().Where(youtubeAccount => youtubeAccount.Credentials.Email == account));
+				accounts.Add(_accountEntryRepository.GetById(pair.Key));
 			}
 
 			var proxies = new List<ProxyEntry>();
-			foreach (var proxy in SelectedProxies)
+			foreach (var pair in SelectedProxies)
 			{
-				proxies.AddRange(_proxyRepository.GetAll().Where(proxyEntry => proxyEntry.Proxy.Address.Host + ":" + proxyEntry.Proxy.Address.Port == proxy));
+				proxies.Add(_proxyEntryRepository.GetById(pair.Key));
 			}
 
-			var proxyRegister = new ProxyCollection(proxies);
-			campaignMeta.Accounts = accounts;
-			var campaign = new Campaign(proxyRegister, campaignMeta, new StandardAccountRegister(accounts), SearchKeyword, new CommentGenerator(new CommentTemplate(Comment)), PostAsReply, _searchService, _captchaService, _proxyTestService, _botFactory);
-			campaign.Id = _campaignId; // Not sure if this the error TODO: Check this.
+
+			var campaign = new Campaign();
+			campaign.Id = _campaignId;
+			campaign.Title = new CampaignTitle(Title);
+			campaign.Keyword = new Keyword(SearchKeyword);
+			campaign.Accounts = accounts;
+			campaign.Proxies = proxies;
+			campaign.Comment = new Comment(Comment);
+			campaign.CommentMethod = CommentMethod;
+			campaign.MaxComments = MaxResults;
+			campaign.NumberOfWorkers = WorkersCount;
 			return campaign;
 		}
+
 
 		private void SelectedProxies_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
 		{
@@ -209,22 +205,42 @@ namespace TubeSniper.Presentation.Wpf.ViewModels.CampaignEditor
 
 		public void SetCampaign(Campaign campaign)
 		{
-			Console.WriteLine(campaign.Id);
+			_campaign = campaign;
 			_campaignId = campaign.Id;
-			Title = campaign.Meta.Title;
-			SearchKeyword = campaign.Meta.SearchTerm;
-			Comment = campaign.Comment;
-			WorkersCount = campaign.Workers;
-			MaxResults = campaign.MaxResults;
-			PostAsReply = campaign.AsReply;
-			foreach (var account in Accounts)
+			Title = campaign.Title.Value;
+			SearchKeyword = campaign.Keyword.Value;
+			Comment = campaign.Comment.Value;
+			WorkersCount = campaign.NumberOfWorkers;
+			MaxResults = campaign.MaxComments;
+			CommentMethod = campaign.CommentMethod;
+			SetLists(campaign);
+
+			PostAsReply = CommentMethod != CommentMethod.Comment;
+		}
+
+		private async void SetLists(Campaign campaign)
+		{
+			await Task.Delay(200);
+			foreach (var account in campaign.Accounts)
 			{
-				SelectedAccounts.Add(account);
+				foreach (var pair in Accounts)
+				{
+					if (account.Id == pair.Key)
+					{
+						SelectedAccounts.Add(pair);
+					}
+				}
 			}
 
-			foreach (var proxy in Proxies)
+			foreach (var proxy in campaign.Proxies)
 			{
-				SelectedProxies.Add(proxy);
+				foreach (var pair in Proxies)
+				{
+					if (proxy.Id == pair.Key)
+					{
+						SelectedProxies.Add(pair);
+					}
+				}
 			}
 		}
 	}

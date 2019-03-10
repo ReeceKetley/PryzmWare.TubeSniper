@@ -2,7 +2,9 @@
 using System.ComponentModel;
 using System.Linq;
 using System.Windows.Input;
+using SoleSlayer.Domain.Customer;
 using TubeSniper.Application.Accounts;
+using TubeSniper.Domain.Accounts;
 using TubeSniper.Domain.Youtube;
 using TubeSniper.Presentation.Wpf.Commands;
 using TubeSniper.Presentation.Wpf.Validators.AccountEditor;
@@ -67,8 +69,8 @@ namespace TubeSniper.Presentation.Wpf.Accounts.ViewModels
 				return;
 			}
 
-			var credentials = new YoutubeCredentials(Email, Password);
-			var youtubeAccount = new YoutubeAccount(credentials, RecoveryEmail);
+			var credentials = new YoutubeCredentials(new YoutubeUsername(Email), new YoutubePassword(Password));
+			var youtubeAccount = new AccountEntry(credentials, new Email(RecoveryEmail));
 			_accountService.Insert(youtubeAccount);
 			CloseAction?.Invoke();
 		}

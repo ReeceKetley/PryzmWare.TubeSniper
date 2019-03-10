@@ -84,7 +84,7 @@
                     </Button.ContextMenu>
                 </Button>
                 <TextBlock Grid.Row="0" FontSize="16" Margin="3" HorizontalAlignment="Center" Foreground="Gray" Text="{Binding Title, FallbackValue='Campaign'}"/>
-                <Button Style="{StaticResource CampaignTile.Buttons.RightIcon}" Command="{Binding Path=AdvancedCommand}"/>
+                <Button Style="{StaticResource CampaignTile.Buttons.RightIcon}" Command="{Binding Path=AdvancedCommand}" Visibility="Collapsed" />
             </Grid>
             <Border Name="ProgressBorder" Grid.Row="1">
                 <Border.Effect>

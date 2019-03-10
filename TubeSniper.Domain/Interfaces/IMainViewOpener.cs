@@ -1,7 +1,7 @@
 ﻿namespace TubeSniper.Domain.Interfaces
 {
-    public interface IMainViewOpener
-    {
-        void Open();
-    }
+	public interface IMainViewOpener
+	{
+		void Open();
+	}
 }

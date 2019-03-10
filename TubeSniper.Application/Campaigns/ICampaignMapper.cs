@@ -4,7 +4,7 @@ namespace TubeSniper.Application.Campaigns
 {
 	public interface ICampaignMapper
 	{
-		CampaignDto Map(Campaign campaign);
-		Campaign Map(CampaignDto campaignDto);
+		Campaign Map(CampaignDto dto);
+		CampaignDto Map(Campaign model);
 	}
 }

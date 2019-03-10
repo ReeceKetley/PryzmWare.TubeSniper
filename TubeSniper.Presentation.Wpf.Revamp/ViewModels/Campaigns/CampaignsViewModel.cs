@@ -21,7 +21,7 @@ namespace TubeSniper.Presentation.Wpf.ViewModels.Campaigns
 			foreach (var campaign in campaignService.GetAll())
 			{
 				var viewModel = ViewModelFactory.Campaigns.CampaignTileViewModel();
-				viewModel.Campaign = campaign;
+				viewModel.SetCampaign(campaign);
 				Tiles.Add(viewModel);
 			}
 
@@ -44,7 +44,7 @@ namespace TubeSniper.Presentation.Wpf.ViewModels.Campaigns
 		private void CampaignEvents_OnCampaignCreated(object sender, CampaignCreated e)
 		{
 			var viewModel = ViewModelFactory.Campaigns.CampaignTileViewModel();
-			viewModel.Campaign = e.Campaign;
+			viewModel.SetCampaign(e.Campaign);
 			Tiles.Add(viewModel);
 		}
 
@@ -62,7 +62,7 @@ namespace TubeSniper.Presentation.Wpf.ViewModels.Campaigns
 			var viewModels = Tiles.Where(x => x.Campaign.Id == e.Campaign.Id).ToList();
 			foreach (var viewModel in viewModels)
 			{
-				viewModel.Campaign = e.Campaign;
+				viewModel.SetCampaign(e.Campaign);
 			}
 		}
 	}

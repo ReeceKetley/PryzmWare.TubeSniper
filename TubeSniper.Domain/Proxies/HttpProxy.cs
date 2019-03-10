@@ -18,12 +18,8 @@ namespace TubeSniper.Domain.Proxies
 		}
 
 		public HttpProxyAddress Address { get; }
-		public HttpProxyCredentials Credentials { get; }
 
-		public HttpProxy DeepClone()
-		{
-			return (HttpProxy)MemberwiseClone();
-		}
+		public HttpProxyCredentials Credentials { get; }
 
 		protected override IEnumerable<object> GetEqualityComponents()
 		{
@@ -49,9 +45,7 @@ namespace TubeSniper.Domain.Proxies
 				}
 			}
 
-			return new WebProxy { Address = address, Credentials = credentials, BypassProxyOnLocal = false };
+			return new WebProxy {Address = address, Credentials = credentials, BypassProxyOnLocal = false};
 		}
 	}
 }
-
-

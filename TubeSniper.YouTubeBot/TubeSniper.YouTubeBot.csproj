@@ -1,0 +1,142 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{C6158AF1-F139-4B0E-8E7A-5CDA9A8721E3}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>TubeSniper.YouTubeBot</RootNamespace>
+    <AssemblyName>TubeSniper.YouTubeBot</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="CSharpFunctionalExtensions, Version=1.17.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\CSharpFunctionalExtensions.1.17.0\lib\net45\CSharpFunctionalExtensions.dll</HintPath>
+    </Reference>
+    <Reference Include="EO.Base, Version=19.0.69.0, Culture=neutral, PublicKeyToken=e92353a6bf73fffc, processorArchitecture=MSIL">
+      <HintPath>..\packages\EO.WebBrowser.19.0.69\lib\EO.Base.dll</HintPath>
+    </Reference>
+    <Reference Include="EO.WebBrowser, Version=19.0.69.0, Culture=neutral, PublicKeyToken=e92353a6bf73fffc, processorArchitecture=MSIL">
+      <HintPath>..\packages\EO.WebBrowser.19.0.69\lib\EO.WebBrowser.dll</HintPath>
+    </Reference>
+    <Reference Include="EO.WebEngine, Version=19.0.69.0, Culture=neutral, PublicKeyToken=e92353a6bf73fffc, processorArchitecture=MSIL">
+      <HintPath>..\packages\EO.WebBrowser.19.0.69\lib\EO.WebEngine.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="States\LoginCreateChannelPageV1.cs" />
+    <Compile Include="Youtube\CaptchaReceivedEventArgs.cs" />
+    <Compile Include="Comments\Comment.cs" />
+    <Compile Include="Comments\CommentJob.cs" />
+    <Compile Include="Comments\CommentMethod.cs" />
+    <Compile Include="Model\Globals.cs" />
+    <Compile Include="Model\ILoginService.cs" />
+    <Compile Include="Model\IVirtualBrowser.cs" />
+    <Compile Include="Comments\CommentPostedResult.cs" />
+    <Compile Include="Comments\CommentPostedResultCode.cs" />
+    <Compile Include="Extensions\EngineExtensions.cs" />
+    <Compile Include="Extensions\WebViewExtenstions.cs" />
+    <Compile Include="Youtube\ExtractCatpchaResult.cs" />
+    <Compile Include="Youtube\ExtractCatpchaResultCode.cs" />
+    <Compile Include="Youtube\FatalErrorEventArgs.cs" />
+    <Compile Include="Auth\LoadSignInResult.cs" />
+    <Compile Include="Auth\LoadSignInResultCode.cs" />
+    <Compile Include="Auth\LoginResult.cs" />
+    <Compile Include="Auth\LoginResultCode.cs" />
+    <Compile Include="Auth\LoginState.cs" />
+    <Compile Include="Youtube\PostCommentResult.cs" />
+    <Compile Include="Youtube\PostCommentResultCode.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Model\SelectorPayload.cs" />
+    <Compile Include="States\LoginCaptchaPageV1.cs" />
+    <Compile Include="States\LoginEmailPageV1.cs" />
+    <Compile Include="States\LoginErrorPageV1.cs" />
+    <Compile Include="States\LoginFormErrorEnums.cs" />
+    <Compile Include="States\LoginPasswordPageV1.cs" />
+    <Compile Include="States\LoginProxyErrorV1.cs" />
+    <Compile Include="States\LoginSelectRecoveryPageV1.cs" />
+    <Compile Include="States\LoginSubmitRecoveryPageV1.cs" />
+    <Compile Include="States\LoginUpgradeBrowserPageV1.cs" />
+    <Compile Include="States\LoginYoutubeHomeStateV1.cs" />
+    <Compile Include="States\V0\CheckLoginStateCode.cs" />
+    <Compile Include="States\V0\LoginAccountNotFound.cs" />
+    <Compile Include="States\V0\LoginAccountSuspended.cs" />
+    <Compile Include="States\V0\LoginCaptchaPage.cs" />
+    <Compile Include="States\V0\LoginEmailPage.cs" />
+    <Compile Include="States\V0\LoginPasswordPage.cs" />
+    <Compile Include="States\V0\LoginPhoneVerifaction.cs" />
+    <Compile Include="States\V0\LoginSelectRecoveryPage.cs" />
+    <Compile Include="States\V0\LoginSubmitRecoveryPage.cs" />
+    <Compile Include="States\V0\LoginYoutubeHomeState.cs" />
+    <Compile Include="Youtube\StatusChangedEventArgs.cs" />
+    <Compile Include="Model\TimeoutHelper.cs" />
+    <Compile Include="Youtube\VideoId.cs" />
+    <Compile Include="Youtube\VideoNaviagorResultCode.cs" />
+    <Compile Include="Youtube\VideoProcessedEventArgs.cs" />
+    <Compile Include="VirtualBrowser\CacheId.cs" />
+    <Compile Include="VirtualBrowser\MoveToElementResult.cs" />
+    <Compile Include="VirtualBrowser\MoveToElementResultCode.cs" />
+    <Compile Include="VirtualBrowser\VirtualBrowser.cs" />
+    <Compile Include="VirtualBrowser\VirtualKeyboard.cs" />
+    <Compile Include="VirtualBrowser\VirtualMouse.cs" />
+    <Compile Include="Youtube\YoutubeAccount.cs" />
+    <Compile Include="Model\WaitCode.cs" />
+    <Compile Include="Youtube\YoutubeBot.cs" />
+    <Compile Include="Youtube\YoutubeCommentBot.cs" />
+    <Compile Include="Youtube\YoutubeCredentials.cs" />
+    <Compile Include="Youtube\YoutubeLoginBotV1.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\jquery.min.js" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\video_extraction.js" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

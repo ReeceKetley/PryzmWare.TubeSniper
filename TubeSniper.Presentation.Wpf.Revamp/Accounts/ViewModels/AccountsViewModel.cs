@@ -14,12 +14,12 @@ namespace TubeSniper.Presentation.Wpf.Accounts.ViewModels
 	public class AccountsViewModel : ViewModelBase
 	{
 		private readonly IAccountService _accountService;
-		private readonly IAccountsRepository _accountsRepository;
+		private readonly IAccountEntryRepository _accountEntryRepository;
 		private ICommand _createAccount;
 
-		public AccountsViewModel(IAccountsRepository accountsRepository, IAccountService accountService)
+		public AccountsViewModel(IAccountEntryRepository accountEntryRepository, IAccountService accountService)
 		{
-			_accountsRepository = accountsRepository;
+			_accountEntryRepository = accountEntryRepository;
 			_accountService = accountService;
 			Initialise();
 		}
@@ -37,7 +37,7 @@ namespace TubeSniper.Presentation.Wpf.Accounts.ViewModels
 
 		public void Initialise()
 		{
-			foreach (var youtubeAccount in _accountsRepository.GetAll())
+			foreach (var youtubeAccount in _accountEntryRepository.GetAll())
 			{
 				var viewModel = ViewModelLocator.Locate<AccountListItem>();
 				viewModel.SetAccount(youtubeAccount);
@@ -51,7 +51,7 @@ namespace TubeSniper.Presentation.Wpf.Accounts.ViewModels
 
 		private void AccountEvents_OnAccountProfileRemoved(object sender, AccountProfileRemoved e)
 		{
-			var viewModels = Accounts.Where(x => x.Id == e.Account.Id).ToList();
+			var viewModels = Accounts.Where(x => x.Id == e.AccountEntry.Id).ToList();
 			foreach (var viewModel in viewModels)
 			{
 				Accounts.Remove(viewModel);
@@ -60,17 +60,17 @@ namespace TubeSniper.Presentation.Wpf.Accounts.ViewModels
 
 		private void AccountEvents_OnAccountProfileUpdated(object sender, AccountProfileUpdated e)
 		{
-			var viewModels = Accounts.Where(x => x.Id == e.Account.Id);
+			var viewModels = Accounts.Where(x => x.Id == e.AccountEntry.Id);
 			foreach (var viewModel in viewModels)
 			{
-				viewModel.SetAccount(e.Account);
+				viewModel.SetAccount(e.AccountEntry);
 			}
 		}
 
 		private void AccountEvents_OnAccountProfileCreated(object sender, AccountProfileCreated e)
 		{
 			var viewModel = ViewModelLocator.Locate<AccountListItem>();
-			viewModel.SetAccount(e.Account);
+			viewModel.SetAccount(e.AccountEntry);
 			Accounts.Add(viewModel);
 		}
 	}

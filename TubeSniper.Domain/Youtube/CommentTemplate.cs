@@ -2,11 +2,11 @@
 {
 	public class CommentTemplate
 	{
-		public string Value { get; }
-
 		public CommentTemplate(string value)
 		{
 			Value = value;
 		}
+
+		public string Value { get; }
 	}
 }

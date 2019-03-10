@@ -1,184 +1,161 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using TubeSniper.Domain.Interfaces;
-using TubeSniper.Domain.Models;
+using TubeSniper.Domain.Accounts;
 using TubeSniper.Domain.Proxies;
-using TubeSniper.Domain.Services;
 using TubeSniper.Domain.Youtube;
 
 namespace TubeSniper.Domain.Campaigns
 {
+	/*public Campaign(Guid id, CampaignTitle title, Keyword keyword, IEnumerable<AccountEntry> accounts, IEnumerable<ProxyEntry> proxies, CommentMethod commentMethod, int maxComments, int numberOfWorkers, IEnumerable<VideoId> processedVideos)
+		{
+			// todo: VALIDATE (null checks)
+
+			Id = id;
+			Title = title;
+			Keyword = keyword;
+			Accounts = accounts != null ? new List<AccountEntry>(accounts) : new List<AccountEntry>();
+			Proxies = proxies != null ? new List<ProxyEntry>(proxies) : new List<ProxyEntry>();
+			CommentMethod = commentMethod;
+			MaxComments = maxComments;
+			NumberOfWorkers = numberOfWorkers;
+			ProcessedVideos = processedVideos != null ? new List<VideoId>(processedVideos) : new List<VideoId>();
+
+			
+		}*/
 	public class Campaign
 	{
-		private readonly IAccountRegister _accountRegister;
-		private readonly IYoutubeCommentBotFactory _botFactory;
-		private readonly ICaptchaService _captchaService;
-		private readonly CommentGenerator _commentGenerator;
-		private readonly IProxyTestService _proxyTestService;
-		private readonly ISearchService _searchService;
-		private ThreadSafeVideoStack _videoStack;
+		private StandardAccountRegister _accountRegister;
+		private VideoCollection _videos;
 
-		private IEnumerable<CampaignWorker> _workers;
-
-		public Campaign(Campaign source)
+		public Campaign()
 		{
-			Id = source.Id;
-			if (source.Meta != null)
-			{
-				Meta = new CampaignMeta(source.Meta);
-			}
 		}
 
-		public Campaign(ProxyCollection proxyCollection, CampaignMeta meta, IAccountRegister accountRegister, string searchTerm, CommentGenerator commentGenerator, bool asReply, ISearchService searchService, ICaptchaService captchaService, IProxyTestService proxyTestService, IYoutubeCommentBotFactory botFactory)
-		{
-			ProxyCollection = proxyCollection;
-			meta.SearchTerm = searchTerm;
-			Meta = meta;
-			this._accountRegister = accountRegister;
-			_commentGenerator = commentGenerator;
-			_searchService = searchService;
-			_captchaService = captchaService;
-			_proxyTestService = proxyTestService;
-			_botFactory = botFactory;
-		}
-
-		public bool AsReply { get; set; }
-		public CampaignMeta Meta { get; }
-		public bool Editable { get; private set; }
-		public ProxyCollection ProxyCollection { get; set; }
-		public string Comment { get; set; }
+		// Config
 		public Guid Id { get; set; }
-		public int MaxResults { get; set; }
-		public ObservableCollection<string> StatusLog { get; } = new ObservableCollection<string>();
-		public YoutubeVideo VideoMeta { get; set; }
-		public int Workers { get; set; }
+		public CampaignTitle Title { get; set; }
+		public Keyword Keyword { get; set; }
+		public List<AccountEntry> Accounts { get; set; } = new List<AccountEntry>();	
+		public List<ProxyEntry> Proxies { get; set; } = new List<ProxyEntry>();
+		public Comment Comment { get; set; }
+		public CommentMethod CommentMethod { get; set; }
+		public int MaxComments { get; set; }
+		public int NumberOfWorkers { get; set; }
+		public List<VideoId> ProcessedVideos { get; set; } = new List<VideoId>();
 
-		public event EventHandler CampaignStarted;
-		public event EventHandler CampaignStopped;
 
-		public event EventHandler<FatalErrorEventArgs> FatalError;
+		public bool IsRunning { get; private set; }
+		public int ErrorCount { get; private set; }
+		public int SuccessCount { get; private set; }
+		public List<CommentPoster> CommentPosters { get; private set; }
 
-		public event EventHandler<StatusChangedEventArgs> StatusChanged;
-		public event EventHandler<VideoProcessedEventArgs> VideoProcessed;
-
-		public void Start()
+		private List<CommentPoster> CreatePosters()
 		{
-			_searchService.Init();
-			var videos = _searchService.SearchVideos(Meta.SearchTerm, MaxResults);
-			var posters = CreatePosters(videos);
-			_videoStack = new ThreadSafeVideoStack(videos.Randomize());
-			_workers = CreateWorkers(Workers);
-			foreach (var campaignWorker in _workers)
+			var posters = new List<CommentPoster>();
+			for (int i = 0; i < NumberOfWorkers; i++)
 			{
-				campaignWorker.Start();
+				posters.Add(new CommentPoster(this));
 			}
 
-			OnCampaignStarted();
-			Editable = false;
+			return posters;
+		}
+
+		public event EventHandler Started;
+		public event EventHandler Stopped;
+		public event EventHandler ErrorCountChanged;
+		public event EventHandler SuccessCountChanged;
+
+		public void Start(List<YoutubeVideo> videos)
+		{
+			CommentPosters = CreatePosters();
+			_videos = new VideoCollection(new List<YoutubeVideo>(videos));
+			_accountRegister = new StandardAccountRegister(Accounts);
+			IsRunning = true;
+			OnStarted();
 		}
 
 		public void Stop()
 		{
-			foreach (var campaignWorker in _workers)
+			ResetMetrics();
+			IsRunning = false;
+			OnStopped();
+		}
+
+		private void ResetMetrics()
+		{
+			ErrorCount = 0;
+			OnErrorCountChanged();
+			SuccessCount = 0;
+			OnSuccessCountChanged();
+		}
+
+		public void IncreaseErrorCount()
+		{
+			++ErrorCount;
+			OnErrorCountChanged();
+		}
+
+		public void IncreaseSuccessCount()
+		{
+			++SuccessCount;
+			OnSuccessCountChanged();
+		}
+
+		public CommentJob NextJob()
+		{
+			var account = _accountRegister.Acquire();
+			if (account == null)
 			{
-				campaignWorker.Stop();
+				return null;
 			}
 
-			OnCampaignStopped();
-			Editable = true;
-		}
-
-		private IEnumerable<CommentPoster> CreatePosters(List<YoutubeAccount> accounts, List<YoutubeVideo> videos)
-		{
-			foreach (var youtubeVideo in videos)
+			ProxyEntry proxy = null;
+			if (Proxies.Count > 0)
 			{
-				new CommentPoster(null, )
-			}
-		}
-
-		private IEnumerable<CampaignWorker> CreateWorkers(int workerCount)
-		{
-			var workers = new List<CampaignWorker>();
-			for (int i = 0; i < workerCount; i++)
-			{
-				var worker = new CampaignWorker();
-				workers.Add(worker);
+				// TODO: randomise
+				proxy = Proxies[0];
 			}
 
-			return workers;
+			var video = _videos.Next();
+			if (video == null)
+			{
+				_accountRegister.Release(account);
+				return null;
+			}
+
+			var commentGenerator = new CommentGenerator(new CommentTemplate(Comment.Value));
+			return new CommentJob(account, proxy?.Proxy, video, commentGenerator.Generate(), CommentMethod);
 		}
 
-		private void CampaignWorker_FatalError(object sender, FatalErrorEventArgs e)
+		protected virtual void OnErrorCountChanged()
 		{
-			OnFatalError(e);
+			ErrorCountChanged?.Invoke(this, EventArgs.Empty);
 		}
 
-		private void CampaignWorker_StatusChanged(object sender, StatusChangedEventArgs e)
+		protected virtual void OnSuccessCountChanged()
 		{
-			OnStatusChanged(e);
+			SuccessCountChanged?.Invoke(this, EventArgs.Empty);
 		}
 
-		private void CampaignWorker_VideoProcessed(object sender, VideoProcessedEventArgs e)
+		public void Process(CommentPostedEvent commentPostedEvent)
 		{
-			var id = e.Video.Id;
-			Meta.VideoProccesed.Add(id);
-			VideoMeta = e.Video;
-			OnVideoProcessed(e);
-			SharedData.OnCampaignProcessed(new CampaignProcessedEventArgs(e.Video, e.Comment, Meta));
+			IncreaseSuccessCount();
 		}
 
-		protected virtual void OnCampaignStarted()
+		protected virtual void OnStarted()
 		{
-			CampaignStarted?.Invoke(this, EventArgs.Empty);
+			Started?.Invoke(this, EventArgs.Empty);
 		}
 
-		protected virtual void OnCampaignStopped()
+		protected virtual void OnStopped()
 		{
-			CampaignStopped?.Invoke(this, EventArgs.Empty);
+			Stopped?.Invoke(this, EventArgs.Empty);
 		}
 
-		protected virtual void OnFatalError(FatalErrorEventArgs e)
+		public bool CheckIsValid()
 		{
-			FatalError?.Invoke(this, e);
-		}
-
-		protected virtual void OnStatusChanged(StatusChangedEventArgs e)
-		{
-			StatusChanged?.Invoke(this, e);
-		}
-
-
-		protected virtual void OnVideoProcessed(VideoProcessedEventArgs e)
-		{
-			VideoProcessed?.Invoke(this, e);
-		}
-
-		private CommentPoster CreateJob()
-		{
-			var job = new CommentPoster();
-			job.FatalError += (sender, args) => OnFatalError(args);
-			job.StatusChanged += (sender, args) => OnStatusChanged(args);
-			job.VideoProcessed += (sender, args) => OnVideoProcessed(args);
-			return job;
-		}
-	}
-
-	public class CommentJob
-	{
-		public YoutubeAccount Account { get; }
-		public HttpProxy Proxy { get; }
-		public YoutubeVideo Video { get; }
-		public Comment Comment { get; }
-		public CommentMethod CommentMethod { get; }
-
-		public CommentJob(YoutubeAccount account, HttpProxy proxy, YoutubeVideo video, Comment comment, CommentMethod commentMethod)
-		{
-			Account = account;
-			Proxy = proxy;
-			Video = video;
-			Comment = comment;
-			CommentMethod = commentMethod;
+			// todo: ADD business logic
+			return true;
 		}
 	}
 }

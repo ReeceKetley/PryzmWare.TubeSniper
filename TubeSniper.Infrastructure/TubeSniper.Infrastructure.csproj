@@ -78,11 +78,12 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
-    <Compile Include="Repositories\AccountsRepository.cs" />
+    <Compile Include="Repositories\AccountEntryRepository.cs" />
     <Compile Include="Repositories\CampaignRepository.cs" />
-    <Compile Include="Repositories\ProxyRepository.cs" />
+    <Compile Include="Repositories\ProxyEntryRepository.cs" />
     <Compile Include="Services\AuthService.cs" />
     <Compile Include="Services\CaptchaService.cs" />
+    <Compile Include="Services\CommentService.cs" />
     <Compile Include="Services\ProxyTestService.cs" />
     <Compile Include="Services\SearchService.cs" />
     <Compile Include="Common\YouTubeApi.cs" />
@@ -95,6 +96,10 @@
     <ProjectReference Include="..\TubeSniper.Domain\TubeSniper.Domain.csproj">
       <Project>{5fe2ae7c-0862-478d-bb37-3a14beca732e}</Project>
       <Name>TubeSniper.Domain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TubeSniper.YouTubeBot\TubeSniper.YouTubeBot.csproj">
+      <Project>{c6158af1-f139-4b0e-8e7a-5cda9a8721e3}</Project>
+      <Name>TubeSniper.YouTubeBot</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

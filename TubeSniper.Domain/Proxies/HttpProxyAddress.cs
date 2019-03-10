@@ -41,6 +41,12 @@ namespace TubeSniper.Domain.Proxies
 			yield return Port;
 		}
 
+		public override string ToString()
+		{
+			return Host + ":" + Port;
+		}
+
+
 		public static bool TryCreate(string value, out HttpProxyAddress result)
 		{
 			if (!CheckIsValid(value, out var host, out var port, false))

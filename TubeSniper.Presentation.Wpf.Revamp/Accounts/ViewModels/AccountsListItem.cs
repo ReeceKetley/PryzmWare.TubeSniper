@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows.Input;
 using TubeSniper.Application.Accounts;
+using TubeSniper.Domain.Accounts;
 using TubeSniper.Domain.Youtube;
 using TubeSniper.Presentation.Wpf.Commands;
 using TubeSniper.Presentation.Wpf.ViewModels;
@@ -11,7 +12,7 @@ namespace TubeSniper.Presentation.Wpf.Accounts.ViewModels
 	{
 		private readonly IAccountService _accountService;
 		private ICommand _deleteCommand;
-		private YoutubeAccount _accountEntry;
+		private AccountEntry _accountEntry;
 		public string Email { get; private set; }
 		public string Password { get; private set; }
 		public string Recovery { get; private set; }
@@ -28,13 +29,13 @@ namespace TubeSniper.Presentation.Wpf.Accounts.ViewModels
 			_accountService.Delete(_accountEntry.Id);
 		}
 
-		public void SetAccount(YoutubeAccount account)
+		public void SetAccount(AccountEntry accountEntry)
 		{
-		Email = account.Credentials.Email;
-		Password = account.Credentials.Password;
-		Recovery = account.RecoveryEmail;
-		Id = account.Id;
-			_accountEntry = account;
+			_accountEntry = accountEntry;
+			Id = accountEntry.Id;
+			Email = accountEntry.Credentials?.Username.Value;
+			Password = accountEntry.Credentials?.Password.Value;
+			Recovery = accountEntry.RecoveryEmail?.Value;
 		}
 	}
 }

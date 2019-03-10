@@ -4,142 +4,158 @@ using System.Drawing;
 using System.IO;
 using System.Net;
 using System.Net.NetworkInformation;
+using System.Security.Cryptography;
+using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
 
 namespace TubeSniper.Domain.Common.Helpers
 {
-    public static class GeneralHelpers
-    {
-	    public static int RandomNumber(int min = 0, int max = 1000)
-	    {
+	public static class GeneralHelpers
+	{
+		public static int RandomNumber(int min = 0, int max = 1000)
+		{
 			var random = new Random();
-		    return random.Next(min, max);
-	    }
+			return random.Next(min, max);
+		}
 
-        public static void ConsoleLogMethod(string className, string message)
-        {
-            //Console.WriteLine("[{0}]:[{1}] - {2}", DateTime.Now.ToLongTimeString(), className, message);
-        }
+		public static void ConsoleLogMethod(string className, string message)
+		{
+			//Console.WriteLine("[{0}]:[{1}] - {2}", DateTime.Now.ToLongTimeString(), className, message);
+		}
 
-        public static bool PortInUse(int port)
-        {
-            bool inUse = false;
-            IPGlobalProperties ipProperties = IPGlobalProperties.GetIPGlobalProperties();
-            IPEndPoint[] ipEndPoints = ipProperties.GetActiveTcpListeners();
+		public static bool PortInUse(int port)
+		{
+			bool inUse = false;
+			IPGlobalProperties ipProperties = IPGlobalProperties.GetIPGlobalProperties();
+			IPEndPoint[] ipEndPoints = ipProperties.GetActiveTcpListeners();
 
-            foreach (IPEndPoint endPoint in ipEndPoints)
-            {
-                if (endPoint.Port == port)
-                {
-                    inUse = true;
-                    break;
-                }
+			foreach (IPEndPoint endPoint in ipEndPoints)
+			{
+				if (endPoint.Port == port)
+				{
+					inUse = true;
+					break;
+				}
+			}
 
-            }
+			return inUse;
+		}
 
-            return inUse;
-        }
+		public static string CalculateMd5Hash(this string input)
+		{
+			// step 1, calculate MD5 hash from input
+			MD5 md5 = System.Security.Cryptography.MD5.Create();
+			byte[] inputBytes = System.Text.Encoding.ASCII.GetBytes(input);
+			byte[] hash = md5.ComputeHash(inputBytes);
 
-        public static string MakeValidFileName(string name)
-        {
-            string invalidChars = new string(Path.GetInvalidFileNameChars());
-            string escapedInvalidChars = Regex.Escape(name);
-            string invalidRegex = string.Format(@"([{0}]*\.+$)|([{0}]+)", escapedInvalidChars);
+			// step 2, convert byte array to hex string
+			StringBuilder sb = new StringBuilder();
+			for (int i = 0; i < hash.Length; i++)
+			{
+				sb.Append(hash[i].ToString("X2"));
+			}
 
-            return Regex.Replace(name, invalidRegex, "_");
-        }
+			return sb.ToString();
+		}
 
-	    public static Bitmap GetBitmap(string url)
-	    {
-		    return null;
-	    }
+		public static string MakeValidFileName(string name)
+		{
+			string invalidChars = new string(Path.GetInvalidFileNameChars());
+			string escapedInvalidChars = Regex.Escape(name);
+			string invalidRegex = string.Format(@"([{0}]*\.+$)|([{0}]+)", escapedInvalidChars);
 
-        public static DateTime? YouTubeDateToDateTime(string input)
-        {
-            var match = Regex.Match(input, @"(\d+) (second|minute|hour|day|week|month|year)");
-            if (!match.Success)
-            {
-                return null;
-            }
-            var number = Int32.Parse(match.Groups[1].Value);
-            var type = match.Groups[2].Value;
-            TimeSpan added;
-            if (type == "minute")
-            {
-                added = TimeSpan.FromMinutes(number);
-            }
-            else if (type == "hour")
-            {
-                added = TimeSpan.FromHours(number);
+			return Regex.Replace(name, invalidRegex, "_");
+		}
 
-            }
-            else if (type == "day")
-            {
-                added = TimeSpan.FromDays(number);
+		public static Bitmap GetBitmap(string url)
+		{
+			return null;
+		}
 
-            }
-            else if (type == "week")
-            {
-                added = TimeSpan.FromDays(number * 7);
+		public static DateTime? YouTubeDateToDateTime(string input)
+		{
+			var match = Regex.Match(input, @"(\d+) (second|minute|hour|day|week|month|year)");
+			if (!match.Success)
+			{
+				return null;
+			}
 
-            }
-            else if (type == "month")
-            {
-                added = TimeSpan.FromDays(number * 30);
+			var number = Int32.Parse(match.Groups[1].Value);
+			var type = match.Groups[2].Value;
+			TimeSpan added;
+			if (type == "minute")
+			{
+				added = TimeSpan.FromMinutes(number);
+			}
+			else if (type == "hour")
+			{
+				added = TimeSpan.FromHours(number);
+			}
+			else if (type == "day")
+			{
+				added = TimeSpan.FromDays(number);
+			}
+			else if (type == "week")
+			{
+				added = TimeSpan.FromDays(number * 7);
+			}
+			else if (type == "month")
+			{
+				added = TimeSpan.FromDays(number * 30);
+			}
+			else if (type == "year")
+			{
+				added = TimeSpan.FromDays(number * 365);
+			}
+			else
+			{
+				return null;
+			}
 
-            }
-            else if (type == "year")
-            {
-                added = TimeSpan.FromDays(number * 365);
+			return DateTime.Now - added;
+		}
+	}
 
-            }
-            else
-            {
-                return null;
-            }
+	public static class Retry
+	{
+		public static void Do(
+			Action action,
+			TimeSpan retryInterval,
+			int maxAttemptCount = 3)
+		{
+			Do<object>(() =>
+			{
+				action();
+				return null;
+			}, retryInterval, maxAttemptCount);
+		}
 
-            return DateTime.Now - added;
-        }
-    }
+		public static T Do<T>(
+			Func<T> action,
+			TimeSpan retryInterval,
+			int maxAttemptCount = 3)
+		{
+			var exceptions = new List<Exception>();
 
-    public static class Retry
-    {
-        public static void Do(
-            Action action,
-            TimeSpan retryInterval,
-            int maxAttemptCount = 3)
-        {
-            Do<object>(() =>
-            {
-                action();
-                return null;
-            }, retryInterval, maxAttemptCount);
-        }
+			for (int attempted = 0; attempted < maxAttemptCount; attempted++)
+			{
+				try
+				{
+					if (attempted > 0)
+					{
+						Thread.Sleep(retryInterval);
+					}
 
-        public static T Do<T>(
-            Func<T> action,
-            TimeSpan retryInterval,
-            int maxAttemptCount = 3)
-        {
-            var exceptions = new List<Exception>();
+					return action();
+				}
+				catch (Exception ex)
+				{
+					exceptions.Add(ex);
+				}
+			}
 
-            for (int attempted = 0; attempted < maxAttemptCount; attempted++)
-            {
-                try
-                {
-                    if (attempted > 0)
-                    {
-                        Thread.Sleep(retryInterval);
-                    }
-                    return action();
-                }
-                catch (Exception ex)
-                {
-                    exceptions.Add(ex);
-                }
-            }
-            throw new AggregateException(exceptions);
-        }
-    }
+			throw new AggregateException(exceptions);
+		}
+	}
 }

@@ -1,37 +1,41 @@
 ﻿using System;
 using TubeSniper.Application.Events.Accounts;
+using TubeSniper.Domain.Accounts;
+using TubeSniper.Domain.Campaigns;
 using TubeSniper.Domain.Interfaces.Persistence;
-using TubeSniper.Domain.Youtube;
 
 namespace TubeSniper.Application.Accounts
 {
 	public class AccountService : IAccountService
 	{
-		private readonly IAccountsRepository _accountsRepository;
+		private readonly IAccountEntryRepository _accountEntryRepository;
+		private readonly ICampaignService _campaignService;
 
-		public AccountService(IAccountsRepository accountsRepository)
+		public AccountService(IAccountEntryRepository accountEntryRepository, ICampaignService campaignService)
 		{
-			_accountsRepository = accountsRepository;
+			_accountEntryRepository = accountEntryRepository;
+			_campaignService = campaignService;
 		}
 
 		public void Delete(Guid id)
 		{
-			var model = _accountsRepository.GetById(id);
-			_accountsRepository.Delete(model);
+			var model = _accountEntryRepository.GetById(id);
+			_accountEntryRepository.Delete(model);
 			AccountEvents.RaiseAccountProfileRemoved(new AccountProfileRemoved(model));
+			_campaignService.HandleAccountDeletion(model);
 		}
 
-		public void Insert(YoutubeAccount account)
+		public void Insert(AccountEntry accountEntry)
 		{
-			_accountsRepository.Insert(account);
-			var clone = account.DeepClone();
+			_accountEntryRepository.Insert(accountEntry);
+			var clone = accountEntry.DeepClone();
 			AccountEvents.RaiseAccountProfileCreated(new AccountProfileCreated(clone));
 		}
 
-		public void Update(YoutubeAccount account)
+		public void Update(AccountEntry accountEntry)
 		{
-			_accountsRepository.Update(account);
-			AccountEvents.RaiseAccountProfileUpdated(new AccountProfileUpdated(account.DeepClone()));
+			_accountEntryRepository.Update(accountEntry);
+			AccountEvents.RaiseAccountProfileUpdated(new AccountProfileUpdated(accountEntry.DeepClone()));
 		}
 	}
 }
